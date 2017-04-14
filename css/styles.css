@@ -1,0 +1,17 @@
+.container {
+    position: relative;
+    left: 5.5vw;
+    padding: .5vw 1vw;
+}
+
+.board {
+    width: 85vw;
+    height: 25vw;
+}
+
+.card {
+    position: relative;
+    height: 20vw;
+    width: 12vw;
+    padding: .5vw;
+}
