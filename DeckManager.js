@@ -2,8 +2,8 @@ var deck;
 var = deckID;
 var = numCards;
 var cutCard;
-var p1Hand;
-var p2Hand;
+var p1Hand[];
+var p2Hand[];
 
 function init(){
 		$.getJSON('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1', function(data) {
@@ -14,26 +14,29 @@ function init(){
 }
 
 function deal(){
-		$.getJSON('https://deckofcardsapi.com/api/deck/<<deckID>>/draw/?count=5', function(data){
-			p1Hand = data.cards;
-			numCards = data.remaining;
-		});
-		$.getJSON('https://deckofcardsapi.com/api/deck/<<deckID>>/draw/?count=5', function(data){
-			p2Hand = data.cards;
-			numCards = data.remaining;
-		});
+		var i;
+		shuffle();
+		for (i = 0, i < 6, i++){
+			$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
+				p1Hand[i] = data.cards;
+			});
+			$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
+				p2Hand[i] = data.cards;
+			});
+		}
+		numCards = data.remaining;
 }
 
 function topCard(){
 	shuffle();
-	$.getJSON('https://deckofcardsapi.com/api/deck/<<deckID>>/draw/?count=1', function(data){
+	$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
 			cutCard = data.cards;
 			numCards = data.remaining;
 		});
 }
 
 function shuffle(){
-		$.getJSON('https://deckofcardsapi.com/api/deck/<<deckID>>/shuffle/', function(data){
+		$.getJSON('https://deckofcardsapi.com/api/deck/deckID/shuffle/', function(data){
 			numCards = data.remaining;
 		});
 }
