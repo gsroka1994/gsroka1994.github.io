@@ -1,10 +1,24 @@
 .container {
     position: relative;
-    left: 5.5vw;
-    padding: .5vw 1vw;
+    left: 6.5vw;
+    height: 50vh;
+    width: 85vw;
+    padding: .5vh 1vw;
 }
 
 .board {
     width: 85vw;
-    height: 25vw;
+    height: 50vh;
+}
+
+.player1 {
+    position: absolute;
+    width: 2.2vw;
+    height: 3.3vh;
+}
+
+.player2 {
+    position: absolute;
+    width: 1.8vw;
+    height: 3.3vh;
 }
