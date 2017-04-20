@@ -1,5 +1,16 @@
+var p1_peg = 0;
+var p2_peg = 0;
+
 function peg(player, score) {
-    var p = document.getElementById(player).style;
+    var x; var p;
+
+    if(player == "p1") {
+        p = document.getElementById("p1_peg"+p1_peg).style;
+        p1_peg = (p1_peg + 1) % 2;
+    } else {
+        p = document.getElementById("p2_peg"+p2_peg).style;
+        p2_peg = (p2_peg + 1) % 2;
+    }
 
     switch(true) {
         case (score == 1):
@@ -11,20 +22,15 @@ function peg(player, score) {
                 p.right = "14.4vw";
             }
             break;
-
         case (score < 37):
             if(player == "p1") {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)+2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)+1.5))+"vw";
-                }
+                x = Math.floor((score-1)/5);
+                p.right = String(((score-x-1)*1.5 + x*2.2)+14)+"vw";
+                p.bottom = "6.1vh";
             } else {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)+2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)+1.5))+"vw";
-                }
+                x = Math.floor((score-1)/5);
+                p.right = String(((score-x-1)*1.5 + x*2.2)+14.4)+"vw";
+                p.bottom = "14.3vh";
             }
             break;
         case (score == 37):
@@ -65,23 +71,21 @@ function peg(player, score) {
         case (score == 41):
             if(player == "p1") {
                 p.right = "69.6vw";
+                p.bottom = "28.3vh";
             } else {
                 p.right = "70vw";
+                p.bottom = "20.2vh";
             }
             break;
         case (score < 77):
             if(player == "p1") {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)-2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)-1.5))+"vw";
-                }
+                x = Math.floor((score-41)/5);
+                p.right = String(69.6 - ((score-41-x)*1.5 + x*2.2))+"vw";
+                p.bottom = "28.3vh";
             } else {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)-2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)-1.5))+"vw";
-                }
+                x = Math.floor((score-41)/5);
+                p.right = String(70 - ((score-41-x)*1.5 + x*2.2))+"vw";
+                p.bottom = "20.2vh";
             }
             break;
         case (score == 77):
@@ -122,17 +126,13 @@ function peg(player, score) {
             break;
         case (score < 121):
             if(player == "p1") {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)+2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)+1.5))+"vw";
-                }
+                x = Math.ceil((score-80)/5);
+                p.right = String(((score-x-80)*1.5 + x*2.2)+12)+"vw";
+                p.bottom = "34.6vh";
             } else {
-                if ((score % 5) == 1) {
-                    p.right = String((parseFloat(p.right)+2.2))+"vw";
-                } else {
-                    p.right = String((parseFloat(p.right)+1.5))+"vw";
-                }
+                x = Math.ceil((score-80)/5);
+                p.right = String(((score-x-80)*1.5 + x*2.2)+12.4)+"vw";
+                p.bottom = "42.8vh";
             }
             break;
         case (score == 121):
