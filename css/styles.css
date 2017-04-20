@@ -22,3 +22,84 @@
     width: 1.8vw;
     height: 3.3vh;
 }
+
+.turnUpCard {
+    display: inline-block;
+    postion: relative;
+    left: 6.5vw;
+    height: 32vh;
+    width: 10vw;
+
+}
+
+.playedCards {
+    display: inline-block;
+    position: relative;
+    padding: 0vh 10vw;
+    height: 32vh;
+    width: 54vw;
+}
+
+.peggingPileCard1 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    z-index: 0;
+    visibility: hidden;
+}
+.peggingPileCard2 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 13vw;
+    z-index: 1;
+    visibility: hidden;
+}
+.peggingPileCard3 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 16vw;
+    z-index: 2;
+    visibility: hidden;
+}
+.peggingPileCard4 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 19vw;
+    z-index: 3;
+    visibility: hidden;
+}
+.peggingPileCard5 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 22vw;
+    z-index: 4;
+    visibility: hidden;
+}
+.peggingPileCard6 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 25vw;
+    z-index: 5;
+    visibility: hidden;
+}
+.peggingPileCard7 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 28vw;
+    z-index: 6;
+    visibility: hidden;
+}
+.peggingPileCard8 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 31vw;
+    z-index: 7;
+    visibility: hidden;
+}

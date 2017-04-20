@@ -1,9 +1,9 @@
 var deck;
-var = deckID;
-var = numCards;
+var deckID;
+var numCards;
 var cutCard;
-var p1Hand[];
-var p2Hand[];
+var p1Hand = [];
+var p2Hand = [];
 
 function init(){
 		$.getJSON('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1', function(data) {
@@ -16,7 +16,7 @@ function init(){
 function deal(){
 		var i;
 		shuffle();
-		for (i = 0, i < 6, i++){
+		for (i = 0; i < 6; i++){
 			$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
 				p1Hand[i] = data.cards;
 			});

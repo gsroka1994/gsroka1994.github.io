@@ -16,13 +16,32 @@
  <script src="GameLogic.js"></script>
 
 
- <div class="container">
+ <div class="container" id="boardContainer">
     <img src="img/board.jpg" class="board" id="board" />
     <img src="img/red_circle.svg" class="player1" id="p1"
          style="bottom: 6.1vh;right: 7vw;"/>
     <img src="img/green_circle.png" class="player2" id="p2"
          style="bottom: 14.3vh;right: 7.4vw;"/>
  </div>
+
+ <button onclick="playPeggingCard()" id="playPeggingCardTestBtn">playPeggingCardTestButton</button>
+ <button onclick="clearPeggingCards()" id="clearPeggingCardsTestBtn">clearPeggingCardTestButton</button>
+
+ <div class="container" id="cardsContainer">
+    <img src="img/clubs_1.png" class="turnUpCard" id="turnUpCard"/>
+    <div class="playedCards">
+        <img src="img/clubs_2.png" class="peggingPileCard1" id="peggingPileCard0"/>
+        <img src="img/clubs_3.png" class="peggingPileCard2" id="peggingPileCard1"/>
+        <img src="img/clubs_4.png" class="peggingPileCard3" id="peggingPileCard2"/>
+        <img src="img/clubs_5.png" class="peggingPileCard4" id="peggingPileCard3"/>
+        <img src="img/clubs_6.png" class="peggingPileCard5" id="peggingPileCard4"/>
+        <img src="img/clubs_7.png" class="peggingPileCard6" id="peggingPileCard5"/>
+        <img src="img/clubs_8.png" class="peggingPileCard7" id="peggingPileCard6"/>
+        <img src="img/clubs_9.png" class="peggingPileCard8" id="peggingPileCard7"/>
+    </div>
+</div>
+
+
  
 </body>
 </html>
