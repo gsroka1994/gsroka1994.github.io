@@ -40,14 +40,14 @@
     width: 54vw;
 }
 
-.peggingPileCard1 {
+.peggingPileCard0 {
     position: absolute;
     height: 32vh;
     width: 10vw;
     z-index: 0;
     visibility: hidden;
 }
-.peggingPileCard2 {
+.peggingPileCard1 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -55,7 +55,7 @@
     z-index: 1;
     visibility: hidden;
 }
-.peggingPileCard3 {
+.peggingPileCard2 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -63,7 +63,7 @@
     z-index: 2;
     visibility: hidden;
 }
-.peggingPileCard4 {
+.peggingPileCard3 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -71,7 +71,7 @@
     z-index: 3;
     visibility: hidden;
 }
-.peggingPileCard5 {
+.peggingPileCard4 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -79,7 +79,7 @@
     z-index: 4;
     visibility: hidden;
 }
-.peggingPileCard6 {
+.peggingPileCard5 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -87,7 +87,7 @@
     z-index: 5;
     visibility: hidden;
 }
-.peggingPileCard7 {
+.peggingPileCard6 {
     position: absolute;
     height: 32vh;
     width: 10vw;
@@ -95,11 +95,38 @@
     z-index: 6;
     visibility: hidden;
 }
-.peggingPileCard8 {
+.peggingPileCard7 {
     position: absolute;
     height: 32vh;
     width: 10vw;
     left: 31vw;
     z-index: 7;
+    visibility: hidden;
+}
+.countingHandCard0 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    visibility: hidden;
+}
+.countingHandCard1 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 22vw;
+    visibility: hidden;
+}
+.countingHandCard2 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 34vw;
+    visibility: hidden;
+}
+.countingHandCard3 {
+    position: absolute;
+    height: 32vh;
+    width: 10vw;
+    left: 46vw;
     visibility: hidden;
 }
