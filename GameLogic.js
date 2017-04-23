@@ -65,3 +65,11 @@ function getTurnUpCard() {
 function hideTurnUpCard() {
     document.getElementById('turnUpCard').src = "img/back.jpg";
 }
+
+// Clears crib, hands, and pile
+function clearNewTurn(){
+	p1Hand = [];
+	p2Hand = [];
+	crib = [];
+	pile = [];
+}
