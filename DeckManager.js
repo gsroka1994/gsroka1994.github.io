@@ -6,38 +6,59 @@ var p1Hand = [];
 var p2Hand = [];
 
 function init(){
-		$.getJSON('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1', function(data) {
-			deck = data;
+		$.ajax({
+			url:'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1',
+			dataType: 'json',
+			async:false,
+			success: function(data) {
+				deck = data;
+				deckID =  deck.deck_id;
+                numCards = deck.remaining;
+			}
 		});
-		deckID = deck.deck_id;
-		numCards = deck.remaining;
 }
 
 function deal(){
-		var i;
-		shuffle();
-		for (i = 0; i < 6; i++){
-			$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
-				p1Hand[i] = data.cards;
+			$.ajax({
+				url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=6',
+				dataType:'json',
+                async:false,
+                success:function(data){
+					p1Hand = data.cards;
+					numCards = data.remaining;
+				}
 			});
-			$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
-				p2Hand[i] = data.cards;
+			$.ajax({
+                url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=6',
+				dataType:'json',
+				async:false,
+				success:function(data){
+					p2Hand = data.cards;
+                    numCards = data.remaining;
+                }
 			});
-		}
-		numCards = data.remaining;
 }
 
-function topCard(){
-	shuffle();
-	$.getJSON('https://deckofcardsapi.com/api/deck/deckID/draw/?count=1', function(data){
-			cutCard = data.cards;
+function turnUpCard(){
+	$.ajax({
+		url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=1',
+		dataType:'json',
+		async:false,
+		success:function(data){
+			cutCard = data.cards[0];
 			numCards = data.remaining;
-		});
+		}
+	});
 }
 
 function shuffle(){
-		$.getJSON('https://deckofcardsapi.com/api/deck/deckID/shuffle/', function(data){
-			numCards = data.remaining;
+		$.ajax({
+			url:'https://deckofcardsapi.com/api/deck/' + deckID + '/shuffle/',
+			dataType: 'json',
+            async:false,
+            success: function(data) {
+				numCards = data.remaining;
+			}
 		});
 }
 
