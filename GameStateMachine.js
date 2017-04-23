@@ -21,9 +21,11 @@ var p2Peg2 = -1;
 var skunked = 0;
 var winner = -1;  
 var crib = [];
+var playerIDs = [];
+var pile = [];
 
 // Opens lobby for sender apps and updates game data to reflect current state
- gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN, null);
+ gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
  gameManager.updateGameData({'phase' : waitingState}, false); 
 
  // Event Listener for when player (senders) become available
@@ -50,7 +52,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 
 	 
 	 // Lobby State 
-	 if(gamePhase == waitingState) {
+	 if(gamePhase == waitingState && event.requestExtraMessageData.start == "true") {
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
@@ -67,6 +69,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              for (var i = 0; i < readyPlayers.length; i++) {
                  var playerInfo = readyPlayers[i];
                  var playerId = playerInfo.playerId;
+				 playerIDs[i] = playerID;
                  gameManager.updatePlayerState(playerId, cast.receiver.games.PlayerState.PLAYING, null, true);
              }
 
@@ -76,6 +79,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              init();
              gameData.deck_id = deckID;
              gameData.phase = setupState;
+			 gameData.pile = pile;
              gameData.p1Peg1 = p1Peg1;
              gameData.p1Peg2 = p1Peg2;
              gameData.p2Peg1 = p2Peg1;
@@ -103,7 +107,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	}
 
 	// Deal State
-	else if (gamePhase == dealState){
+	else if (gamePhase == dealState && event.requestExtraMessageData.readyToDeal == "true"){
 		deal();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
@@ -126,22 +130,31 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState){
+		if(event.requestExtraMessageData.p1Peg == "true"){
+			peg("p1", score);	
+			gameData.p1Peg1 = p1Peg1;
+			gameData.p1Peg2 = p1Peg2;
+		}
 
-
-	  gameData.phase = updateBoardState;
-	  gameData.p1Peg1 = p1Peg1;
-	  gameData.p1Peg2 = p1Peg2;
-	  gameData.p2Peg1 = p2Peg1;
-	  gameData.p2Peg2 = p2Peg2;
-	  console.log("Moving into Update Board State");
+		else if(event.requestExtraMessageData.p2Peg == "true"){
+			peg("p2", score);
+			gameData.p2Peg1 = p2Peg1;
+			gameData.p2Peg2 = p2Peg2;
+		}
+		
+		else {
+			gameData.phase = updateBoardState;
+			console.log("Moving into Update Board State");
+		}
+		
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
 	}
 
 	// Update Board State
-	else if(gamePhase == updateBoardState){
+	else if(gamePhase == updateBoardState event.requestExtraMessageData.peggingDone == "true"){
 		// Stuff for scoring hands
-
+			
 
 		// Stuff for board movement
 
