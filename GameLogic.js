@@ -210,6 +210,12 @@ function testS(){
 	console.log(test);
 }
 
+function testScoring(){
+	var pile = [];
+	var test = scorePegging(pile);
+	console.log(test);
+}
+
 // Determines whether a straight was made during pegging
 function straight(pile){
 	var size = pile.length;
