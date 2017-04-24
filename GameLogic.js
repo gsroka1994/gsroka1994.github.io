@@ -118,6 +118,7 @@ function checkValue(card){
 	}
 }
 
+// Determines whether a straight was made during pegging
 function straight(pile){
 	var straightExists;
 	int size = pile.length();
@@ -126,6 +127,7 @@ function straight(pile){
 	}
 }
 
+// Converts an entire hand to numeric values
 function assignValues(hand){
 	var newHand = [];
 	var cardValue;
@@ -136,6 +138,27 @@ function assignValues(hand){
 	return newHand
 }
 
+// Sums for potential fifteen during pegging
+function sumFifteen(pile){
+	 var sum = 0;
+	 var size = pile.length();
+	 for (i = 0; i < size; i++){
+		 if (pile[i] > 10){
+			 sum += 10;
+		 }
+		 else {
+			 sum += pile[i];
+		 }
+	 }
+	if (sum == 15){
+		return 2;  
+	}
+	else{
+		return 0;  
+	}
+}
+
+// Scores the daunting pegging round
 function scorePegging(pile){
 	boolean thirtyOne = false;
 	int size = pile.length();
@@ -143,15 +166,15 @@ function scorePegging(pile){
 		return 0;
 	}
 	else if (size == 2){
-		if(pile[0].value == pile[1].value){
+		if(pile[0] == pile[1]){
 			return 2; 
 		}
 	}
 	else if (size == 3){
-		if(pile[1].value == pile[2].value){
+		if(pile[1] == pile[2]){
 			return 2; 
 		}
-		if(pile[0].value == pile[1].value && pile[0].value == pile[2].value){
+		if(pile[0] == pile[1] && pile[0] == pile[2]){
 			return 6; 
 		}
 		if(straight(pile) == "yessir"){
