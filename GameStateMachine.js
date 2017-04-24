@@ -112,10 +112,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		deal();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
-		for (i = 0, i < p1Hand.length; i++){
+		for (i = 0; i < p1Hand.length; i++){
 			gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand[i]);
 		}
-		for (i = 0, i < p2Hand.length; i++){
+		for (i = 0; i < p2Hand.length; i++){
 			gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand[i]);
 		}
 		gameData.numCards = numCards;
