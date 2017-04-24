@@ -260,6 +260,13 @@ function assignValues(cards){
 	return newHand
 }
 
+function testSum(){
+	var pile1 = [13,5];
+	var pile2 = [13,12,11,1];
+	console.log(sumFifteen(pile1));
+	console.log(sumThirtyOne(pile2));
+}
+
 // Sums for potential 15 during pegging
 function sumFifteen(pile){
 	 var sum = 0;
