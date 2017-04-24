@@ -7,6 +7,11 @@
 //Get the turn up card from the deck
 //turnUpCard();
 
+var straightCombos3 = [];
+var straightCombos4 = [];
+var straightCombos5 = [];
+var straightCombos6 = [];
+var straightCombos7 = [];
 
 //Pegging
 var numPeggingCardsPlayed = 0;
@@ -122,6 +127,7 @@ function checkValue(card){
 function straight(pile){
 	var straightExists;
 	int size = pile.length();
+	
 	if (size == 3){
 		
 	}
