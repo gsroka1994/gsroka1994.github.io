@@ -138,7 +138,7 @@ function assignValues(hand){
 	return newHand
 }
 
-// Sums for potential fifteen during pegging
+// Sums for potential 15 during pegging
 function sumFifteen(pile){
 	 var sum = 0;
 	 var size = pile.length();
@@ -158,7 +158,7 @@ function sumFifteen(pile){
 	}
 }
 
-// Sums for potential fifteen during pegging
+// Sums for potential 31 during pegging
 function sumThirtyOne(pile){
 	 var sum = 0;
 	 var size = pile.length();
@@ -181,10 +181,10 @@ function sumThirtyOne(pile){
 
 
 // Scores the daunting pegging round
-function scorePegging(pile){
-	boolean thirtyOne = false;
+function scorePegging(cards){
 	int size = pile.length();
 	int score = 0;
+	var pile = assignValues(cards);
 	if(size == 1){
 		return 0;
 	}
@@ -200,7 +200,6 @@ function scorePegging(pile){
 		else if(pile[0] == pile[1] && pile[0] == pile[2]){
 			score+=6;
 		}
-		score += straight(pile);
 	}
 	else if (size == 4){
 		if(pile[2] == pile[3] && pile[2] != pile[1]){
@@ -212,7 +211,6 @@ function scorePegging(pile){
 		else if(pile[2] == pile[3] && pile[2] == pile[1]) && pile[2] == pile[0]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 5){
 		if(pile[4] == pile[3] && pile[4] != pile[2]){
@@ -224,7 +222,6 @@ function scorePegging(pile){
 		else if(pile[4] == pile[3] && pile[4] == pile[2]) && pile[4] == pile[1]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 6){
 		if(pile[5] == pile[4] && pile[5] != pile[3]){
@@ -236,7 +233,6 @@ function scorePegging(pile){
 		else if(pile[5] == pile[4] && pile[5] == pile[3]) && pile[5] == pile[2]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 7){
 		if(pile[6] == pile[5] && pile[6] != pile[4]){
@@ -248,7 +244,6 @@ function scorePegging(pile){
 		else if(pile[6] == pile[5] && pile[6] == pile[4]) && pile[6] == pile[3]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 8){
 		if(pile[7] == pile[6] && pile[7] != pile[5]){
@@ -260,7 +255,6 @@ function scorePegging(pile){
 		else if(pile[7] == pile[6] && pile[7] == pile[5]) && pile[7] == pile[4]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 9){
 		if(pile[8] == pile[7] && pile[8] != pile[6]){
@@ -272,7 +266,6 @@ function scorePegging(pile){
 		else if(pile[8] == pile[7] && pile[8] == pile[6]) && pile[8] == pile[5]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 10){
 		if(pile[9] == pile[8] && pile[9] != pile[7]){
@@ -284,7 +277,6 @@ function scorePegging(pile){
 		else if(pile[9] == pile[8] && pile[9] == pile[7]) && pile[9] == pile[6]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
 	else if (size == 11){
 		if(pile[10] == pile[9] && pile[10] != pile[8]){
@@ -296,9 +288,8 @@ function scorePegging(pile){
 		else if(pile[10] == pile[9] && pile[10] == pile[8]) && pile[10] == pile[7]{
 			score+=12;
 		}
-		score += straight(pile);
 	}
-	
+	score += straight(pile);
 	score += sumFifteen(pile);
 	score += sumThirtyOne(pile);
 	
