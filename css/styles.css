@@ -11,6 +11,14 @@
     height: 50vh;
 }
 
+.cardsContainer {
+    position: relative;
+    left: 6.5vw;
+    height: 32vh;
+    width: 85vw;
+    padding: .5vh 1vw;
+}
+
 .player1 {
     position: absolute;
     width: 2.2vw;
@@ -26,7 +34,7 @@
 .turnUpCard {
     display: inline-block;
     postion: relative;
-    left: 6.5vw;
+    left: 3.5vw;
     height: 32vh;
     width: 10vw;
 
@@ -35,9 +43,35 @@
 .playedCards {
     display: inline-block;
     position: relative;
-    padding: 0vh 10vw;
+    padding-left: 5vw;
     height: 32vh;
-    width: 54vw;
+    width: 40vw;
+}
+
+.screenInfoContainer {
+    position: absolute;
+    display: inline-block;
+    padding-left: 5vw;
+    height:32vh;
+    width:24vw;
+}
+
+.screenInfoContainer p{
+    margin:0;
+    padding:0;
+    top:0;
+    font-family: sans-serif;
+    font-size:22px;
+    color: #331900;
+}
+
+.screenInfoContainer h{
+    text-align: center;
+    margin:0;
+    font-family: sans-serif;
+    font-size:30px;
+    font-weight: bold;
+    color: #331900;
 }
 
 .peggingPileCard0 {
@@ -51,7 +85,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 13vw;
+    left: 8vw;
     z-index: 1;
     visibility: hidden;
 }
@@ -59,7 +93,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 16vw;
+    left: 11vw;
     z-index: 2;
     visibility: hidden;
 }
@@ -67,7 +101,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 19vw;
+    left: 14vw;
     z-index: 3;
     visibility: hidden;
 }
@@ -75,7 +109,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 22vw;
+    left: 17vw;
     z-index: 4;
     visibility: hidden;
 }
@@ -83,7 +117,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 25vw;
+    left: 20vw;
     z-index: 5;
     visibility: hidden;
 }
@@ -91,7 +125,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 28vw;
+    left: 23vw;
     z-index: 6;
     visibility: hidden;
 }
@@ -99,7 +133,7 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 31vw;
+    left: 26vw;
     z-index: 7;
     visibility: hidden;
 }
@@ -113,20 +147,20 @@
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 22vw;
+    left: 15vw;
     visibility: hidden;
 }
 .countingHandCard2 {
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 34vw;
+    left: 25vw;
     visibility: hidden;
 }
 .countingHandCard3 {
     position: absolute;
     height: 32vh;
     width: 10vw;
-    left: 46vw;
+    left: 35vw;
     visibility: hidden;
 }
