@@ -1,11 +1,11 @@
 //Initialize the deck
-//init();
+init();
 
 //Deal to the players from the deck
-//deal();
+deal();
 
 //Get the turn up card from the deck
-//turnUpCard();
+turnUpCard();
 
 
 //Pegging

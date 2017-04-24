@@ -152,7 +152,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	}
 
 	// Update Board State
-	else if(gamePhase == updateBoardState event.requestExtraMessageData.peggingDone == "true"){
+	else if(gamePhase == updateBoardState && event.requestExtraMessageData.peggingDone == "true"){
 		// Stuff for scoring hands
 			
 
