@@ -157,7 +157,7 @@ function checkValue(card){
 function st3(pile){
 	var sortedPile = pile.sort();
 	for(var i = 0; i < straightCombos3.length; i++){
-			if(sortedPile == straightCombos3[i]){
+			if(sortedPile.toString() == straightCombos3[i].toString()){
 				return 3;
 			}
 	}
@@ -167,7 +167,7 @@ function st3(pile){
 function st4(pile){
 	var sortedPile = pile.sort();
 	for(var i = 0; i < straightCombos4.length; i++){
-			if(sortedPile == straightCombos4[i]){
+			if(sortedPile.toString() == straightCombos4[i].toString()){
 				return 4;
 			}
 	}
@@ -177,7 +177,7 @@ function st4(pile){
 function st5(pile){
 	var sortedPile = pile.sort();
 	for(var i = 0; i < straightCombos5.length; i++){
-			if(sortedPile == straightCombos5[i]){
+			if(sortedPile.toString() == straightCombos5[i].toString()){
 				return 5;
 			}
 	}
@@ -187,7 +187,7 @@ function st5(pile){
 function st6(pile){
 	var sortedPile = pile.sort();
 	for(var i = 0; i < straightCombos6.length; i++){
-			if(sortedPile == straightCombos6[i]){
+			if(sortedPile.toString() == straightCombos6[i].toString()){
 				return 6;
 			}
 	}
@@ -197,23 +197,28 @@ function st6(pile){
 function st7(pile){
 	var sortedPile = pile.sort();
 	for(var i = 0; i < straightCombos7.length; i++){
-			if(sortedPile == straightCombos7[i]){
+			if(sortedPile.toString() == straightCombos7[i].toString()){
 				return 7;
 			}
 	}
 	return 0;
 }
 
+function testS(){
+	var pile = [8,7,2,9,10,7,6];
+	var test = straight(pile);
+	console.log(test);
+}
 
 // Determines whether a straight was made during pegging
 function straight(pile){
-	var size = pile.length();
+	var size = pile.length;
 	var s3,s4,s5,s6,s7;
 	
 	if (size < 3){
 		return 0;
 	}
-	
+
 	s7 = st7(pile.slice(Math.max(pile.length - 7, 0)));
 	if(s7 != 0){
 		return s7;
