@@ -7,11 +7,41 @@
 //Get the turn up card from the deck
 //turnUpCard();
 
-var straightCombos3 = [];
-var straightCombos4 = [];
-var straightCombos5 = [];
-var straightCombos6 = [];
-var straightCombos7 = [];
+var straightCombos3 = [
+						[1,2,3],
+						[2,3,4],
+						[3,4,5],
+						[4,5,6],
+						[5,6,7],
+						[6,7,8],
+						[7,8,9],
+						[8,9,10],
+						[10,11,12],
+						[11,12,13]
+						];
+						
+var straightCombos4 = [
+						[1,2,3,4],
+						[2,3,4,5],
+						[3,4,5,6],
+						[4,5,6,7],
+						[5,6,7,8],
+						[6,7,8,9],
+						];
+						
+var straightCombos5 = [
+						[1,2,3,4,5],
+						[2,3,4,5,6],
+						[3,4,5,6,7],
+						[4,5,6,7,8],
+						];
+						
+var straightCombos6 = [
+						[1,2,3,4,5,6],
+						[2,3,4,5,6,7]
+						];
+						
+var straightCombos7 = [1,2,3,4,5,6,7];
 
 //Pegging
 var numPeggingCardsPlayed = 0;
@@ -125,12 +155,28 @@ function checkValue(card){
 
 // Determines whether a straight was made during pegging
 function straight(pile){
-	var straightExists;
+	var sortedPile = pile.sort();
 	int size = pile.length();
 	
-	if (size == 3){
-		
+	int foreignHigh;
+	int foreignLow;
+	
+	if (size < 3){
+		return 0;
 	}
+	
+	foreignHigh = sortedPile[size - 1] - sortedPile[size - 2];
+	foreignLow = sortedPile[1] - sortedPile[0];
+	
+	
+	if (size == 3){
+		for(int i = 0; i < straightCombos3.length(); i++){
+			if(sortedPile == straightCombos3[i]){
+				return 3;
+			}
+		}
+	}
+	
 }
 
 // Converts an entire hand to numeric values
