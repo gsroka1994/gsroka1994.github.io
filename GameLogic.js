@@ -7,11 +7,41 @@ deal();
 //Get the turn up card from the deck
 turnUpCard();
 
-var straightCombos3 = [];
-var straightCombos4 = [];
-var straightCombos5 = [];
-var straightCombos6 = [];
-var straightCombos7 = [];
+var straightCombos3 = [
+						[1,2,3],
+						[2,3,4],
+						[3,4,5],
+						[4,5,6],
+						[5,6,7],
+						[6,7,8],
+						[7,8,9],
+						[8,9,10],
+						[10,11,12],
+						[11,12,13]
+						];
+						
+var straightCombos4 = [
+						[1,2,3,4],
+						[2,3,4,5],
+						[3,4,5,6],
+						[4,5,6,7],
+						[5,6,7,8],
+						[6,7,8,9],
+						];
+						
+var straightCombos5 = [
+						[1,2,3,4,5],
+						[2,3,4,5,6],
+						[3,4,5,6,7],
+						[4,5,6,7,8],
+						];
+						
+var straightCombos6 = [
+						[1,2,3,4,5,6],
+						[2,3,4,5,6,7]
+						];
+						
+var straightCombos7 = [1,2,3,4,5,6,7];
 
 //Pegging
 var numPeggingCardsPlayed = 0;
@@ -123,14 +153,90 @@ function checkValue(card){
 	}
 }
 
+// Sorting and comparison functions for straights
+function s3(pile){
+	var sortedPile = pile.sort();
+	for(i = 0; i < straightCombos3.length(); i++){
+			if(sortedPile == straightCombos3[i]){
+				return 3;
+			}
+	}
+	return 0;
+}
+
+function s4(pile){
+	var sortedPile = pile.sort();
+	for(i = 0; i < straightCombos4.length(); i++){
+			if(sortedPile == straightCombos4[i]){
+				return 4;
+			}
+	}
+	return 0;
+}
+
+function s5(pile){
+	var sortedPile = pile.sort();
+	for(i = 0; i < straightCombos5.length(); i++){
+			if(sortedPile == straightCombos5[i]){
+				return 5;
+			}
+	}
+	return 0;
+}
+
+function s6(pile){
+	var sortedPile = pile.sort();
+	for(i = 0; i < straightCombos6.length(); i++){
+			if(sortedPile == straightCombos6[i]){
+				return 6;
+			}
+	}
+	return 0;
+}
+
+function s7(pile){
+	var sortedPile = pile.sort();
+	for(i = 0; i < straightCombos7.length(); i++){
+			if(sortedPile == straightCombos7[i]){
+				return 7;
+			}
+	}
+	return 0;
+}
+
+
 // Determines whether a straight was made during pegging
 function straight(pile){
-	var straightExists;
 	int size = pile.length();
+	int straight; 
+	int s3,s4,s5,s6,s7;
 	
-	if (size == 3){
-		
+	if (size < 3){
+		return 0;
 	}
+	
+	s7 = s7(pile.slice(Math.max(pile.length - 7, 0);
+	if(s7 != 0){
+		return s7;
+	}
+	s6 = s6(pile.slice(Math.max(pile.length - 6, 0);
+	if(s6 != 0){
+		return s6;
+	}
+	s5 = s5(pile.slice(Math.max(pile.length - 5, 0);
+	if(s5 != 0){
+		return s5;
+	}
+	s4 = s4(pile.slice(Math.max(pile.length - 4, 0);
+	if(s4 != 0){
+		return s4;
+	}
+	s3 = s3(pile.slice(Math.max(pile.length - 3, 0);
+	if(s3 != 0){
+		return s3;
+	}
+	
+	return 0;
 }
 
 // Converts an entire hand to numeric values
@@ -190,6 +296,13 @@ function sumThirtyOne(pile){
 function scorePegging(cards){
 	int size = pile.length();
 	int score = 0;
+	int twoP;
+	int threeP;
+	int fourP;
+	int pairPoints = 0;
+	var p2 = [];
+	var p3 = [];
+	var p4 = [];
 	var pile = assignValues(cards);
 	if(size == 1){
 		return 0;
