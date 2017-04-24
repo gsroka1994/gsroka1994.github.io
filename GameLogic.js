@@ -204,6 +204,7 @@ function st7(pile){
 	return 0;
 }
 
+/*
 function testS(){
 	var pile = [8,7,2,9,10,7,6];
 	var test = straight(pile);
@@ -215,6 +216,7 @@ function testScoring(){
 	var test = scorePegging(pile);
 	console.log(test);
 }
+*/
 
 // Determines whether a straight was made during pegging
 function straight(pile){
@@ -260,12 +262,14 @@ function assignValues(cards){
 	return newHand
 }
 
+/*
 function testSum(){
 	var pile1 = [13,5];
 	var pile2 = [13,12,11,1];
 	console.log(sumFifteen(pile1));
 	console.log(sumThirtyOne(pile2));
 }
+*/
 
 // Sums for potential 15 during pegging
 function sumFifteen(pile){
