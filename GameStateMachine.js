@@ -95,6 +95,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == setupState){
 
 		// Write a function that clears hands and crib variables
+		clearNewTurn();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
 		gameData.crib = crib;
@@ -111,6 +112,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		deal();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
+		for (i = 0, i < p1Hand.length; i++){
+			gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand[i]);
+		}
+		for (i = 0, i < p2Hand.length; i++){
+			gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand[i]);
+		}
 		gameData.numCards = numCards;
 		gameData.phase = cribState;
 		console.log("Moving into Crib State");
@@ -152,12 +159,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	}
 
 	// Update Board State
-	else if(gamePhase == updateBoardState event.requestExtraMessageData.peggingDone == "true"){
+	else if(gamePhase == updateBoardState && event.requestExtraMessageData.peggingDone == "true"){
 		// Stuff for scoring hands
 			
 
 		// Stuff for board movement
-
+		
 
 		// Make a checkWinner function
 
