@@ -2,18 +2,13 @@
 <html>
 <head> 
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+    <script src="//www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 </head> 
 <body background="img/oak1.jpg">
-
- <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
- <script type="text/javascript" src="https://www.gstatic.com/cast/sdk/libs/games/1.0.0/cast_games_receiver.js"></script>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
- <script src="GameManager.js"></script>  
- <script src="GameStateMachine.js"></script>
- <script src="DeckManager.js"></script>
- <script src="GameBoard.js"></script>
- <script src="GameLogic.js"></script>
 
 
  <div class="container">
@@ -35,7 +30,12 @@
  <button onclick="hideCountingHand()" id="hideCountingHandTestBtn">hideCountingHandTestBtn</button>
  <button onclick="getTurnUpCard()" id="getTurnUpCardTestBtn">getTurnUpCardTestBtn</button>
  <button onclick="hideTurnUpCard()" id="hideTurnUpCardTestBtn">hideTurnUpCardTestBtn</button>
+ <button onclick="testS()">TestStraight</button>
+ <button onclick="testScoring()">TestScoring</button>
+ <button onclick="testSum()">TestSum</button>
  -->
+
+
 
  <div class="cardsContainer" id="cardsContainer">
     <img src="img/back.jpg" class="turnUpCard" id="turnUpCard"/>
@@ -60,6 +60,10 @@
 </div>
 
 
- 
+ <script src="GameStateMachine.js"></script>
+ <script src="DeckManager.js"></script>
+ <script src="GameLogic.js"></script>
+ <script src="GameBoard.js"></script>
+
 </body>
 </html>
