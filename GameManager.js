@@ -13,5 +13,4 @@ window.onload = function() {
   gameManager = new cast.receiver.games.GameManager(gameConfig);
 
   castReceiverManager.start(appConfig);
-  this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager);
 };
