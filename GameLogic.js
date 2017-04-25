@@ -1,11 +1,3 @@
-//Initialize the deck
-init();
-
-//Deal to the players from the deck
-deal();
-
-//Get the turn up card from the deck
-turnUpCard();
 
 var straightCombos3 = [
 						[1,2,3],
@@ -101,13 +93,6 @@ function hideTurnUpCard() {
     document.getElementById('turnUpCard').src = "img/back.jpg";
 }
 
-// Clears crib, hands, and pile
-function clearNewTurn(){
-	p1Hand = [];
-	p2Hand = [];
-	crib = [];
-	pile = [];
-}
 
 // Converts JSON card into a numeric value to score with ease
 function checkValue(card){
@@ -363,5 +348,15 @@ function scorePegging(cards){
 	score += sumThirtyOne(pile);
 
 	return score;  
+}
+
+
+function checkWinner(points){
+	if (points >= 121){
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
 
