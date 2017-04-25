@@ -12,8 +12,6 @@ var minPlayers = 2;
 var maxPlayers = 2;
 
 // Variables that will be used to keep track of game data throughout play
-var currentState = -1;  
-var numberOfPlayers = 0;
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
@@ -46,7 +44,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
 
   // Main Listener that updates the states.  AKA:  The State Machine
 gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event){
-      gamePhase = gameManager.getGameData().phase;
+     var gamePhase = gameManager.getGameData().phase;
      
 	 
 	 
@@ -68,7 +66,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              for (var i = 0; i < readyPlayers.length; i++) {
                  var playerInfo = readyPlayers[i];
                  var playerId = playerInfo.playerId;
-				 playerIDs[i] = playerID;
+				 playerIDs[i] = playerId;
                  gameManager.updatePlayerState(playerId, cast.receiver.games.PlayerState.PLAYING, null, true);
              }
 
