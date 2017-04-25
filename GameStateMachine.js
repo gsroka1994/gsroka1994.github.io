@@ -20,6 +20,7 @@ var p2Peg1 = 0;
 var p2Peg2 = -1;
 var p1Score = 0;
 var p2Score = 0;
+var dealer = 0;
 var score;
 var skunked = 0;
 var winner = -1;  
@@ -105,6 +106,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		cardsInCrib = 0;
 		pile = [];
 		score = 0;
+		dealer = !dealer;
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
 		gameData.crib = crib;
@@ -152,8 +154,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	}
 
 	// Pegging State
-	else if (gamePhase == peggingState){
-		if(event.requestExtraMessageData.datBoi == "p1Peg"){
+	else if (gamePhase == peggingState && event.requestExtraMessageData.phase == "peg"){
+		if(event.requestExtraMessageData.datBoi == "p1"){
 			if(event.requestExtraMessageData.go == "yes"){
 				peg("p2", 1);
 			}
@@ -168,7 +170,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             }
 		}
 
-		else if(event.requestExtraMessageData.datBoi == "p2Peg"){
+		else if(event.requestExtraMessageData.datBoi == "p2"){
 			if(event.requestExtraMessageData.go == "yes"){
 				peg("p1", 1);
 			}
@@ -197,7 +199,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Update Board State
 	else if(gamePhase == updateBoardState){
-		// Stuff for scoring hands
+		// Stuff for scoring hands (received from sender)
 			
 
 		// Stuff for board movement
