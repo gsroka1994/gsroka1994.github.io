@@ -37,7 +37,7 @@ var gameManager;
         console.log('Player ' + event.playerInfo.playerId + ' is available');
     });
 	
-	
+
 	// Same thing but for when Players become ready
 gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
   function(event) {
@@ -47,7 +47,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
   });
   
-  
+
   // Main Listener that updates the states.  AKA:  The State Machine
 gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event){
       gamePhase = gameManager.getGameData().phase;
@@ -239,4 +239,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 //  Event listeners for players that quit or are disconnected by accident (server's fault)
 gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT);
 gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED);
+
+
 
