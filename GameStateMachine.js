@@ -11,16 +11,20 @@ var gameOver = 6;
 var minPlayers = 2;
 var maxPlayers = 2;
 
-// Variables that will be used to keep track of game data thoughout play
+// Variables that will be used to keep track of game data throughout play
 var currentState = -1;  
 var numberOfPlayers = 0;
 var p1Peg1 = 0;
 var p1Peg2 = -1;
 var p2Peg1 = 0;
 var p2Peg2 = -1;
+var p1Score = 0;
+var p2Score = 0;
+var score;
 var skunked = 0;
 var winner = -1;  
 var crib = [];
+var cardsInCrib = 0;
 var playerIDs = [];
 var pile = [];
 
@@ -52,7 +56,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 
 	 
 	 // Lobby State 
-	 if(gamePhase == waitingState && event.requestExtraMessageData.start == "true") {
+	 if(gamePhase == waitingState && event.requestExtraMessageData == "start") {
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
@@ -95,12 +99,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == setupState){
 
 		// Write a function that clears hands and crib variables
-		clearNewTurn();
+		p1Hand = [];
+		p2Hand = [];
+		crib = [];
+		cardsInCrib = 0;
+		pile = [];
+		score = 0;
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
 		gameData.crib = crib;
+		gameData.pile = pile;
 		gameData.numCards = numCards;
-
 		gameData.phase = dealState;
 		gameManager.updateGameData(gameData, false);
 		console.log("Moving into Deal State");
@@ -108,16 +117,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	}
 
 	// Deal State
-	else if (gamePhase == dealState && event.requestExtraMessageData.readyToDeal == "true"){
+	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
 		deal();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
-		for (i = 0; i < p1Hand.length; i++){
-			gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand[i]);
-		}
-		for (i = 0; i < p2Hand.length; i++){
-			gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand[i]);
-		}
+
+		gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
+		gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
+
 		gameData.numCards = numCards;
 		gameData.phase = cribState;
 		console.log("Moving into Crib State");
@@ -127,39 +134,69 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 
 	// Crib State
-	else if(gamePhase == cribState){
-		gameData.crib = crib;
-		gameData.phase = peggingState;
-		console.log("Moving into Pegging State");
+	else if(gamePhase == cribState && event.requestExtraMessageData.baby == "crib"){
+		var player = event.playerInfo;
+		var playerData = player.playerData;
+		playerData.cribCards += 1;
+		if(playerData.cribCards <= 2) {
+            crib[cardsInCrib] = event.requestExtraMessageData;
+            gameData.crib = crib;
+            cardsInCrib++;
+        }
+		if (cardsInCrib >= 4) {
+            gameData.phase = peggingState;
+            console.log("Moving into Pegging State");
+        }
 		gameManager.updateGameData(gameData, false);
 		gameData = gameManager.getGameData();
 	}
 
 	// Pegging State
 	else if (gamePhase == peggingState){
-		if(event.requestExtraMessageData.p1Peg == "true"){
-			peg("p1", score);	
-			gameData.p1Peg1 = p1Peg1;
-			gameData.p1Peg2 = p1Peg2;
+		if(event.requestExtraMessageData.datBoi == "p1Peg"){
+			if(event.requestExtraMessageData.go == "yes"){
+				peg("p2", 1);
+			}
+			else {
+				pile[pile.size] = event.requestExtraMessageData;
+                score = scorePegging(pile);
+                p1Score += score;
+                peg("p1", p1Score);
+                gameData.p1Peg1 = p1Peg1;
+                gameData.p1Peg2 = p1Peg2;
+                gameData.p1Score = p1Score;
+            }
 		}
 
-		else if(event.requestExtraMessageData.p2Peg == "true"){
-			peg("p2", score);
-			gameData.p2Peg1 = p2Peg1;
-			gameData.p2Peg2 = p2Peg2;
+		else if(event.requestExtraMessageData.datBoi == "p2Peg"){
+			if(event.requestExtraMessageData.go == "yes"){
+				peg("p1", 1);
+			}
+			else {
+                pile[pile.size] = event.requestExtraMessageData;
+                score = scorePegging(pile);
+                p2Score += score;
+                peg("p2", p2Score);
+                gameData.p2Peg1 = p2Peg1;
+                gameData.p2Peg2 = p2Peg2;
+                gameData.p2Score = p2Score;
+            }
 		}
 		
 		else {
-			gameData.phase = updateBoardState;
-			console.log("Moving into Update Board State");
+
 		}
-		
+
+		if (pile.size >= 8){
+            gameData.phase = updateBoardState;
+            console.log("Moving into Update Board State");
+		}
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
 	}
 
 	// Update Board State
-	else if(gamePhase == updateBoardState && event.requestExtraMessageData.peggingDone == "true"){
+	else if(gamePhase == updateBoardState){
 		// Stuff for scoring hands
 			
 
@@ -167,6 +204,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		
 
 		// Make a checkWinner function
+
 
 
 		// Reshuffle the deck
@@ -199,6 +237,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 });
 	 
 //  Event listeners for players that quit or are disconnected by accident (server's fault)
-gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT, displayQuitPlayers);
-gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED, displayQuitPlayers);
+gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_QUIT);
+gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_DROPPED);
 
