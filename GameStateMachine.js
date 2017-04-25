@@ -12,12 +12,6 @@ var minPlayers = 2;
 var maxPlayers = 2;
 
 // Variables that will be used to keep track of game data throughout play
-var currentState = -1;  
-var numberOfPlayers = 0;
-var p1Peg1 = 0;
-var p1Peg2 = -1;
-var p2Peg1 = 0;
-var p2Peg2 = -1;
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
@@ -50,7 +44,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
 
   // Main Listener that updates the states.  AKA:  The State Machine
 gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event){
-      gamePhase = gameManager.getGameData().phase;
+     var gamePhase = gameManager.getGameData().phase;
      
 	 
 	 
@@ -72,7 +66,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              for (var i = 0; i < readyPlayers.length; i++) {
                  var playerInfo = readyPlayers[i];
                  var playerId = playerInfo.playerId;
-				 playerIDs[i] = playerID;
+				 playerIDs[i] = playerId;
                  gameManager.updatePlayerState(playerId, cast.receiver.games.PlayerState.PLAYING, null, true);
              }
 
@@ -83,10 +77,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              gameData.deck_id = deckID;
              gameData.phase = setupState;
 			 gameData.pile = pile;
-             gameData.p1Peg1 = p1Peg1;
-             gameData.p1Peg2 = p1Peg2;
-             gameData.p2Peg1 = p2Peg1;
-             gameData.p2Peg2 = p2Peg2;
              gameManager.updateGameData(gameData, false);
              console.log("Moving into setup phase.");
              gameData = gameManager.getGameData();
@@ -161,10 +151,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				pile[pile.size] = event.requestExtraMessageData;
                 score = scorePegging(pile);
                 p1Score += score;
-                peg("p1", p1Score);
-                gameData.p1Peg1 = p1Peg1;
-                gameData.p1Peg2 = p1Peg2;
-                gameData.p1Score = p1Score;
+                peg("p1", p1Score + score);
+                gameData.p1Score = p1Score + score;
             }
 		}
 
@@ -176,10 +164,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 pile[pile.size] = event.requestExtraMessageData;
                 score = scorePegging(pile);
                 p2Score += score;
-                peg("p2", p2Score);
-                gameData.p2Peg1 = p2Peg1;
-                gameData.p2Peg2 = p2Peg2;
-                gameData.p2Score = p2Score;
+                peg("p2", p2Score + score);
+                gameData.p2Score = p2Score + score;
             }
 		}
 		
@@ -209,10 +195,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		// Reshuffle the deck
 		shuffle();
-		gameData.p1Peg1 = p1Peg1;
-		gameData.p1Peg2 = p1Peg2;
-		gameData.p2Peg1 = p2Peg1;
-		gameData.p2Peg2 = p2Peg2;
+		gameData.p1Score = p1Score;
+		gameData.p2Score = p2Score;
 		if(winner > 0){
 			gameData.phase = gameOver;
 			console.log("Moving into Game Over")
