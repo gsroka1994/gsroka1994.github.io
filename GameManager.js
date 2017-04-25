@@ -1,6 +1,6 @@
 var gameManager;
 
-window.onload = function() {
+
   var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
   var appConfig = new cast.receiver.CastReceiverManager.Config();
   appConfig.statusText = 'My Game is getting ready';
@@ -15,6 +15,6 @@ window.onload = function() {
   castReceiverManager.start(appConfig);
   gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
   gameManager.updateGameData({'phase': 0}, false);
-};
+
 
 

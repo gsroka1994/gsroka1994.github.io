@@ -28,7 +28,7 @@ var crib = [];
 var cardsInCrib = 0;
 var playerIDs = [];
 var pile = [];
-var gameManager;
+
 
 
  // Event Listener for when player (senders) become available
