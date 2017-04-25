@@ -13,4 +13,6 @@ window.onload = function() {
   gameManager = new cast.receiver.games.GameManager(gameConfig);
 
   castReceiverManager.start(appConfig);
+  gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
+  gameManager.updateGameData({'phase': waitingState}, false);
 };
