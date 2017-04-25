@@ -16,6 +16,4 @@ var gameManager;
   gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
   gameManager.updateGameData({'phase': 0}, false);
 
-
-  this.gameManager = gameManager;
-  this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager_);
+  this.debugUi = new cast.receiver.games.debug.DebugUI(gameManager);
