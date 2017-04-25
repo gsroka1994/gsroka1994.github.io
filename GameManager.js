@@ -16,16 +16,6 @@ var gameManager;
   gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
   gameManager.updateGameData({'phase': 0}, false);
 
-cast.games.gamedebugger.GameDebuggerGame =
-    function(GameManager) {
-        /** @private {!cast.receiver.games.GameManager} */
-        this.gameManager_ = GameManager;
 
-        /**
-         * You can access this in the dev console if you want to play around with
-         * the debug UI although in this sample, we automatically open the debug UI.
-         * @public {!cast.receiver.games.debug.DebugUI}
-         */
-        this.debugUi = new cast.receiver.games.debug.DebugUI(GameManager);
-    };
-
+  this.gameManager = gameManager;
+  this.debugUi = new cast.receiver.games.debug.DebugUI(this.gameManager_);
