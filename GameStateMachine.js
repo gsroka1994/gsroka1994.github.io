@@ -28,10 +28,28 @@ var crib = [];
 var cardsInCrib = 0;
 var playerIDs = [];
 var pile = [];
+var gameManager;
+
+window.onload = function() {
+    var castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+    var appConfig = new cast.receiver.CastReceiverManager.Config();
+    appConfig.statusText = 'My Game is getting ready';
+    console.log("ChromeCast Cribbage is initiating");
+    appConfig.maxInactivity = 6000;  // 100 minutes for testing only.
+
+    var gameConfig = new cast.receiver.games.GameManagerConfig();
+    gameConfig.applicationName = 'My Game';
+    gameConfig.maxPlayers = 2;
+    gameManager = new cast.receiver.games.GameManager(gameConfig);
+
+    castReceiverManager.start(appConfig);
+
 
 // Opens lobby for sender apps and updates game data to reflect current state
- gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
- gameManager.updateGameData({'phase' : waitingState}, false); 
+    gameManager.updateLobbyState(cast.receiver.games.LobbyState.OPEN);
+    gameManager.updateGameData({'phase': waitingState}, false);
+
+};
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
