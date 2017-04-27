@@ -48,10 +48,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
     for (var i = 0; i < readyPlayers.length; i++){
     	if ( i == 0){
-    		ready.player1 = readyPlayers[i].playerData.playerName;
+    		ready.player1 = readyPlayers[i].playerData.name;
 		}
 		if (i == 1){
-            ready.player2 = readyPlayers[i].playerData.playerName;
+            ready.player2 = readyPlayers[i].playerData.name;
 		}
 	}
 	for (var j = 0; j < readyPlayers.length; j++) {
