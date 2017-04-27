@@ -28,7 +28,7 @@ var pile = [];
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
     function(event) {
-        console.log('Player ' + event.playerInfo.playerId + ' is available');
+        console.log('Player is available');
     });
 	
 
