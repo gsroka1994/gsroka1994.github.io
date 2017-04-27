@@ -8,7 +8,7 @@ var gameManager;
   appConfig.maxInactivity = 6000;  // 100 minutes for testing only.
 
   var gameConfig = new cast.receiver.games.GameManagerConfig();
-  gameConfig.applicationName = 'My Game';
+  gameConfig.applicationName = 'Chromecast Cribbage';
   gameConfig.maxPlayers = 2;
   gameManager = new cast.receiver.games.GameManager(gameConfig);
 
