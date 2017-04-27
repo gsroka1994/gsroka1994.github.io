@@ -49,7 +49,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 
 	 
 	 // Lobby State 
-	 if(gamePhase == waitingState && event.requestExtraMessageData == "start") {
+	 if(gamePhase == waitingState) {
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
