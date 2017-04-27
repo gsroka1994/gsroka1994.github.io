@@ -23,6 +23,11 @@ var cardsInCrib = 0;
 var currentID = 0;
 var playerIDs = [];
 var pile = [];
+var playersTobeSent = [];
+var ready = {
+		player1: "",
+		player2: ""
+};
 
 
 
@@ -41,7 +46,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     console.log("Player Name: " + playerName + " is ready with id " + playerId);
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
     var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
-    gameManager.sendGameMessageToPlayer(playerId, readyPlayers);
+    for (var i = 0; i < readyPlayers.length; i++){
+    	if ( i == 0){
+    		ready.player1 = readyPlayers[i].getPlayerData().playerName;
+		}
+		if (i == 1){
+            ready.player2 = readyPlayers[i].getPlayerData().playerName;
+		}
+	}
+	for (var j = 0; j < readyPlayers.length; j++) {
+        gameManager.sendGameMessageToPlayer(readyPlayers[j].playerId, ready);
+    }
   });
   
 
