@@ -64,7 +64,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // The lobby is closed, as play is about to begin
              gameManager.updateLobbyState(cast.receiver.games.LobbyState.CLOSED, null, true);
              var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
-             document.getElementById("playerList").innerHTML = event.playerInfo.playerData.name + " is setting up the game";
+             console.log("Game is Starting");
 
              for (var i = 0; i < readyPlayers.length; i++) {
                  var playerInfo = readyPlayers[i];
