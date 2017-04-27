@@ -12,6 +12,8 @@ var minPlayers = 2;
 var maxPlayers = 2;
 
 // Variables that will be used to keep track of game data throughout play
+var p1Hand = [];
+var p2Hand =[];
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
