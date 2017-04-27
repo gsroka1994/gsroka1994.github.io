@@ -20,6 +20,7 @@ var skunked = 0;
 var winner = -1;  
 var crib = [];
 var cardsInCrib = 0;
+var currentID = 0;
 var playerIDs = [];
 var pile = [];
 
@@ -38,6 +39,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     var playerName = event.requestExtraMessageData.playerName;
     var playerId = event.playerInfo.playerId;
     console.log("Player Name: " + playerName + " is ready with id " + playerId);
+	var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+    gameManager.sendGameMessageToPlayer(playerId, readyPlayers);
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
   });
   
@@ -49,7 +52,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 
 	 
 	 // Lobby State 
-	 if(gamePhase == waitingState) {
+	 if(gamePhase == waitingState && event.requestExtraMessageData == "start") {
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
@@ -86,8 +89,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		
 	// Setup State
 	else if (gamePhase == setupState){
-
-		// Write a function that clears hands and crib variables
 		p1Hand = [];
 		p2Hand = [];
 		crib = [];
