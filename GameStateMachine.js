@@ -39,9 +39,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     var playerName = event.requestExtraMessageData.playerName;
     var playerId = event.playerInfo.playerId;
     console.log("Player Name: " + playerName + " is ready with id " + playerId);
-	var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
-    gameManager.sendGameMessageToPlayer(playerId, readyPlayers);
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
+    var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+    gameManager.sendGameMessageToPlayer(playerId, readyPlayers);
   });
   
 
