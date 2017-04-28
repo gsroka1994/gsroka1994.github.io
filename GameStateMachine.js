@@ -150,6 +150,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (k >= 2) {
             shuffle();
+            setTimeout(myFunction, 3000);
             gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });;
             gameData.phase = dealState;
             gameManager.updateGameData(gameData, false);
