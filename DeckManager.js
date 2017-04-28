@@ -2,8 +2,8 @@ var deck;
 var deckID;
 var numCards;
 var cutCard;
-var p1Hand = [];
-var p2Hand = [];
+var p1h = [];
+var p2h = [];
 
 function init(){
 		$.ajax({
@@ -24,7 +24,7 @@ function deal(){
 				dataType:'json',
                 async:false,
                 success:function(data){
-					p1Hand = data.cards;
+					p1h = data.cards;
 					numCards = data.remaining;
 				}
 			});
@@ -33,7 +33,7 @@ function deal(){
 				dataType:'json',
 				async:false,
 				success:function(data){
-					p2Hand = data.cards;
+					p2h = data.cards;
                     numCards = data.remaining;
                 }
 			});

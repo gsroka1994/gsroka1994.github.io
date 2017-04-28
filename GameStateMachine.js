@@ -12,8 +12,25 @@ var minPlayers = 2;
 var maxPlayers = 2;
 
 // Variables that will be used to keep track of game data throughout play
-var p1Hand = [];
-var p2Hand =[];
+var p1Hand = {
+			card1: "",
+    		card2: "",
+    		card3: "",
+    		card4: "",
+    		card5: "",
+    		card6: "",
+
+};
+var p2Hand = {
+    card1: "",
+    card2: "",
+    card3: "",
+    card4: "",
+    card5: "",
+    card6: "",
+
+};
+var gameData;
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
@@ -94,7 +111,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              // Update the gameData now that we have our players and the lobby state is complete
              // with the appropriate variables
-             var gameData = gameManager.getGameData();
+             gameData = gameManager.getGameData();
              init();
              gameData.deck_id = deckID;
              gameData.phase = setupState;
@@ -107,7 +124,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
      }
 		
 	// Setup State
-	else if (gamePhase == setupState){
+	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
 	 	document.getElementById("gameStateDisplayHeader").innerHTML = "Setting Up Game..";
 	 	p1Hand = [];
 		p2Hand = [];
@@ -131,9 +148,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
 		deal();
-		gameData.p1Hand = p1Hand;
-		gameData.p2Hand = p2Hand;
-
+		gameData.p1Hand = p1h;
+		gameData.p2Hand = p2h;
+		for (i = 0; i < p1h.length; i++){
+             p1Hand[i] = p1h[i].value;
+         }
+         for (i = 0; i < p2h.length; i++){
+             p2Hand[i] = p2h[i].value;
+         }
 		gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
 		gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
 
@@ -169,7 +191,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.datBoi == "p1"){
 			if(event.requestExtraMessageData.go == "yes"){
-				peg("p2", 1);
+				peg("p2", 1 + p2Score);
 			}
 			else {
 				pile[pile.size] = event.requestExtraMessageData;
@@ -182,7 +204,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		else if(event.requestExtraMessageData.datBoi == "p2"){
 			if(event.requestExtraMessageData.go == "yes"){
-				peg("p1", 1);
+				peg("p1", 1 + p1score);
 			}
 			else {
                 pile[pile.size] = event.requestExtraMessageData;
