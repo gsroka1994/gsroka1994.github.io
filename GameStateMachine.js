@@ -340,11 +340,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             else {
                 gameManager.sendGameMessageToPlayer({
                     turn: currentPlayer.playerData.name,
-                    player: playerName[0]
+                    player: playerNames[0]
                 });
                 gameManager.sendGameMessageToPlayer({
                     turn: currentPlayer.playerData.name,
-                    player: playerName[1]
+                    player: playerNames[1]
                 });
             }
 		}
