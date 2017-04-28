@@ -88,7 +88,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
 
-         document.getElementById("gameStateDisplayHeader").innerHTML = "Waiting For Players..";
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Game is Starting..";
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
@@ -125,7 +125,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		
 	// Setup State
 	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
-	 	document.getElementById("gameStateDisplayHeader").innerHTML = "Setting Up Game..";
 	 	p1Hand = [];
 		p2Hand = [];
 		crib = [];
