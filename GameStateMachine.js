@@ -291,10 +291,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == peggingState){
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
-            gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                player: playerName[0]});
-            gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                player: playerName[1]});
+            if(event.playerInfo.playerId == playerIDs[0]){
+                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                    player: playerName[0]});
+            } else {
+                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                    player: playerName[1]});
+            }
 		}
 
 
