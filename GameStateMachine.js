@@ -164,14 +164,16 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             k++;
 		}
 
-		if (k >= 2) {
+		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
             shuffle();
-            //setTimeout(myFunction, 10000);
-            gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
-            gameData.phase = dealState;
-            gameManager.updateGameData(gameData, false);
-            console.log("Moving into Deal State");
-            gameData = gameManager.getGameData();
+            setTimeout(function(){
+                gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
+                gameData.phase = dealState;
+                gameManager.updateGameData(gameData, false);
+                console.log("Moving into Deal State");
+                gameData = gameManager.getGameData();
+            }, 10000);
+
         }
 	}
 	// Deal State
