@@ -138,8 +138,10 @@ function peg(player, score) {
         case (score == 121):
             if(player == "p1") {
                 p.right = "81.5vw";
+                p.bottom = "34.6vh";
             } else {
                 p.right = "82vw";
+                p.bottom = "43.8vh";
             }
             break;
         default:

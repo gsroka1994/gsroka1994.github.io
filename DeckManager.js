@@ -2,8 +2,9 @@ var deck;
 var deckID;
 var numCards;
 var cutCard;
-var p1Hand = [];
-var p2Hand = [];
+var p1h = [];
+var p2h = [];
+var dealerCards = [];
 
 function init(){
 		$.ajax({
@@ -18,13 +19,26 @@ function init(){
 		});
 }
 
+function getDealer(){
+    $.ajax({
+        url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=2',
+        dataType:'json',
+        async:false,
+        success:function(data){
+            dealerCards[0] = data.cards[0];
+            dealerCards[1] = data.cards[1];
+            numCards = data.remaining;
+        }
+    });
+}
+
 function deal(){
 			$.ajax({
 				url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=6',
 				dataType:'json',
                 async:false,
                 success:function(data){
-					p1Hand = data.cards;
+					p1h = data.cards;
 					numCards = data.remaining;
 				}
 			});
@@ -33,7 +47,7 @@ function deal(){
 				dataType:'json',
 				async:false,
 				success:function(data){
-					p2Hand = data.cards;
+					p2h = data.cards;
                     numCards = data.remaining;
                 }
 			});
