@@ -135,12 +135,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              getDealer();
              if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
-                 gameData.currentPlayer = readyPlayers[1];
+                 currentPlayer = readyPlayers[1];
                  gameData.card1 = dealerCards[0].value;
 			 }
 			 else{
                  gameData.dealer = playerNames[1];
-                 gameData.currentPlayer = readyPlayers[0];
+                 currentPlayer = readyPlayers[0];
                  gameData.card2 = dealerCards[1].value;
 			 }
 
