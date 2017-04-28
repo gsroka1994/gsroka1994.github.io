@@ -30,7 +30,7 @@ var p2Hand = {
     card6: ""
 
 };
-var code = {code: ""}
+var code = {code: ""};
 var gameData;
 var p1Score = 0;
 var p2Score = 0;
@@ -55,6 +55,7 @@ var playerNames = [];
 var p;
 var notP;
 var bothReady = 0;
+var readyPlayers = [];
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -70,7 +71,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     var playerId = event.playerInfo.playerId;
     console.log("Player Name: " + playerName + " is ready with id " + playerId);
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
-    var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+    readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
     for (var i = 0; i < readyPlayers.length; i++){
     	if ( i == 0){
     		ready.player1 = readyPlayers[i].playerData.name;
@@ -90,8 +91,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
      // Added this for waiting screen to more reliably get players
     if (gamePhase == waitingState && event.requestExtraMessageData.getPlayers == "yes"){
-        var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
-        for (var i = 0; i < readyPlayers.length; i++){
+        readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+        for (i = 0; i < readyPlayers.length; i++){
             if ( i == 0){
                 ready.player1 = readyPlayers[i].playerData.name;
             }
@@ -108,7 +109,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          document.getElementById("gameStateDisplayHeader").innerHTML = "Game is Starting..";
 
          // Ready the Readied Players
-         var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+         readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
 
          // Ensure that nobody is breaking our rules for player size
          if (!(readyPlayers.length < minPlayers || readyPlayers.length > maxPlayers)) {
@@ -116,7 +117,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              //If that's the case, the move those players from READY to PLAYING
              // The lobby is closed, as play is about to begin
              gameManager.updateLobbyState(cast.receiver.games.LobbyState.CLOSED, null, true);
-             var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+             readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
              gameManager.sendGameMessageToAllConnectedPlayers({ startGame: "start" });
              console.log("Game is Starting");
 
@@ -297,10 +298,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
-                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
                     player: playerNames[0]});
             } else {
-                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {turn: currentPlayer.playerData.name,
                     player: playerNames[1]});
             }
 		}
@@ -338,11 +339,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 gameManager.sendGameMessageToAllConnectedPlayers({ toCountScreen: cutCard.code});
             }
             else {
-                gameManager.sendGameMessageToPlayer({
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0]
                 });
-                gameManager.sendGameMessageToPlayer({
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[1]
                 });
