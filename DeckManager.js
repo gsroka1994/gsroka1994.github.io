@@ -4,6 +4,7 @@ var numCards;
 var cutCard;
 var p1h = [];
 var p2h = [];
+var tempHand = [];
 var dealerCards = [];
 
 function init(){
@@ -51,6 +52,31 @@ function deal(){
                     numCards = data.remaining;
                 }
 			});
+
+			p1h.sort(function(a, b){
+				if(a.value == "KING"){a.value=13};
+                if(a.value == "QUEEN"){a.value=12};
+                if(a.value == "JACK"){a.value=11};
+                if(a.value == "ACE"){a.value=1};
+                if(b.value == "KING"){b.value=13};
+                if(b.value == "QUEEN"){b.value=12};
+                if(b.value == "JACK"){b.value=11};
+                if(b.value == "ACE"){b.value=1};
+
+				return parseFloat(a.value) - parseFloat(b.value)
+			});
+    		p2h.sort(function(a, b){
+        		if(a.value == "KING"){a.value=13};
+        		if(a.value == "QUEEN"){a.value=12};
+        		if(a.value == "JACK"){a.value=11};
+        		if(a.value == "ACE"){a.value=1};
+        		if(b.value == "KING"){b.value=13};
+        		if(b.value == "QUEEN"){b.value=12};
+        		if(b.value == "JACK"){b.value=11};
+        		if(b.value == "ACE"){b.value=1};
+
+        		return parseFloat(a.value) - parseFloat(b.value)
+    		});
 }
 
 function turnUpCard(){
@@ -75,5 +101,6 @@ function shuffle(){
 			}
 		});
 }
+
 
 
