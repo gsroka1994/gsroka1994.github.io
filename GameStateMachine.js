@@ -298,10 +298,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                    player: playerName[0]});
+                    player: playerNames[0]});
             } else {
                 gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                    player: playerName[1]});
+                    player: playerNames[1]});
             }
 		}
 
@@ -340,11 +340,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             else {
                 gameManager.sendGameMessageToPlayer({
                     turn: currentPlayer.playerData.name,
-                    player: playerName[0]
+                    player: playerNames[0]
                 });
                 gameManager.sendGameMessageToPlayer({
                     turn: currentPlayer.playerData.name,
-                    player: playerName[1]
+                    player: playerNames[1]
                 });
             }
 		}
