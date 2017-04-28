@@ -137,42 +137,50 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
      // Setup State
 
-     else if (gamePhase == setupState){
-         if (event.requestExtraMessageData.getDealerCard == "card"){
-             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
-             k++;
-         }
 
-         if (k >= 2) {
-             shuffle();
-             gameManager.sendGameMessageToPlayers();
-             gameData.phase = dealState;
-             gameManager.updateGameData(gameData, false);
-             console.log("Moving into Deal State");
-             gameData = gameManager.getGameData();
-         }
-     }
+	// Setup State
 
+	else if (gamePhase == setupState){
+	 	if (event.requestExtraMessageData.getDealerCard == "card"){
+            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
+            k++;
+		}
+
+		if (k >= 2) {
+            shuffle();
+            gameManager.sendGameMessageToPlayers(playerIDs, {message: "toDealState"});
+            gameData.phase = dealState;
+            gameManager.updateGameData(gameData, false);
+            console.log("Moving into Deal State");
+            gameData = gameManager.getGameData();
+        }
+	}
 	// Deal State
-	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
-		document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
-		deal();
-		gameData.p1Hand = p1h;
-		gameData.p2Hand = p2h;
-		for (i = 0; i < p1h.length; i++){
-             p1Hand[i] = p1h[i].value;
-         }
-         for (i = 0; i < p2h.length; i++){
-             p2Hand[i] = p2h[i].value;
-         }
-		gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
-		gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
 
-		gameData.numCards = numCards;
-		gameData.phase = cribState;
-		console.log("Moving into Crib State");
-		gameManager.updateGameData(gameData, false);
-		gameData = gameManager.getGameData();
+	else if (gamePhase == dealState){
+		if(event.requestExtraMessageData.getDealer == "dealer"){
+			gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, {dealer: gameData.dealer,
+																			yourName: event.playerInfo.playerData.name});
+		}
+
+		if (event.requestExtraMessageData.deal == "deal") {
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
+            deal();
+            for (i = 0; i < p1h.length; i++) {
+                p1Hand[i] = p1h[i].value;
+            }
+            for (i = 0; i < p2h.length; i++) {
+                p2Hand[i] = p2h[i].value;
+            }
+            gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
+            gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
+
+            gameData.numCards = numCards;
+            gameData.phase = cribState;
+            console.log("Moving into Crib State");
+            gameManager.updateGameData(gameData, false);
+            gameData = gameManager.getGameData();
+        }
 	}
 
 
