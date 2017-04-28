@@ -90,6 +90,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
 
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Waiting For Players..";
+
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
 
@@ -134,6 +136,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 
 	// Setup State
+
 	else if (gamePhase == setupState && event.requestExtraMessageData.getDealerCard == "card"){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
@@ -157,6 +160,33 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          gameData.crib = crib;
          gameData.pile = pile;
          deal();
+     }
+
+	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
+	 	document.getElementById("gameStateDisplayHeader").innerHTML = "Setting Up Game..";
+	 	p1Hand = [];
+		p2Hand = [];
+		crib = [];
+		cardsInCrib = 0;
+		pile = [];
+		score = 0;
+		dealer = !dealer;
+		gameData.p1Hand = p1Hand;
+		gameData.p2Hand = p2Hand;
+		gameData.crib = crib;
+		gameData.pile = pile;
+		gameData.numCards = numCards;
+		gameData.phase = dealState;
+		gameManager.updateGameData(gameData, false);
+		console.log("Moving into Deal State");
+		gameData = gameManager.getGameData();
+	}
+
+	// Deal State
+	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
+		deal();
+
 		gameData.p1Hand = p1h;
 		gameData.p2Hand = p2h;
 		for (i = 0; i < p1h.length; i++){
@@ -178,6 +208,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Crib State
 	else if(gamePhase == cribState && event.requestExtraMessageData.baby == "crib"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Counting Crib";
 		var player = event.playerInfo;
 		var playerData = player.playerData;
 		playerData.cribCards += 1;
@@ -196,6 +227,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState && event.requestExtraMessageData.phase == "peg"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.datBoi == "p1"){
 			if(event.requestExtraMessageData.go == "yes"){
 				peg("p2", 1 + p2Score);
@@ -265,8 +297,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Game Over State
 	else if (gamePhase == gameOver){
+// Write a function that displays something for winning
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
 
-		// Write a function that displays something for winning
+
+         // Write a function that displays something for winning
 
 	}
 
