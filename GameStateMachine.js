@@ -105,7 +105,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
      }
 		
 	// Setup State
-	else if (gamePhase == setupState){
+	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
 		p1Hand = [];
 		p2Hand = [];
 		crib = [];
