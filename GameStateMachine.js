@@ -55,6 +55,7 @@ var playerNames = [];
 var p;
 var notP;
 var bothReady = 0;
+var readyPlayers = [];
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -70,7 +71,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
     var playerId = event.playerInfo.playerId;
     console.log("Player Name: " + playerName + " is ready with id " + playerId);
     gameManager.updatePlayerData(playerId, {'name' : playerName}, false);
-    var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+    readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
     for (var i = 0; i < readyPlayers.length; i++){
     	if ( i == 0){
     		ready.player1 = readyPlayers[i].playerData.name;
@@ -108,7 +109,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          document.getElementById("gameStateDisplayHeader").innerHTML = "Game is Starting..";
 
          // Ready the Readied Players
-         var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+         readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
 
          // Ensure that nobody is breaking our rules for player size
          if (!(readyPlayers.length < minPlayers || readyPlayers.length > maxPlayers)) {
