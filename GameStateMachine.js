@@ -30,6 +30,7 @@ var p2Hand = {
     card6: ""
 
 };
+var code = {code: ""}
 var gameData;
 var p1Score = 0;
 var p2Score = 0;
@@ -161,7 +162,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == setupState){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
-            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k].code);
+            code.code = dealerCards[k].code
+            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, code);
             k++;
 		}
 
