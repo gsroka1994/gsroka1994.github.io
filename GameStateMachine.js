@@ -321,7 +321,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				peg(notP, 1 + p2Score);
 			}
 			else {
-				pile[pile.size] = event.requestExtraMessageData.pegCard;
+				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 score = scorePegging(pile);
                 p1Score += score;
                 peg(p, p1Score + score);
@@ -333,7 +333,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             else {
                 currentPlayer = readyPlayers[0];
             }
-            if (pile.size >= 8){
+            if (pile.length >= 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
