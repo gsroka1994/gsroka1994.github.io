@@ -336,7 +336,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             if (pile.size >= 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
-                gameManager.sendGameMessageToAllConnectedPlayers({ toCountScreen: cutCard.code});
+                gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
             }
             else {
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
