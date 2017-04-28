@@ -63,7 +63,7 @@ function deal(){
                 if(b.value == "JACK"){b.value=11};
                 if(b.value == "ACE"){b.value=1};
 
-				return parseFloat(a.value) - parseFloat(b.value)
+				return parseFloat(b.value) - parseFloat(a.value)
 			});
     		p2h.sort(function(a, b){
         		if(a.value == "KING"){a.value=13};
@@ -75,7 +75,7 @@ function deal(){
         		if(b.value == "JACK"){b.value=11};
         		if(b.value == "ACE"){b.value=1};
 
-        		return parseFloat(a.value) - parseFloat(b.value)
+        		return parseFloat(b.value) - parseFloat(a.value)
     		});
 }
 
