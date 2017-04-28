@@ -217,14 +217,16 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         }
         if(event.requestExtraMessageData.getHand == "getHand"){
 
-		    bothReady++;
+
 
 		    if(event.playerInfo.playerId == playerIDs[0]){
+                bothReady++;
                 gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
             } else {
+                bothReady++;
                 gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
             }
-            
+
             if(bothReady >= 2){
                 gameData.numCards = numCards;
                 gameData.phase = cribState;
