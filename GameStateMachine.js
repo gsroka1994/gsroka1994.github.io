@@ -145,7 +145,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (k >= 2) {
             shuffle();
-            gameManager.sendGameMessageToPlayers();
+            gameManager.sendGameMessageToPlayers(playerIDs, {message: "toDealState"});
             gameData.phase = dealState;
             gameManager.updateGameData(gameData, false);
             console.log("Moving into Deal State");
