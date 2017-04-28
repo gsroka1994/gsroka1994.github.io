@@ -297,10 +297,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
-                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
                     player: playerNames[0]});
             } else {
-                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {turn: currentPlayer.playerData.name,
                     player: playerNames[1]});
             }
 		}
