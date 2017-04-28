@@ -326,7 +326,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 peg(p, p1Score + score);
                 gameData.p1Score = p1Score + score;
             }
-            if(currentPlayer.playerId = playerIDs[0]){
+            if(currentPlayer.playerId == playerIDs[0]){
                 currentPlayer = readyPlayers[1];
             }
             else {
