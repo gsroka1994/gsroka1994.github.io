@@ -90,7 +90,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
 
-         document.getElementById("gameStateDisplayHeader").innerHTML = "Waiting For Players..";
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Game is Starting..";
 
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
@@ -134,6 +134,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
      }
 
+     // Setup State
+
 
 	// Setup State
 
@@ -152,9 +154,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             gameData = gameManager.getGameData();
         }
 	}
-
-
 	// Deal State
+
 	else if (gamePhase == dealState){
 		if(event.requestExtraMessageData.getDealer == "dealer"){
 			gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, {dealer: gameData.dealer,
@@ -266,14 +267,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			gameData.phase = setupState;
 			console.log("Moving back to Setup");
 		}
-
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
 	}
 
 	// Game Over State
 	else if (gamePhase == gameOver){
-// Write a function that displays something for winning
+
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
 
 
