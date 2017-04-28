@@ -18,7 +18,7 @@ var p1Hand = {
     		card3: "",
     		card4: "",
     		card5: "",
-    		card6: "",
+    		card6: ""
 
 };
 var p2Hand = {
@@ -27,7 +27,7 @@ var p2Hand = {
     card3: "",
     card4: "",
     card5: "",
-    card6: "",
+    card6: ""
 
 };
 var gameData;
