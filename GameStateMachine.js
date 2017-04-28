@@ -53,7 +53,7 @@ var k;
 var playerNames = [];
 var p;
 var notP;
-var bothReady;
+var bothReady = 0;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
