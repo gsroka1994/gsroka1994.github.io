@@ -302,7 +302,7 @@ function sumThirtyOne(pile){
 function scorePegging(cards){
 	var size = cards.length;
 	var score = 0;
-	var pile = assignValues(cards);
+	//var pile = assignValues(cards);
 
 	if(size == 1){
 		return score;
@@ -346,7 +346,7 @@ function scorePegging(cards){
 	score += straight(pile);
 	score += sumFifteen(pile);
 	score += sumThirtyOne(pile);
-
+	console.log("score");
 	return score;  
 }
 
