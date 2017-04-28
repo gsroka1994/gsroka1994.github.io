@@ -71,6 +71,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
 
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Waiting For Players..";
+
          // Ready the Readied Players
          var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
 
@@ -106,7 +108,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		
 	// Setup State
 	else if (gamePhase == setupState){
-		p1Hand = [];
+	 	document.getElementById("gameStateDisplayHeader").innerHTML = "Setting Up Game..";
+	 	p1Hand = [];
 		p2Hand = [];
 		crib = [];
 		cardsInCrib = 0;
@@ -126,6 +129,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Deal State
 	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
 		deal();
 		gameData.p1Hand = p1Hand;
 		gameData.p2Hand = p2Hand;
@@ -143,6 +147,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Crib State
 	else if(gamePhase == cribState && event.requestExtraMessageData.baby == "crib"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Counting Crib";
 		var player = event.playerInfo;
 		var playerData = player.playerData;
 		playerData.cribCards += 1;
@@ -161,6 +166,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState && event.requestExtraMessageData.phase == "peg"){
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.datBoi == "p1"){
 			if(event.requestExtraMessageData.go == "yes"){
 				peg("p2", 1);
@@ -230,7 +236,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Game Over State
 	else if (gamePhase == gameOver){
 
-		// Write a function that displays something for winning
+		document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
+
+
+         // Write a function that displays something for winning
 
 	}
 
