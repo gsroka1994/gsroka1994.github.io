@@ -4,6 +4,7 @@ var numCards;
 var cutCard;
 var p1h = [];
 var p2h = [];
+var dealerCards = [];
 
 function init(){
 		$.ajax({
@@ -16,6 +17,19 @@ function init(){
                 numCards = deck.remaining;
 			}
 		});
+}
+
+function getDealer(){
+    $.ajax({
+        url:'https://deckofcardsapi.com/api/deck/' + deckID + '/draw/?count=2',
+        dataType:'json',
+        async:false,
+        success:function(data){
+            dealerCards[0] = data.cards[0];
+            dealerCards[1] = data.cards[1];
+            numCards = data.remaining;
+        }
+    });
 }
 
 function deal(){

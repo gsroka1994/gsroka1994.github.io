@@ -47,6 +47,8 @@ var ready = {
 		player1: "",
 		player2: ""
 };
+var k;
+var playerNames = [];
 
 
 
@@ -106,6 +108,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  var playerInfo = readyPlayers[i];
                  var playerId = playerInfo.playerId;
 				 playerIDs[i] = playerId;
+				 playerNames[i] = playerInfo.playerData.name;
                  gameManager.updatePlayerState(playerId, cast.receiver.games.PlayerState.PLAYING, null, true);
              }
 
@@ -113,35 +116,41 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // with the appropriate variables
              gameData = gameManager.getGameData();
              init();
+             getDealer();
+             if(checkValue(dealerCards[0]) >= checkValue(dealerCards[1])){
+                 gameData.dealer = playerNames[0];
+			 }
+			 else{
+                 gameData.dealer = playerNames[1];
+			 }
              gameData.deck_id = deckID;
              gameData.phase = setupState;
 			 gameData.pile = pile;
              gameManager.updateGameData(gameData, false);
              console.log("Moving into setup phase.");
              gameData = gameManager.getGameData();
+             k = 0;
          }
 
      }
-		
-	// Setup State
-	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
-	 	p1Hand = [];
-		p2Hand = [];
-		crib = [];
-		cardsInCrib = 0;
-		pile = [];
-		score = 0;
-		dealer = !dealer;
-		gameData.p1Hand = p1Hand;
-		gameData.p2Hand = p2Hand;
-		gameData.crib = crib;
-		gameData.pile = pile;
-		gameData.numCards = numCards;
-		gameData.phase = dealState;
-		gameManager.updateGameData(gameData, false);
-		console.log("Moving into Deal State");
-		gameData = gameManager.getGameData();
-	}
+
+     // Setup State
+
+     else if (gamePhase == setupState){
+         if (event.requestExtraMessageData.getDealerCard == "card"){
+             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
+             k++;
+         }
+
+         if (k >= 2) {
+             shuffle();
+             gameManager.sendGameMessageToPlayers();
+             gameData.phase = dealState;
+             gameManager.updateGameData(gameData, false);
+             console.log("Moving into Deal State");
+             gameData = gameManager.getGameData();
+         }
+     }
 
 	// Deal State
 	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
