@@ -120,9 +120,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              getDealer();
              if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
+                 gameData.card1 = dealerCards[0].code;
 			 }
 			 else{
                  gameData.dealer = playerNames[1];
+                 gameData.card1 = dealerCards[1].code;
 			 }
              gameData.deck_id = deckID;
              gameData.phase = setupState;
