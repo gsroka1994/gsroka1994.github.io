@@ -55,6 +55,7 @@ var playerNames = [];
 var p;
 var notP;
 var bothReady = 0;
+var bothHandSent = 0;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -198,14 +199,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
             gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
-            p1Hand.card1 = p1h[0].code;
+
             p1Hand.card1 = p1h[0].code;
             p1Hand.card2 = p1h[1].code;
             p1Hand.card3 = p1h[2].code;
             p1Hand.card4 = p1h[3].code;
             p1Hand.card5 = p1h[4].code;
             p1Hand.card6 = p1h[5].code;
-
 
             p2Hand.card1 = p2h[0].code;
             p2Hand.card2 = p2h[1].code;
@@ -217,18 +217,22 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         }
         if(event.requestExtraMessageData.getHand == "getHand"){
 
+		    bothReady++;
+
 		    if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
             } else {
                 gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
             }
-
-            gameData.numCards = numCards;
-            gameData.phase = cribState;
-            cardsInCrib = 0;
-            console.log("Moving into Crib State");
-            gameManager.updateGameData(gameData, false);
-            gameData = gameManager.getGameData();
+            
+            if(bothReady >= 2){
+                gameData.numCards = numCards;
+                gameData.phase = cribState;
+                cardsInCrib = 0;
+                console.log("Moving into Crib State");
+                gameManager.updateGameData(gameData, false);
+                gameData = gameManager.getGameData();
+            }
         }
 	}
 
