@@ -29,7 +29,8 @@ var p2Hand = {
     card5: "",
     card6: "",
 
-};;
+};
+var gameData;
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
@@ -108,7 +109,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              // Update the gameData now that we have our players and the lobby state is complete
              // with the appropriate variables
-             var gameData = gameManager.getGameData();
+             gameData = gameManager.getGameData();
              init();
              gameData.deck_id = deckID;
              gameData.phase = setupState;
