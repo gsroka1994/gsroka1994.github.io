@@ -185,7 +185,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == dealState){
 		if(event.requestExtraMessageData.getDealer == "dealer"){
-            if(event.playerInfo.playerId == playerIds[0]){
+            if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
                     yourName: playerNames[0]});
             } else {
@@ -217,7 +217,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         }
         if(event.requestExtraMessageData.getHand == "getHand"){
 
-		    if(event.playerInfo.playerId == playerIds[0]){
+		    if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
             } else {
                 gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
