@@ -156,7 +156,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Deal State
 	else if (gamePhase == dealState){
-		if(event.requestExtraMessageData.request == "dealer"){
+		if(event.requestExtraMessageData.getDealer == "dealer"){
 			gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, {dealer: gameData.dealer,
 																			yourName: event.playerInfo.playerData.name});
 		}
@@ -164,9 +164,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
-
-            gameData.p1Hand = p1h;
-            gameData.p2Hand = p2h;
             for (i = 0; i < p1h.length; i++) {
                 p1Hand[i] = p1h[i].value;
             }
