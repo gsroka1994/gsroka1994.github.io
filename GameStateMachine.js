@@ -137,7 +137,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Setup State
 
-	else if (gamePhase == setupState && event.requestExtraMessageData.getDealerCard == "card"){
+	else if (gamePhase == setupState){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
             k++;
@@ -145,7 +145,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (k >= 2) {
             shuffle();
-            
+            gameManager.sendGameMessageToPlayers();
             gameData.phase = dealState;
             gameManager.updateGameData(gameData, false);
             console.log("Moving into Deal State");
@@ -153,34 +153,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         }
 	}
 
-	// Deal State
-	else if (gamePhase == dealState && event.requestExtraMessageData.deal == "deal"){
-         cardsInCrib = 0;
-         score = 0;
-         gameData.crib = crib;
-         gameData.pile = pile;
-         deal();
-     }
-
-	else if (gamePhase == setupState && event.requestExtraMessageData.setupGame == "setup"){
-	 	document.getElementById("gameStateDisplayHeader").innerHTML = "Setting Up Game..";
-	 	p1Hand = [];
-		p2Hand = [];
-		crib = [];
-		cardsInCrib = 0;
-		pile = [];
-		score = 0;
-		dealer = !dealer;
-		gameData.p1Hand = p1Hand;
-		gameData.p2Hand = p2Hand;
-		gameData.crib = crib;
-		gameData.pile = pile;
-		gameData.numCards = numCards;
-		gameData.phase = dealState;
-		gameManager.updateGameData(gameData, false);
-		console.log("Moving into Deal State");
-		gameData = gameManager.getGameData();
-	}
 
 	// Deal State
 	else if (gamePhase == dealState && event.requestExtraMessageData == "deal"){
