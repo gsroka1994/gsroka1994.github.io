@@ -171,7 +171,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
-
+            gameManager.sendGameMessageToAllConnectedPlayers({ toDiscardScreen: "toDiscardState"});;
+            p1Hand.card1 = p1h[0].code;
 			p1Hand.card1 = p1h[0].code;
             p1Hand.card2 = p1h[1].code;
             p1Hand.card3 = p1h[2].code;
