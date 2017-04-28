@@ -55,7 +55,6 @@ var playerNames = [];
 var p;
 var notP;
 var bothReady = 0;
-var bothHandSent = 0;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -249,10 +248,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              var playerHand = [];
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
              if(event.playerInfo.playerId == playerIDs[0]){
-             	playerHand = p1Hand;
+             	playerHand = p1h;
 			 }
 			 else{
-             	playerHand = p2Hand;
+             	playerHand = p2h;
 			 }
              for (i = 0; i < 2; i++){
              	for(var j = 0; j < playerHand.length; j++){
@@ -276,10 +275,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  }
              }
              if(event.playerInfo.playerId == playerIDs[0]){
-                 p1Hand = playerHand;
+                 p1h = playerHand;
              }
              else{
-                 p2Hand = playerHand;
+                 p2h = playerHand;
              }
 
              if(cardsInCrib >= 3) {
