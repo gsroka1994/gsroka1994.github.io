@@ -77,9 +77,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
             ready.player2 = readyPlayers[i].playerData.name;
 		}
 	}
-	for (var j = 0; j < readyPlayers.length; j++) {
-        gameManager.sendGameMessageToPlayer(readyPlayers[j].playerId, ready);
-    }
+	gameManager.sendGameMessageToAllConnectedPlayers(ready);
+
   });
   
 
@@ -186,12 +185,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p1Hand.card6 = p1h[5].code;
 
 
-            p2Hand.card1 = p1h[0].code;
-            p2Hand.card2 = p1h[1].code;
-            p2Hand.card3 = p1h[2].code;
-            p2Hand.card4 = p1h[3].code;
-            p2Hand.card5 = p1h[4].code;
-            p2Hand.card6 = p1h[5].code;
+            p2Hand.card1 = p2h[0].code;
+            p2Hand.card2 = p2h[1].code;
+            p2Hand.card3 = p2h[2].code;
+            p2Hand.card4 = p2h[3].code;
+            p2Hand.card5 = p2h[4].code;
+            p2Hand.card6 = p2h[5].code;
 
             gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
             gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
