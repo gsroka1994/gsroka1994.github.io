@@ -85,8 +85,20 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
   // Main Listener that updates the states.  AKA:  The State Machine
 gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event){
      var gamePhase = gameManager.getGameData().phase;
-     
-	 
+
+     // Added this for waiting screen to more reliably get players
+    if (gamePhase == waitingState && event.requestExtraMessageData.getPlayers == "yes"){
+        var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+        for (var i = 0; i < readyPlayers.length; i++){
+            if ( i == 0){
+                ready.player1 = readyPlayers[i].playerData.name;
+            }
+            if (i == 1){
+                ready.player2 = readyPlayers[i].playerData.name;
+            }
+        }
+        gameManager.sendGameMessageToAllConnectedPlayers(ready);
+    }
 	 
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
