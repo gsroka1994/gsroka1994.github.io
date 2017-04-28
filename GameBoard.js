@@ -135,7 +135,7 @@ function peg(player, score) {
                 p.bottom = "42.8vh";
             }
             break;
-        case (score == 121):
+        case (score >= 121):
             if(player == "p1") {
                 p.right = "81.5vw";
                 p.bottom = "34.6vh";
