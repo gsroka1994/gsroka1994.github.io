@@ -185,18 +185,21 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == dealState){
 		if(event.requestExtraMessageData.getDealer == "dealer"){
-			gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
-				yourName: playerNames[0]});
-            gameManager.sendGameMessageToPlayer(playerIDs[1], {dealer: gameData.dealer,
-                yourName: playerNames[1]});
+            if(event.playerInfo.playerId == playerId[0]){
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
+                    yourName: playerNames[0]});
+            } else {
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {dealer: gameData.dealer,
+                    yourName: playerNames[1]});
+            }
 		}
 
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
-            gameManager.sendGameMessageToAllConnectedPlayers({ toDiscardScreen: "toDiscardState"});
+            gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
             p1Hand.card1 = p1h[0].code;
-			p1Hand.card1 = p1h[0].code;
+            p1Hand.card1 = p1h[0].code;
             p1Hand.card2 = p1h[1].code;
             p1Hand.card3 = p1h[2].code;
             p1Hand.card4 = p1h[3].code;
@@ -211,8 +214,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p2Hand.card5 = p2h[4].code;
             p2Hand.card6 = p2h[5].code;
 
-            gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
-            gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
+        }
+        if(event.requestExtraMessageData.getHand == "getHand"){
+
+		    if(event.playerInfo.playerId == playerId[0]){
+                gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
+            } else {
+                gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
+            }
 
             gameData.numCards = numCards;
             gameData.phase = cribState;
