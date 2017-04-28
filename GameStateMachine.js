@@ -168,12 +168,22 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
-            for (i = 0; i < p1h.length; i++) {
-                p1Hand[i] = p1h[i].value;
-            }
-            for (i = 0; i < p2h.length; i++) {
-                p2Hand[i] = p2h[i].value;
-            }
+
+			p1Hand.card1 = p1h[0].code;
+            p1Hand.card2 = p1h[1].code;
+            p1Hand.card3 = p1h[2].code;
+            p1Hand.card4 = p1h[3].code;
+            p1Hand.card5 = p1h[4].code;
+            p1Hand.card6 = p1h[5].code;
+
+
+            p2Hand.card1 = p1h[0].code;
+            p2Hand.card2 = p1h[1].code;
+            p2Hand.card3 = p1h[2].code;
+            p2Hand.card4 = p1h[3].code;
+            p2Hand.card5 = p1h[4].code;
+            p2Hand.card6 = p1h[5].code;
+
             gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
             gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
 
