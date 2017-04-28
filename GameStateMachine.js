@@ -30,6 +30,7 @@ var p2Hand = {
     card6: ""
 
 };
+var code = {code: ""}
 var gameData;
 var p1Score = 0;
 var p2Score = 0;
@@ -53,6 +54,8 @@ var k;
 var playerNames = [];
 var p;
 var notP;
+var bothReady = 0;
+var bothHandSent = 0;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -85,8 +88,20 @@ gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_READY,
   // Main Listener that updates the states.  AKA:  The State Machine
 gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED, function(event){
      var gamePhase = gameManager.getGameData().phase;
-     
-	 
+
+     // Added this for waiting screen to more reliably get players
+    if (gamePhase == waitingState && event.requestExtraMessageData.getPlayers == "yes"){
+        var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+        for (var i = 0; i < readyPlayers.length; i++){
+            if ( i == 0){
+                ready.player1 = readyPlayers[i].playerData.name;
+            }
+            if (i == 1){
+                ready.player2 = readyPlayers[i].playerData.name;
+            }
+        }
+        gameManager.sendGameMessageToAllConnectedPlayers(ready);
+    }
 	 
 	 // Lobby State 
 	 if(gamePhase == waitingState && event.requestExtraMessageData.startGame == "start") {
@@ -148,42 +163,49 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == setupState){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
-            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k].code);
+            code.code = dealerCards[k].code
+            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, code);
             k++;
 		}
 
-		if (k >= 2) {
-            shuffle();
-            //setTimeout(myFunction, 10000);
-            gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
-            gameData.phase = dealState;
-            gameManager.updateGameData(gameData, false);
-            console.log("Moving into Deal State");
-            gameData = gameManager.getGameData();
+		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
+	 	    bothReady++;
+	 	    if(bothReady >= 2){
+                shuffle();
+                setTimeout(function(){
+                    gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
+                    gameData.phase = dealState;
+                    gameManager.updateGameData(gameData, false);
+                    console.log("Moving into Deal State");
+                    gameData = gameManager.getGameData();
+                }, 10000);
+            }
         }
 	}
 	// Deal State
 
 	else if (gamePhase == dealState){
 		if(event.requestExtraMessageData.getDealer == "dealer"){
-			gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
-				yourName: playerNames[0]});
-            gameManager.sendGameMessageToPlayer(playerIDs[1], {dealer: gameData.dealer,
-                yourName: playerNames[1]});
+            if(event.playerInfo.playerId == playerIDs[0]){
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
+                    yourName: playerNames[0]});
+            } else {
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {dealer: gameData.dealer,
+                    yourName: playerNames[1]});
+            }
 		}
 
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             deal();
-            gameManager.sendGameMessageToAllConnectedPlayers({ toDiscardScreen: "toDiscardState"});
+            gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
+
             p1Hand.card1 = p1h[0].code;
-			p1Hand.card1 = p1h[0].code;
             p1Hand.card2 = p1h[1].code;
             p1Hand.card3 = p1h[2].code;
             p1Hand.card4 = p1h[3].code;
             p1Hand.card5 = p1h[4].code;
             p1Hand.card6 = p1h[5].code;
-
 
             p2Hand.card1 = p2h[0].code;
             p2Hand.card2 = p2h[1].code;
@@ -192,16 +214,25 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p2Hand.card5 = p2h[4].code;
             p2Hand.card6 = p2h[5].code;
 
-            gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
-            gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
-
-            gameData.numCards = numCards;
-            gameData.phase = cribState;
-            cardsInCrib = 0;
-            console.log("Moving into Crib State");
-            gameManager.updateGameData(gameData, false);
-            gameData = gameManager.getGameData();
         }
+         if(event.requestExtraMessageData.getHand == "getHand"){
+
+             gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
+             gameManager.sendGameMessageToPlayer(playerIDs[1], {sendP2Hand: "getHand" })
+
+         }
+         if(event.requestExtraMessageData.getP2Hand == "getHand"){
+
+             gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
+
+             gameData.numCards = numCards;
+             gameData.phase = cribState;
+             cardsInCrib = 0;
+             console.log("Moving into Crib State");
+             gameManager.updateGameData(gameData, false);
+             gameData = gameManager.getGameData();
+
+         }
 	}
 
 
@@ -260,10 +291,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == peggingState){
 		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
-            gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                player: playerName[0]});
-            gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
-                player: playerName[1]});
+            if(event.playerInfo.playerId == playerIDs[0]){
+                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                    player: playerName[0]});
+            } else {
+                gameManager.sendGameMessageToPlayer({turn: currentPlayer.playerData.name,
+                    player: playerName[1]});
+            }
 		}
 
 
