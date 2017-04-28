@@ -53,6 +53,7 @@ var k;
 var playerNames = [];
 var p;
 var notP;
+var bothReady;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -165,15 +166,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		}
 
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
-            shuffle();
-            setTimeout(function(){
-                gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
-                gameData.phase = dealState;
-                gameManager.updateGameData(gameData, false);
-                console.log("Moving into Deal State");
-                gameData = gameManager.getGameData();
-            }, 10000);
-
+	 	    bothReady++;
+	 	    if(bothReady >= 2){
+                shuffle();
+                setTimeout(function(){
+                    gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
+                    gameData.phase = dealState;
+                    gameManager.updateGameData(gameData, false);
+                    console.log("Moving into Deal State");
+                    gameData = gameManager.getGameData();
+                }, 10000);
+            }
         }
 	}
 	// Deal State
