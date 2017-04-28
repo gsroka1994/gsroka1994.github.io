@@ -93,6 +93,16 @@ function hideTurnUpCard() {
     document.getElementById('turnUpCard').src = "img/back.jpg";
 }
 
+/*
+function testCheckValue(){
+	init();
+	getDealer();
+    console.log(dealerCards[0].value);
+    console.log(dealerCards[1].value);
+	console.log(checkValue(dealerCards[0]));
+	console.log(checkValue(dealerCards[1]));
+}
+*/
 
 // Converts JSON card into a numeric value to score with ease
 function checkValue(card){

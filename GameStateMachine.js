@@ -163,7 +163,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == setupState){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
-            code.code = dealerCards[k].code
+            if(event.playerInfo.playerId == playerIDs[0]){
+                code.code = dealerCards[0].code;
+            }
+            else {
+                code.code = dealerCards[1].code;
+            }
+
             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, code);
             k++;
 		}
