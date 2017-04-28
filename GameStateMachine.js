@@ -124,7 +124,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			 }
 			 else{
                  gameData.dealer = playerNames[1];
-                 gameData.card1 = dealerCards[1].value;
+                 gameData.card2 = dealerCards[1].value;
 			 }
              gameData.deck_id = deckID;
              gameData.phase = setupState;
@@ -144,7 +144,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == setupState){
 	 	if (event.requestExtraMessageData.getDealerCard == "card"){
-            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k]);
+            gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, dealerCards[k].code);
             k++;
 		}
 
