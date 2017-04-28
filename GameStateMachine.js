@@ -339,11 +339,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 gameManager.sendGameMessageToAllConnectedPlayers({ toCountScreen: cutCard.code});
             }
             else {
-                gameManager.sendGameMessageToPlayer({
+                gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0]
                 });
-                gameManager.sendGameMessageToPlayer({
+                gameManager.sendGameMessageToPlayer(playerIDs[1], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[1]
                 });
