@@ -118,7 +118,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              gameData = gameManager.getGameData();
              init();
              getDealer();
-             if(checkValue(dealerCards[0]) >= checkValue(dealerCards[1])){
+             if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
 			 }
 			 else{
@@ -148,7 +148,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (k >= 2) {
             shuffle();
-            gameManager.sendGameMessageToPlayers(playerIDs, {message: "toDealState"});
+            gameManager.sendGameMessageToAllConnectedPlayers({ message: "toDealState" });;
             gameData.phase = dealState;
             gameManager.updateGameData(gameData, false);
             console.log("Moving into Deal State");
