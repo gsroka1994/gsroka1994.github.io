@@ -215,27 +215,24 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p2Hand.card6 = p2h[5].code;
 
         }
-        if(event.requestExtraMessageData.getHand == "getHand"){
+         if(event.requestExtraMessageData.getHand == "getHand"){
 
+             gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
+             gameManager.sendGameMessageToPlayer(playerIDs[1], {sendP2Hand: "getHand" })
 
+         }
+         if(event.requestExtraMessageData.getP2Hand == "getHand"){
 
-		    if(event.playerInfo.playerId == playerIDs[0]){
-                bothReady++;
-                gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
-            } else {
-                bothReady++;
-                gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
-            }
+             gameManager.sendGameMessageToPlayer(playerIDs[1], p2Hand);
 
-            if(bothReady >= 2){
-                gameData.numCards = numCards;
-                gameData.phase = cribState;
-                cardsInCrib = 0;
-                console.log("Moving into Crib State");
-                gameManager.updateGameData(gameData, false);
-                gameData = gameManager.getGameData();
-            }
-        }
+             gameData.numCards = numCards;
+             gameData.phase = cribState;
+             cardsInCrib = 0;
+             console.log("Moving into Crib State");
+             gameManager.updateGameData(gameData, false);
+             gameData = gameManager.getGameData();
+
+         }
 	}
 
 
