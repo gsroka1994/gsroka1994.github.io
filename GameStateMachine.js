@@ -30,7 +30,7 @@ var p2Hand = {
     card6: ""
 
 };
-var code = {code: ""}
+var code = {code: ""};
 var gameData;
 var p1Score = 0;
 var p2Score = 0;
@@ -90,8 +90,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
      // Added this for waiting screen to more reliably get players
     if (gamePhase == waitingState && event.requestExtraMessageData.getPlayers == "yes"){
-        var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
-        for (var i = 0; i < readyPlayers.length; i++){
+        readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+        for (i = 0; i < readyPlayers.length; i++){
             if ( i == 0){
                 ready.player1 = readyPlayers[i].playerData.name;
             }
@@ -116,7 +116,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              //If that's the case, the move those players from READY to PLAYING
              // The lobby is closed, as play is about to begin
              gameManager.updateLobbyState(cast.receiver.games.LobbyState.CLOSED, null, true);
-             var readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
+             readyPlayers = gameManager.getPlayersInState(cast.receiver.games.PlayerState.READY);
              gameManager.sendGameMessageToAllConnectedPlayers({ startGame: "start" });
              console.log("Game is Starting");
 
