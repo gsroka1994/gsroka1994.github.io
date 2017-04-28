@@ -161,8 +161,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == dealState){
 		if(event.requestExtraMessageData.getDealer == "dealer"){
-			gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, {dealer: gameData.dealer,
-																			yourName: event.playerInfo.playerData.name});
+			gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
+				yourName: playerNames[0]});
+            gameManager.sendGameMessageToPlayer(playerIDs[1], {dealer: gameData.dealer,
+                yourName: playerNames[1]});
 		}
 
 		if (event.requestExtraMessageData.deal == "deal") {
