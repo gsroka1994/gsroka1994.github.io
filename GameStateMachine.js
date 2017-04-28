@@ -381,7 +381,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		}
 		else {
 			gameData.phase = dealState;
-			console.log("Moving back to Setup");
+			console.log("Moving back to Deal");
 		}
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
