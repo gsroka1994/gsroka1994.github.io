@@ -36,6 +36,7 @@ var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
 var score;
+var notScore;
 var skunked = 0;
 var winner = -1;  
 var crib = [];
@@ -56,6 +57,7 @@ var p;
 var notP;
 var bothReady = 0;
 var readyPlayers = [];
+var pileCount;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -147,7 +149,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              gameData.deck_id = deckID;
              gameData.phase = setupState;
-			 gameData.pile = pile;
              gameManager.updateGameData(gameData, false);
              console.log("Moving into setup phase.");
              gameData = gameManager.getGameData();
@@ -162,7 +163,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Setup State
 
 	else if (gamePhase == setupState){
-	 	if (event.requestExtraMessageData.getDealerCard == "card"){
+
+        // Sends a random card from the deck API to the players to decide who the dealer is when they ask
+        if (event.requestExtraMessageData.getDealerCard == "card"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 code.code = dealerCards[0].code;
             }
@@ -174,6 +177,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             k++;
 		}
 
+		// Once setup is complete and both players have chosen a card, suffle the deck then move to the dealing phase
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
 	 	    bothReady++;
 	 	    if(bothReady >= 2){
@@ -191,7 +195,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Deal State
 
 	else if (gamePhase == dealState){
-		if(event.requestExtraMessageData.getDealer == "dealer"){
+
+	    // Alert the players who the dealer is
+	    if(event.requestExtraMessageData.getDealer == "dealer"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
                     yourName: playerNames[0]});
@@ -203,6 +209,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
+
+           // API call for each player to draw 6 cards
             deal();
             gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
 
@@ -221,6 +229,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p2Hand.card6 = p2h[5].code;
 
         }
+
+        // Logic for sending the players hands upon request
          if(event.requestExtraMessageData.getHand == "getHand"){
 
              gameManager.sendGameMessageToPlayer(playerIDs[0], p1Hand);
@@ -246,6 +256,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if(gamePhase == cribState) {
          hideTurnUpCard();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
+
+
+        // Search for the cribs cards in the players hands, then add them to the crib
          if (event.requestExtraMessageData.cribSet == "Yes") {
              var playerHand = [];
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
@@ -264,6 +277,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 					}
 				}
 			 }
+
+			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i] == crib[cardsInCrib - 1]){
              		playerHand.splice(i,1);
@@ -276,6 +291,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      break;
                  }
              }
+
+             // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
                  p1h = playerHand;
              }
@@ -283,12 +300,16 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  p2h = playerHand;
              }
 
+             // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
+             // score variables used during pegging
              if(cardsInCrib >= 3) {
                  gameData.phase = peggingState;
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
                  getTurnUpCard(); // Get and show turnup Card
                  score = 0;
+                 notScore = 0;
+                 pileCount = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
              }
@@ -298,65 +319,97 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Pegging State
 	else if (gamePhase == peggingState){
          document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
-		if(event.requestExtraMessageData.getTurn == "turn"){
+
+         // Send out message on the curretn turn once pegging begins
+         if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
-                    player: playerNames[0]});
+                    player: playerNames[0],
+                    pileCount: pileCount});
             } else {
                 gameManager.sendGameMessageToPlayer(playerIDs[1], {turn: currentPlayer.playerData.name,
-                    player: playerNames[1]});
+                    player: playerNames[1],
+                    pileCount: pileCount});
             }
 		}
 
-
+        // Assign the current player's variables
 		if(event.requestExtraMessageData.pegging == "Yes"){
 			if(currentPlayer == readyPlayers[0]){
 				p = "p1";
 				notP = "p2";
-
+				notScore = p2Score;
 			}
 			else {
 				p = "p2";
 				notP = "p1";
+				notScore = p1Score;
 			}
+
+			// If the current player cannot play, they "go" and the other player earns a point
 			if(event.requestExtraMessageData.go == "yes"){
-				peg(notP, 1 + p2Score);
+				peg(notP, 1 + notScore);
+				if(currentPlayer == readyPlayers[0]){
+				    p1Score++;
+                }
+                else {
+				    p2Score++;
+                }
 			}
+
+			// Score the card sent as normal and adjust the players scores
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 score = scorePegging(pile, currentPlayer.playerData.name);
-                p1Score += score;
-                if(score > 0) {
-                    peg(p, p1Score + score);
-                    gameData.p1Score = p1Score + score;
+                if(score > 0 && currentPlayer == readyPlayers[0]) {
+                    peg(p, score + p1Score);
+                    p1Score += score;
+                }
+                else if(score > 0 && currentPlayer == readyPlayers[1]){
+                    peg(p, score + p2Score);
+                    p2Score += score;
+                }
+                else {}
+                pileCount += pile[length];
+                if(pileCount == 31){
+                    pileCount = 0;
                 }
             }
+
+            // Swap current player
             if(currentPlayer.playerId == playerIDs[0]){
                 currentPlayer = readyPlayers[1];
             }
             else {
                 currentPlayer = readyPlayers[0];
             }
+
+            // Once pegging is complete, move onto the update board state
             if (pile.length >= 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
+                numCountScores = 0;
             }
+
+            // Otherwise alert the players of the new turn
             else {
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
-                    player: playerNames[0]
+                    player: playerNames[0],
+                    pileCount: pileCount
                 });
                 gameManager.sendGameMessageToPlayer(playerIDs[1], {
                     turn: currentPlayer.playerData.name,
-                    player: playerNames[1]
+                    player: playerNames[1],
+                    pileCount: pileCount
                 });
             }
 		}
 	 	 gameManager.updateGameData(gameData, false);
 	  	 gameData = gameManager.getGameData();
-	  	 numCountScores = 0;
+
 	}
 
 	// Update Board State
@@ -377,8 +430,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		// Reshuffle the deck
 		shuffle();
-		gameData.p1Score = p1Score;
-		gameData.p2Score = p2Score;
 		if(winner > 0){
 			gameData.phase = gameOver;
 			console.log("Moving into Game Over")
