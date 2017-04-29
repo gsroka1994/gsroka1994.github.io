@@ -38,6 +38,7 @@ var straightCombos7 = [1,2,3,4,5,6,7];
 //Pegging
 var numPeggingCardsPlayed = 0;
 const MAX_NUM_PEGGING_CARDS = 8;
+const CARD_IMAGE_URL = "https://deckofcardsapi.com/static/img/";
 var peggingCardSlotIds = ["peggingPileCard0",
     "peggingPileCard1",
     "peggingPileCard2",
@@ -54,9 +55,11 @@ var countingHandSlotIds = ["countingHandCard0",
     "countingHandCard3"];
 
 //Plays the next pegging card
-function playPeggingCard() {
+function playPeggingCard(cardCode) {
     if (numPeggingCardsPlayed < MAX_NUM_PEGGING_CARDS) {
-        document.getElementById(peggingCardSlotIds[numPeggingCardsPlayed]).style.visibility = "visible";
+    	var pegCardPlayed = document.getElementById(peggingCardSlotIds[numPeggingCardsPlayed]);
+    	pegCardPlayed.src = CARD_IMAGE_URL + cardCode + ".png";
+        pegCardPlayed.style.visibility = "visible";
         numPeggingCardsPlayed++;
     }
 }
@@ -85,7 +88,8 @@ function hideCountingHand() {
 
 //Displays the turn-up card
 function getTurnUpCard() {
-    document.getElementById('turnUpCard').src = cutCard.image;
+	turnUpCard(); // Actually graps the turnup card from the deck
+    document.getElementById('turnUpCard').src = cutCard.image; //Shows the card
 }
 
 //Hides the turn-up card
@@ -309,9 +313,11 @@ function sumThirtyOne(pile){
 
 
 // Scores the daunting pegging round
-function scorePegging(cards){
+function scorePegging(cards, playerName){
 	var size = cards.length;
 	var score = 0;
+	var displayInfo = document.getElementById("gameInfo");
+	displayInfo.innerHTML = ""; // Clear the game info every turn
 	//var pile = assignValues(cards);
 
 	if(size == 1){
@@ -321,15 +327,18 @@ function scorePegging(cards){
     else if (size == 2){
         if(pile[0] == pile[1]){
             score += 2;
+            displayInfo.append(playerName + " makes a pair, pegs for two. ");
         }
     }
 
     else if (size == 3){
         if(pile[1] == pile[2] && pile[1] != pile[0]){
             score+=2;
+            displayInfo.append(playerName + " makes a pair, pegs for two. ");
         }
         else if(pile[0] == pile[1] && pile[0] == pile[2]){
             score+=6;
+            displayInfo.append(playerName + " makes a triplet, pegs for six. ");
         }
         else {
             // Do Nothing
@@ -339,23 +348,39 @@ function scorePegging(cards){
 	else if (size >= 4){
 		if(pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] == pile[size - 4]){
 			score += 12;
-		}
+            displayInfo.append(playerName + " makes a double pair, pegs for twelve. ");
+        }
 		else {
 			if (pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] != pile[size - 4]){
 				score += 6;
-			}
+                displayInfo.append(playerName + " makes a triplet, pegs for six. ");
+            }
 			else {
 				if(pile[size-1] == pile[size-2] && pile[size-1] != pile[size - 3] ){
 					score += 2;
-				}
+                    displayInfo.append(playerName + " makes a pair, pegs for two. ");
+                }
 			}
 		}
 	}
 
+	var runResult = straight(pile);
+	if (runResult != 0) {
+        score += runResult;
+        displayInfo.append(playerName + " makes a run for " + runResult + ", pegs for " + runResult + ". ");
+    }
 
-	score += straight(pile);
-	score += sumFifteen(pile);
-	score += sumThirtyOne(pile);
+    var sumFifteenResult = sumFifteen(pile);
+	if (sumFifteenResult != 0) {
+        score += sumFifteenResult
+        displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
+    }
+
+    var sumThirtyOneResult = sumThirtyOne(pile);
+	if (sumThirtyOneResult != 0) {
+        score += sumThirtyOneResult;
+        displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
+    }
 	console.log("score");
 	return score;  
 }

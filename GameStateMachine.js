@@ -244,7 +244,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Crib State
 	else if(gamePhase == cribState) {
-         document.getElementById("gameStateDisplayHeader").innerHTML = "Getting Crib";
+         hideTurnUpCard();
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
          if (event.requestExtraMessageData.cribSet == "Yes") {
              var playerHand = [];
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
@@ -286,6 +287,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameData.phase = peggingState;
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
+                 getTurnUpCard(); // Get and show turnup Card
                  score = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
@@ -295,7 +297,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState){
-		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
@@ -322,7 +324,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			}
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
-                score = scorePegging(pile);
+                playPeggingCard(event.requestExtraMessageData.pegCode);
+                score = scorePegging(pile, currentPlayer.playerData.name);
                 p1Score += score;
                 peg(p, p1Score + score);
                 gameData.p1Score = p1Score + score;
@@ -336,7 +339,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             if (pile.length >= 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
-                turnUpCard();
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
             }
             else {
