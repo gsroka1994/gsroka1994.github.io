@@ -371,7 +371,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     p2Score += score;
                 }
                 else {}
-                pileCount += pile[length];
+                pileCount += pile[pile.length - 1];
                 if(pileCount == 31){
                     pileCount = 0;
                 }
