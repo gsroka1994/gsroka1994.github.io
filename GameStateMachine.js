@@ -286,6 +286,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameData.phase = peggingState;
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
+                 getTurnUpCard(); // Get and show turnup Card
                  score = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
@@ -295,7 +296,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState){
-         getTurnUpCard();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
