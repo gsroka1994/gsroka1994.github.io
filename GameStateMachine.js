@@ -322,6 +322,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
          // Send out message on the curretn turn once pegging begins
          if(event.requestExtraMessageData.getTurn == "turn"){
+             console.log(pileCount);
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
                     player: playerNames[0],
