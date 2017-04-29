@@ -35,6 +35,7 @@ var gameData;
 var p1Score = 0;
 var p2Score = 0;
 var dealer = 0;
+var go;
 var score;
 var notScore;
 var skunked = 0;
@@ -310,6 +311,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  score = 0;
                  notScore = 0;
                  pileCount = 0;
+                 go = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
              }
@@ -349,16 +351,22 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			// If the current player cannot play, they "go" and the other player earns a point
 			if(event.requestExtraMessageData.go == "yes"){
 				peg(notP, 1 + notScore);
+                go++;
 				if(currentPlayer == readyPlayers[0]){
 				    p1Score++;
                 }
                 else {
 				    p2Score++;
                 }
+                if(go == 2){
+				    pileCount = 0;
+				    go = 0;
+                }
 			}
 
 			// Score the card sent as normal and adjust the players scores
 			else {
+			    go = 0;
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 score = scorePegging(pile, currentPlayer.playerData.name);
