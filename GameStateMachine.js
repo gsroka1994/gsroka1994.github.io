@@ -295,7 +295,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Pegging State
 	else if (gamePhase == peggingState){
-		document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
+         getTurnUpCard();
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Pegging";
 		if(event.requestExtraMessageData.getTurn == "turn"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
@@ -337,7 +338,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             if (pile.length >= 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
-                getTurnUpCard();
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
             }
             else {
