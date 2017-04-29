@@ -313,9 +313,10 @@ function sumThirtyOne(pile){
 
 
 // Scores the daunting pegging round
-function scorePegging(cards){
+function scorePegging(cards, playerName){
 	var size = cards.length;
 	var score = 0;
+	var displayInfo = document.getElementById("gameInfo");
 	//var pile = assignValues(cards);
 
 	if(size == 1){
@@ -325,15 +326,18 @@ function scorePegging(cards){
     else if (size == 2){
         if(pile[0] == pile[1]){
             score += 2;
+            displayInfo.innerHTML = playerName + " makes a pair, pegs for two"
         }
     }
 
     else if (size == 3){
         if(pile[1] == pile[2] && pile[1] != pile[0]){
             score+=2;
+            displayInfo.innerHTML = playerName + " makes a pair, pegs for two"
         }
         else if(pile[0] == pile[1] && pile[0] == pile[2]){
             score+=6;
+            displayInfo.innerHTML = playerName + " makes a triplet, pegs for six"
         }
         else {
             // Do Nothing
@@ -343,15 +347,18 @@ function scorePegging(cards){
 	else if (size >= 4){
 		if(pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] == pile[size - 4]){
 			score += 12;
-		}
+            displayInfo.innerHTML = playerName + " makes a double pair, pegs for twelve"
+        }
 		else {
 			if (pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] != pile[size - 4]){
 				score += 6;
-			}
+                displayInfo.innerHTML = playerName + " makes a triplet, pegs for six"
+            }
 			else {
 				if(pile[size-1] == pile[size-2] && pile[size-1] != pile[size - 3] ){
 					score += 2;
-				}
+                    displayInfo.innerHTML = playerName + " makes a pair, pegs for two"
+                }
 			}
 		}
 	}

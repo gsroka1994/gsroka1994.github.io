@@ -244,7 +244,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Crib State
 	else if(gamePhase == cribState) {
-         document.getElementById("gameStateDisplayHeader").innerHTML = "Getting Crib";
+         hideTurnUpCard();
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
          if (event.requestExtraMessageData.cribSet == "Yes") {
              var playerHand = [];
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
@@ -324,7 +325,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
-                score = scorePegging(pile);
+                score = scorePegging(pile, currentPlayer.playerData.name);
                 p1Score += score;
                 peg(p, p1Score + score);
                 gameData.p1Score = p1Score + score;
