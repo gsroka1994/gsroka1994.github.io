@@ -45,7 +45,7 @@ var playerIDs = [];
 var pile = [];
 var countScores = [];
 var numCountScores = 0;
-var countBreakDown;
+var countBreakDown = [];
 var ready = {
 		player1: "",
 		player2: ""
@@ -327,8 +327,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 score = scorePegging(pile, currentPlayer.playerData.name);
                 p1Score += score;
-                peg(p, p1Score + score);
-                gameData.p1Score = p1Score + score;
+                if(score > 0) {
+                    peg(p, p1Score + score);
+                    gameData.p1Score = p1Score + score;
+                }
             }
             if(currentPlayer.playerId == playerIDs[0]){
                 currentPlayer = readyPlayers[1];
@@ -383,7 +385,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		}
 		else {
 			gameData.phase = dealState;
-			console.log("Moving back to Setup");
+			console.log("Moving back to Deal");
 		}
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
