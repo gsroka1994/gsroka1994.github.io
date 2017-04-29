@@ -364,22 +364,22 @@ function scorePegging(cards, playerName){
 		}
 	}
 
-	var run = straight(pile);
-	if (run != 0) {
-        score += run;
-        displayInfo.append = playerName + " makes a run for " + run + ", pegs for " + run + ". ";
+	var runResult = straight(pile);
+	if (runResult != 0) {
+        score += runResult;
+        displayInfo.append = playerName + " makes a run for " + runResult + ", pegs for " + runResult + ". ";
     }
 
-    var sumFifteen = sumFifteen(pile);
-	if (sumFifteen != 0) {
-        score += sumFifteen
-        displayInfo.append = playerName + " sums to fifteen, pegs for " + sumFifteen + ". ";
+    var sumFifteenResult = sumFifteen(pile);
+	if (sumFifteenResult != 0) {
+        score += sumFifteenResult
+        displayInfo.append = playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ";
     }
 
-    var sumThirtyOne = umThirtyOne(pile);
-	if (sumThirtyOne != 0) {
-        score += sumThirtyOne;
-        displayInfo.append = playerName + " sums to 31, pegs for " + sumThirtyOne + ". ";
+    var sumThirtyOneResult = sumThirtyOne(pile);
+	if (sumThirtyOneResult != 0) {
+        score += sumThirtyOneResult;
+        displayInfo.append = playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ";
     }
 	console.log("score");
 	return score;  
