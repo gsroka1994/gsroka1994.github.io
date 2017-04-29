@@ -88,7 +88,8 @@ function hideCountingHand() {
 
 //Displays the turn-up card
 function getTurnUpCard() {
-    document.getElementById('turnUpCard').src = cutCard.image;
+	turnUpCard(); // Actually graps the turnup card from the deck
+    document.getElementById('turnUpCard').src = cutCard.image; //Shows the card
 }
 
 //Hides the turn-up card
