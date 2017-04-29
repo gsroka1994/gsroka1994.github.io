@@ -322,6 +322,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			}
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
+                playPeggingCard(event.requestExtraMessageData.pegCode);
                 score = scorePegging(pile);
                 p1Score += score;
                 peg(p, p1Score + score);

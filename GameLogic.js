@@ -38,6 +38,7 @@ var straightCombos7 = [1,2,3,4,5,6,7];
 //Pegging
 var numPeggingCardsPlayed = 0;
 const MAX_NUM_PEGGING_CARDS = 8;
+const CARD_IMAGE_URL = "https://deckofcardsapi.com/static/img/";
 var peggingCardSlotIds = ["peggingPileCard0",
     "peggingPileCard1",
     "peggingPileCard2",
@@ -54,9 +55,11 @@ var countingHandSlotIds = ["countingHandCard0",
     "countingHandCard3"];
 
 //Plays the next pegging card
-function playPeggingCard() {
+function playPeggingCard(cardCode) {
     if (numPeggingCardsPlayed < MAX_NUM_PEGGING_CARDS) {
-        document.getElementById(peggingCardSlotIds[numPeggingCardsPlayed]).style.visibility = "visible";
+    	var pegCardPlayed = document.getElementById(peggingCardSlotIds[numPeggingCardsPlayed]);
+    	pegCardPlayed.src = CARD_IMAGE_URL + cardCode + ".png";
+        pegCardPlayed.style.visibility = "visible";
         numPeggingCardsPlayed++;
     }
 }
