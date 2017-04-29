@@ -327,18 +327,18 @@ function scorePegging(cards, playerName){
     else if (size == 2){
         if(pile[0] == pile[1]){
             score += 2;
-            displayInfo.append = playerName + " makes a pair, pegs for two. "
+            displayInfo.append(playerName + " makes a pair, pegs for two. ");
         }
     }
 
     else if (size == 3){
         if(pile[1] == pile[2] && pile[1] != pile[0]){
             score+=2;
-            displayInfo.append = playerName + " makes a pair, pegs for two. "
+            displayInfo.append(playerName + " makes a pair, pegs for two. ");
         }
         else if(pile[0] == pile[1] && pile[0] == pile[2]){
             score+=6;
-            displayInfo.append = playerName + " makes a triplet, pegs for six. "
+            displayInfo.append(playerName + " makes a triplet, pegs for six. ");
         }
         else {
             // Do Nothing
@@ -348,17 +348,17 @@ function scorePegging(cards, playerName){
 	else if (size >= 4){
 		if(pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] == pile[size - 4]){
 			score += 12;
-            displayInfo.append = playerName + " makes a double pair, pegs for twelve. "
+            displayInfo.append(playerName + " makes a double pair, pegs for twelve. ");
         }
 		else {
 			if (pile[size-1] == pile[size-2] && pile[size-1] == pile[size - 3] && pile[size -1] != pile[size - 4]){
 				score += 6;
-                displayInfo.append = playerName + " makes a triplet, pegs for six. "
+                displayInfo.append(playerName + " makes a triplet, pegs for six. ");
             }
 			else {
 				if(pile[size-1] == pile[size-2] && pile[size-1] != pile[size - 3] ){
 					score += 2;
-                    displayInfo.append = playerName + " makes a pair, pegs for two. "
+                    displayInfo.append(playerName + " makes a pair, pegs for two. ");
                 }
 			}
 		}
@@ -367,19 +367,19 @@ function scorePegging(cards, playerName){
 	var runResult = straight(pile);
 	if (runResult != 0) {
         score += runResult;
-        displayInfo.append = playerName + " makes a run for " + runResult + ", pegs for " + runResult + ". ";
+        displayInfo.append(playerName + " makes a run for " + runResult + ", pegs for " + runResult + ". ");
     }
 
     var sumFifteenResult = sumFifteen(pile);
 	if (sumFifteenResult != 0) {
         score += sumFifteenResult
-        displayInfo.append = playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ";
+        displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
     }
 
     var sumThirtyOneResult = sumThirtyOne(pile);
 	if (sumThirtyOneResult != 0) {
         score += sumThirtyOneResult;
-        displayInfo.append = playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ";
+        displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
     }
 	console.log("score");
 	return score;  
