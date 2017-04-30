@@ -59,6 +59,7 @@ var notP;
 var bothReady = 0;
 var readyPlayers = [];
 var pileCount;
+var cardsPegged;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -312,6 +313,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  notScore = 0;
                  pileCount = 0;
                  go = 0;
+                 cardsPegged = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
              }
@@ -373,6 +375,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			    go = 0;
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
+                cardsPegged++;
                 score = scorePegging(pile, currentPlayer.playerData.name);
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
@@ -404,7 +407,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             }
 
             // Once pegging is complete, move onto the update board state
-            if (pile.length >= 8){
+            if (cardsPegged == 8){
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
