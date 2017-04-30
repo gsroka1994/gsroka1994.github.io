@@ -60,6 +60,12 @@ var bothReady = 0;
 var readyPlayers = [];
 var pileCount;
 var cardsPegged;
+var player1Count;
+var player2Count;
+var player1Break;
+var player2Break;
+var cribCount;
+var cribBreak;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -412,6 +418,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
                 numCountScores = 0;
+                player1Count = 0;
+                player2Count = 0;
+                cribCount = 0;
             }
 
             // Otherwise alert the players of the new turn
@@ -437,23 +446,91 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Update Board State
 	else if(gamePhase == updateBoardState){
 		// Stuff for scoring hands (received from sender)
-		 if(event.requestExtraMessageData.count == "Yes"){
-				countScores[numCountScores] = event.requestExtraMessageData.handCount;
-				countBreakDown[numCountScores] = event.requestExtraMessageData.handCountString;
-				numCountScores++;
-		 }
+		 if(event.requestExtraMessageData.count == "Yes") {
+             if (event.playerInfo == readyPlayers[0]) {
+                 player1Count = event.requestExtraMessageData.handCount;
+                 player1Break = event.requestExtraMessageData.handCountString;
+             }
+             else {
+                 player2Count = event.requestExtraMessageData.handCount;
+                 player2Break = event.requestExtraMessageData.handCountString;
+             }
+             numCountScores++;
 
-		// Stuff for board movement
+             // Count Non Dealer Cards First
+             if (numCountScores == 2) {
+                 if (dealer == readyPlayers[0]) {
+                     gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Yes"});
+                     peg('p2', p2Score + player2Count);
+                     p2Score += player2Count;
+                 }
+                 else {
+                     gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Yes"});
+                     peg('p1', p1Score + player1Count);
+                     p1Score += player1Count;
+                 }
+             }
+
+         }
+
+         if(event.requestExtraMessageData.move == "Next" && numCountScores == 2){
+             if (dealer == readyPlayers[0]) {
+                 gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Yes"});
+                 peg('p1', p1Score + player1Count);
+                 p1Score += player1Count;
+             }
+             else {
+                 gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Yes"});
+                 peg('p2', p2Score + player2Count);
+                 p2Score += player2Count;
+             }
+             numCountScores++;
+         }
+
+         if(event.requestExtraMessageData.move == "Next" && numCountScores == 3){
+             gameManager.sendGameMessageToPlayer(dealer.playerId, {cribCard1: crib[0].code,
+                                                                    cribCard2: crib[1].code,
+                                                                    cribCard3: crib[2].code,
+                                                                    cribCard4: crib[3].code,
+                                                                    cribCard5: cutCard.code});
+         }
 
 
-		// Make a checkWinner function
+        // Once both hands and the crib have been counted, shuffled the deck and return to the Deal
+        if (numCountScores == 3 && event.requestExtraMessageData.crib == "Yes") {
+           cribCount = event.requestExtraMessageData.handCount;
+           cribBreak = event.requestExtraMessageData.handCountString;
+             if (dealer == readyPlayers[0]) {
+                 gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Crib"});
+                 peg('p1', p1Score + cribCount);
+                p1Score += cribCount;
+            }
+            else {
+                 gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Crib"});
+                 peg('p2', p2Score + cribCount);
+                p2Score += cribCount;
+            }
 
+        }
 
+        if(numCountScores == 3 && event.requestExtraMessageData.move == "Next") {
+            // Switch the dealer for the next round
+            if (dealer == readyPlayers[0]) {
+                dealer = readyPlayers[1];
+                currentPlayer = readyPlayers[0];
+            }
+            else {
+                dealer = readyPlayers[0];
+                currentPlayer = readyPlayers[1];
+            }
+            // Reshuffle the deck
+            shuffle();
+            gameData.phase = dealState;
+            console.log("Moving to Deal State");
+            gameManager.updateGameData(gameData, false);
+            gameData = gameManager.getGameData();
+        }
 
-		// Reshuffle the deck
-         shuffle();
-	  gameManager.updateGameData(gameData, false);
-	  gameData = gameManager.getGameData();
 	}
 
 	// Game Over State
