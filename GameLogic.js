@@ -380,7 +380,7 @@ function scorePegging(cards, playerName){
 
     var sumFifteenResult = sumFifteen(pile);
 	if (sumFifteenResult != 0) {
-        score += sumFifteenResult
+        score += sumFifteenResult;
         displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
     }
 

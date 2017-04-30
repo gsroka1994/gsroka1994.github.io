@@ -39,6 +39,7 @@ function peg(player, score) {
                 p.bottom = "8.1vh";
             } else {
                 p.right = "74.8vw";
+                p.bottom = "14.3vh";
             }
             break;
         case (score == 38):
