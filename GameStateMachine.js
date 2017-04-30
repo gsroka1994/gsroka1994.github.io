@@ -62,6 +62,7 @@ var player1Break;
 var player2Break;
 var cribCount;
 var cribBreak;
+var cribCounted;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -421,8 +422,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 player1Count = 0;
                 player2Count = 0;
                 cribCount = 0;
-                console.log(p1Score);
-                console.log(p2Score);
+                cribCounted = 0;
+                console.log("p1 " + p1Score);
+                console.log("p2 " + p2Score);
             }
 
             // Otherwise alert the players of the new turn
@@ -450,12 +452,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		// Stuff for scoring hands (received from sender)
 		 if(event.requestExtraMessageData.count == "Yes") {
              if (event.playerInfo.playerId == playerIDs[0]) {
-                 player1Count = event.requestExtraMessageData.handCount;
+                 player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
                  console.log(player1Count);
              }
              else {
-                 player2Count = event.requestExtraMessageData.handCount;
+                 player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
                  console.log(player2Count);
              }
@@ -467,13 +469,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
-                     console.log(p2Score);
+                     console.log("p2 " + p2Score);
                  }
                  else {
                      gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
-                     console.log(p1Score);
+                     console.log("p1 " + p1Score);
                  }
              }
 
@@ -484,13 +486,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                  peg('p1', p1Score + player1Count);
                  p1Score += player1Count;
-                 console.log(p1Score);
+                 console.log("p1 " + p1Score);
              }
              else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                  peg('p2', p2Score + player2Count);
                  p2Score += player2Count;
-                 console.log(p2Score);
+                 console.log("p2 " + p2Score);
              }
              numCountScores++;
          }
@@ -505,7 +507,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 
         // Once both hands and the crib have been counted, shuffled the deck and return to the Deal
-        if (numCountScores == 3 && event.requestExtraMessageData.crib == "Yes") {
+        if (event.requestExtraMessageData.crib == "Yes") {
            cribCount = event.requestExtraMessageData.handCount;
            cribBreak = event.requestExtraMessageData.handCountString;
            console.log(cribCount);
@@ -513,18 +515,19 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  peg('p1', p1Score + cribCount);
                 p1Score += cribCount;
-                 console.log(p1Score);
+                 console.log("p1 " + p1Score);
             }
             else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
                  peg('p2', p2Score + cribCount);
                 p2Score += cribCount;
-                 console.log(p2Score);
+                 console.log("p2 " + p2Score);
             }
+            cribCounted = 1;
 
         }
 
-        if(numCountScores == 3 && event.requestExtraMessageData.move == "Next") {
+        if(cribCounted == 1 && event.requestExtraMessageData.move == "Next") {
             // Switch the dealer for the next round
             if (dealer == readyPlayers[0]) {
                 dealer = readyPlayers[1];
