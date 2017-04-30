@@ -455,11 +455,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              if (event.playerInfo.playerId == playerIDs[0]) {
                  player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
+                 player1Break = player1Break.value.split(/\r\n|\r|\n/g);
                  console.log(player1Count);
              }
              else {
                  player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
+                 player2Break = player2Break.value.split(/\r\n|\r|\n/g);
                  console.log(player2Count);
              }
              numCountScores++;
@@ -561,7 +563,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         if (event.requestExtraMessageData.crib == "Yes") {
            cribCount = parseInt(event.requestExtraMessageData.handCount);
            cribBreak = event.requestExtraMessageData.handCountString;
-           console.log(cribCount);
+            cribBreak = cribBreak.value.split(/\r\n|\r|\n/g);
+            console.log(cribCount);
              if (dealer == readyPlayers[0]) {
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  if(cribCount != 0) {
