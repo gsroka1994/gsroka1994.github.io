@@ -13,11 +13,13 @@
 
 .cardsContainer {
 	background-image: url("../img/cherry.jpg");
+	color: white;
+	border-radius: 25px;
     position: relative;
-    left: 6.5vw;
+    left: 5vw;
     height: 32vh;
-    width: 85vw;
-    padding: .5vh 1vw;
+    width: 90vw;
+    padding: 2vh 2vw;
 }
 
 .player1 {
