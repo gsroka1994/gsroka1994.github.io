@@ -38,16 +38,12 @@ var dealer = 0;
 var go;
 var score;
 var notScore;
-var skunked = 0;
-var winner = -1;  
 var crib = [];
 var cardsInCrib = 0;
 var currentPlayer = "";
 var playerIDs = [];
 var pile = [];
-var countScores = [];
 var numCountScores = 0;
-var countBreakDown = [];
 var ready = {
 		player1: "",
 		player2: ""
@@ -526,6 +522,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             // Reshuffle the deck
             shuffle();
             gameData.phase = dealState;
+            gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
             console.log("Moving to Deal State");
             gameManager.updateGameData(gameData, false);
             gameData = gameManager.getGameData();
