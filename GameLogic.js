@@ -59,7 +59,7 @@ function playPeggingCard(cardCode) {
     if (numPeggingCardsPlayed < MAX_NUM_PEGGING_CARDS) {
     	var pegCardPlayed = document.getElementById(peggingCardSlotIds[numPeggingCardsPlayed]);
     	pegCardPlayed.src = CARD_IMAGE_URL + cardCode + ".png";
-    	pegCardPlayed.style.opacity = 1;
+    	pegCardPlayed.style.opacity = "1";
         pegCardPlayed.style.visibility = "visible";
         numPeggingCardsPlayed++;
     }
@@ -68,7 +68,7 @@ function playPeggingCard(cardCode) {
 function dimPeggingCards() {
 	var i;
     for (i = 0; i < numPeggingCardsPlayed; i++) {
-		document.getElementById(peggingCardSlotIds[i]).style.opactiy = .75;
+		document.getElementById(peggingCardSlotIds[i]).style.opactiy = ".75";
 	}
 }
 
