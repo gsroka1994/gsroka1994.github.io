@@ -460,12 +460,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // Count Non Dealer Cards First
              if (numCountScores == 2) {
                  if (dealer == readyPlayers[0]) {
-                     gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Yes"});
+                     gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
                  }
                  else {
-                     gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Yes"});
+                     gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
                  }
@@ -475,12 +475,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
          if(event.requestExtraMessageData.move == "Next" && numCountScores == 2){
              if (dealer == readyPlayers[0]) {
-                 gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Yes"});
+                 gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                  peg('p1', p1Score + player1Count);
                  p1Score += player1Count;
              }
              else {
-                 gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Yes"});
+                 gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                  peg('p2', p2Score + player2Count);
                  p2Score += player2Count;
              }
@@ -501,12 +501,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
            cribCount = event.requestExtraMessageData.handCount;
            cribBreak = event.requestExtraMessageData.handCountString;
              if (dealer == readyPlayers[0]) {
-                 gameManager.sendGameMessageToPlayer(readyPlayers[0], {yourTurn : "Crib"});
+                 gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  peg('p1', p1Score + cribCount);
                 p1Score += cribCount;
             }
             else {
-                 gameManager.sendGameMessageToPlayer(readyPlayers[1], {yourTurn : "Crib"});
+                 gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
                  peg('p2', p2Score + cribCount);
                 p2Score += cribCount;
             }
