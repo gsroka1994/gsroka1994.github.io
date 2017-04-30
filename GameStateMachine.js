@@ -404,6 +404,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
             // Otherwise alert the players of the new turn
             else {
+                console.log(pileCount);
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0],
