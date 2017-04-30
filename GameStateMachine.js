@@ -274,8 +274,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         // Search for the cribs cards in the players hands, then add them to the crib
          if (event.requestExtraMessageData.cribSet == "Yes") {
              var playerHand = [];
+             var id = event.playerInfo.playerId;
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
-             if(event.playerInfo.playerId == playerIDs[0]){
+             if(id == playerIDs[0]){
              	playerHand = p1h;
 			 }
 			 else{
@@ -295,13 +296,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
              		handAfterCrib[numNewHand] = playerHand[i];
-             		console.log(handAfterCrib[numNewHand]);
+             		console.log(handAfterCrib[numNewHand].code);
              		numNewHand++;
 				}
 			 }
 
              // Reassemble the hand
-             if(event.playerInfo.playerId == playerIDs[0]){
+             if(id == playerIDs[0]){
                  p1h = handAfterCrib;
                  console.log("got Here");
              }
