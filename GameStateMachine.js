@@ -147,7 +147,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameData.card1 = dealerCards[0].value;
 			 }
 			 else{
-                 dealer = readyPlayers[0];
+                 dealer = readyPlayers[1];
                  gameData.dealer = playerNames[1];
                  currentPlayer = readyPlayers[0];
                  gameData.card2 = dealerCards[1].value;
