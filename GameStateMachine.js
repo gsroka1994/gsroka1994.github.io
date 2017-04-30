@@ -292,7 +292,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             numNewHand = 0;
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
-             	if(playerHand[i].code != crib[cardsInCrib - 1].code && playerHand[i].code != crib[cardsInCrib].code){
+             	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
              		handAfterCrib[numNewHand] = playerHand[i];
              		numNewHand++;
 				}
