@@ -362,6 +362,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(go == 2){
 				    pileCount = 0;
 				    go = 0;
+				    pile = [];
                 }
 			}
 
@@ -380,9 +381,15 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     p2Score += score;
                 }
                 else {}
-                pileCount += pile[pile.length - 1];
+                if(pile[pile.length-1] > 10){
+                    pileCount+=10;
+                }
+                else {
+                    pileCount += pile[pile.length - 1];
+                }
                 if(pileCount == 31){
                     pileCount = 0;
+                    pile = [];
                 }
             }
 
