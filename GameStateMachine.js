@@ -512,12 +512,32 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  peg('p1', p1Score + player1Count);
                  p1Score += player1Count;
                  console.log("p1 " + p1Score);
+
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
+                 document.getElementById("gameInfo").innerHTML = player1Break;
+
+                 document.getElementById("countingHandCard0").src = p1h[0].image;
+                 document.getElementById("countingHandCard1").src = p1h[1].image;
+                 document.getElementById("countingHandCard2").src = p1h[2].image;
+                 document.getElementById("countingHandCard3").src = p1h[3].image;
+
+                 displayCountingHand();
              }
              else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                  peg('p2', p2Score + player2Count);
                  p2Score += player2Count;
                  console.log("p2 " + p2Score);
+
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
+                 document.getElementById("gameInfo").innerHTML = player2Break;
+
+                 document.getElementById("countingHandCard0").src = p2h[0].image;
+                 document.getElementById("countingHandCard1").src = p2h[1].image;
+                 document.getElementById("countingHandCard2").src = p2h[2].image;
+                 document.getElementById("countingHandCard3").src = p2h[3].image;
+
+                 displayCountingHand();
              }
          }
 
@@ -540,12 +560,31 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  peg('p1', p1Score + cribCount);
                 p1Score += cribCount;
                  console.log("p1 " + p1Score);
+
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
+                 document.getElementById("gameInfo").innerHTML = cribBreak;
+
+                 document.getElementById("countingHandCard0").src = crib[0].image;
+                 document.getElementById("countingHandCard1").src = crib[1].image;
+                 document.getElementById("countingHandCard2").src = crib[2].image;
+                 document.getElementById("countingHandCard3").src = crib[3].image;
+
+                 displayCountingHand();
+
             }
             else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
                  peg('p2', p2Score + cribCount);
                 p2Score += cribCount;
                  console.log("p2 " + p2Score);
+
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
+                 document.getElementById("gameInfo").innerHTML = cribBreak;
+
+                 document.getElementById("countingHandCard0").src = crib[0].image;
+                 document.getElementById("countingHandCard1").src = crib[1].image;
+                 document.getElementById("countingHandCard2").src = crib[2].image;
+                 document.getElementById("countingHandCard3").src = crib[3].image;
             }
             cribCounted = 1;
 
