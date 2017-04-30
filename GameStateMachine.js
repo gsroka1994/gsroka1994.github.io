@@ -64,6 +64,9 @@ var cribCount;
 var cribBreak;
 var cribCounted;
 var goToCrib;
+var handAfterCrib = [];
+var numNewHand;
+
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -286,20 +289,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 					}
 				}
 			 }
-
+            numNewHand = 0;
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
-             	if(playerHand[i] == crib[cardsInCrib - 1]){
-             		playerHand.splice(i,1);
-             		break;
+             	if(playerHand[i].code != crib[cardsInCrib - 1].code && playerHand[i].code != crib[cardsInCrib].code){
+             		handAfterCrib[numNewHand] = playerHand[i];
+             		numNewHand++;
 				}
 			 }
-             for(i = 0; i < playerHand.length; i++){
-                 if(playerHand[i] == crib[cardsInCrib]){
-                     playerHand.splice(i,1);
-                     break;
-                 }
-             }
 
              // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
@@ -473,9 +470,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              if (numCountScores == 2) {
                  if (dealer == readyPlayers[0]) {
                      gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
-                     peg('p2', p2Score + player2Count);
-                     p2Score += player2Count;
-                     console.log("p2 " + p2Score);
+                     if(player2Count != 0) {
+                         peg('p2', p2Score + player2Count);
+                         p2Score += player2Count;
+                         console.log("p2 " + p2Score);
+                     }
+
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player2Break;
@@ -490,9 +490,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  }
                  else {
                      gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
-                     peg('p1', p1Score + player1Count);
-                     p1Score += player1Count;
-                     console.log("p1 " + p1Score);
+                    if(player1Count != 0) {
+                        peg('p1', p1Score + player1Count);
+                        p1Score += player1Count;
+                        console.log("p1 " + p1Score);
+                    }
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player1Break;
@@ -512,9 +514,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          if(event.requestExtraMessageData.move == "Next" && event.playerInfo != dealer){
              if (dealer == readyPlayers[0]) {
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
-                 peg('p1', p1Score + player1Count);
-                 p1Score += player1Count;
-                 console.log("p1 " + p1Score);
+                 if(player1Count != 0) {
+                     peg('p1', p1Score + player1Count);
+                     p1Score += player1Count;
+                     console.log("p1 " + p1Score);
+                 }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player1Break;
@@ -528,9 +532,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              }
              else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
-                 peg('p2', p2Score + player2Count);
-                 p2Score += player2Count;
-                 console.log("p2 " + p2Score);
+                 if(player2Count != 0) {
+                     peg('p2', p2Score + player2Count);
+                     p2Score += player2Count;
+                     console.log("p2 " + p2Score);
+                 }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player2Break;
@@ -561,9 +567,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             console.log(cribCount);
              if (dealer == readyPlayers[0]) {
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
-                 peg('p1', p1Score + cribCount);
-                p1Score += cribCount;
-                 console.log("p1 " + p1Score);
+                 if(cribCount != 0) {
+                     peg('p1', p1Score + cribCount);
+                     p1Score += cribCount;
+                     console.log("p1 " + p1Score);
+                 }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
@@ -578,10 +586,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             }
             else {
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
-                 peg('p2', p2Score + cribCount);
-                p2Score += cribCount;
-                 console.log("p2 " + p2Score);
-
+                 if(cribCount != 0) {
+                     peg('p2', p2Score + cribCount);
+                     p2Score += cribCount;
+                     console.log("p2 " + p2Score);
+                 }
+                 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
 
