@@ -63,6 +63,7 @@ var player2Break;
 var cribCount;
 var cribBreak;
 var cribCounted;
+var goToCrib;
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -423,6 +424,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 player2Count = 0;
                 cribCount = 0;
                 cribCounted = 0;
+                goToCrib = 0;
                 console.log("p1 " + p1Score);
                 console.log("p2 " + p2Score);
             }
@@ -516,10 +518,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  p2Score += player2Count;
                  console.log("p2 " + p2Score);
              }
-             numCountScores++;
+            goToCrib = 1;
          }
 
-         if(event.requestExtraMessageData.move == "Next" && numCountScores == 3){
+         if(event.requestExtraMessageData.move == "Next" && goToCrib == 1){
              gameManager.sendGameMessageToPlayer(dealer.playerId, {cribCard1: crib[0].code,
                                                                     cribCard2: crib[1].code,
                                                                     cribCard3: crib[2].code,
@@ -530,7 +532,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
         // Once both hands and the crib have been counted, shuffled the deck and return to the Deal
         if (event.requestExtraMessageData.crib == "Yes") {
-           cribCount = event.requestExtraMessageData.handCount;
+           cribCount = parseInt(event.requestExtraMessageData.handCount);
            cribBreak = event.requestExtraMessageData.handCountString;
            console.log(cribCount);
              if (dealer == readyPlayers[0]) {
