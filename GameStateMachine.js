@@ -295,6 +295,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
              		handAfterCrib[numNewHand] = playerHand[i];
+             		console.log(handAfterCrib[numNewHand]);
              		numNewHand++;
 				}
 			 }
@@ -302,6 +303,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
                  p1h = handAfterCrib;
+                 console.log("got Here");
              }
              else{
                  p2h = handAfterCrib;
