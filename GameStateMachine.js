@@ -451,17 +451,37 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Update Board State
 	else if(gamePhase == updateBoardState){
-		// Stuff for scoring hands (received from sender)
+         clearPeggingCards();
+         // Stuff for scoring hands (received from sender)
 		 if(event.requestExtraMessageData.count == "Yes") {
              if (event.playerInfo.playerId == playerIDs[0]) {
                  player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
                  console.log(player1Count);
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[0] + "'s Hand";
+                 document.getElementById("gameInfo").innerHTML = player1Break;
+
+                 document.getElementById("countingHandCard0").src = p1Hand.card1.image;
+                 document.getElementById("countingHandCard1").src = p1Hand.card2.image;
+                 document.getElementById("countingHandCard2").src = p1Hand.card3.image;
+                 document.getElementById("countingHandCard3").src = p1Hand.card4.image;
+
+                 displayCountingHand();
              }
              else {
                  player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
                  console.log(player2Count);
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[1] + "'s Hand";
+                 document.getElementById("gameInfo").innerHTML = player2Break;
+
+                 document.getElementById("countingHandCard0").src = p2Hand.card1.image;
+                 document.getElementById("countingHandCard1").src = p2Hand.card2.image;
+                 document.getElementById("countingHandCard2").src = p2Hand.card3.image;
+                 document.getElementById("countingHandCard3").src = p2Hand.card4.image;
+
+                 displayCountingHand();
+
              }
              numCountScores++;
 
