@@ -64,6 +64,9 @@ var cribCount;
 var cribBreak;
 var cribCounted;
 var goToCrib;
+var handAfterCrib = [];
+var numNewHand;
+
 
  // Event Listener for when player (senders) become available
  gameManager.addEventListener(cast.receiver.games.EventType.PLAYER_AVAILABLE,
@@ -285,20 +288,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 					}
 				}
 			 }
-
+            numNewHand = 0;
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
-             	if(playerHand[i] == crib[cardsInCrib - 1]){
-             		playerHand.splice(i,1);
-             		break;
+             	if(playerHand[i].code != crib[cardsInCrib - 1].code && playerHand[i].code != crib[cardsInCrib].code){
+             		handAfterCrib[numNewHand] = playerHand[i];
+             		numNewHand++;
 				}
 			 }
-             for(i = 0; i < playerHand.length; i++){
-                 if(playerHand[i] == crib[cardsInCrib]){
-                     playerHand.splice(i,1);
-                     break;
-                 }
-             }
 
              // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
