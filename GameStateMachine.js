@@ -505,7 +505,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
          }
 
-         if(event.requestExtraMessageData.move == "Next" && numCountScores == 2){
+         // Count the Dealers hands
+         if(event.requestExtraMessageData.move == "Next" && event.playerInfo != dealer){
              if (dealer == readyPlayers[0]) {
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                  peg('p1', p1Score + player1Count);
@@ -518,10 +519,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  p2Score += player2Count;
                  console.log("p2 " + p2Score);
              }
-            goToCrib = 1;
          }
 
-         if(event.requestExtraMessageData.move == "Next" && goToCrib == 1){
+         if(event.requestExtraMessageData.move == "Next" && event.playerInfo == dealer){
              gameManager.sendGameMessageToPlayer(dealer.playerId, {cribCard1: crib[0].code,
                                                                     cribCard2: crib[1].code,
                                                                     cribCard3: crib[2].code,
