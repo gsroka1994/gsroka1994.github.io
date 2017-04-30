@@ -12,7 +12,7 @@
 }
 
 .cardsContainer {
-	background-image: url("img/cherry.jpg");
+	background-image: url("../img/cherry.jpg");
     position: relative;
     left: 6.5vw;
     height: 32vh;
