@@ -292,7 +292,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             numNewHand = 0;
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
-             	if(playerHand[i].code != crib[cardsInCrib - 1].code && playerHand[i].code != crib[cardsInCrib].code){
+             	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
              		handAfterCrib[numNewHand] = playerHand[i];
              		numNewHand++;
 				}
@@ -300,10 +300,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
-                 p1h = playerHand;
+                 p1h = handAfterCrib;
              }
              else{
-                 p2h = playerHand;
+                 p2h = handAfterCrib;
              }
 
              // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
