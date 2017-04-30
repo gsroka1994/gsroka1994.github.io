@@ -278,10 +278,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              var id = event.playerInfo.playerId;
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
              if(id == playerIDs[0]){
+                 playerHand = p1h;
+                 console.log("getting here");
                  player = 1
 			 }
 			 else{
              	playerHand = p2h;
+                 console.log("getting Here 2");
 			 }
              for (i = 0; i < 2; i++){
              	for(var j = 0; j < playerHand.length; j++){
