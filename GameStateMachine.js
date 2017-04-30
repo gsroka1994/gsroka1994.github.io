@@ -268,6 +268,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          hideTurnUpCard();
          hideCountingHand();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
+         document.getElementById("gameInfo").innerHTML = "";
 
 
         // Search for the cribs cards in the players hands, then add them to the crib
