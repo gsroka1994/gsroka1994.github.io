@@ -362,6 +362,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(go == 2){
 				    pileCount = 0;
 				    go = 0;
+				    pile = [];
                 }
 			}
 
@@ -388,6 +389,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 }
                 if(pileCount == 31){
                     pileCount = 0;
+                    pile = [];
                 }
             }
 
