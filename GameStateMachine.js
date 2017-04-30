@@ -456,30 +456,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
                  console.log(player1Count);
-                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[0] + "'s Hand";
-                 document.getElementById("gameInfo").innerHTML = player1Break;
-
-                 document.getElementById("countingHandCard0").src = p1Hand.card1.image;
-                 document.getElementById("countingHandCard1").src = p1Hand.card2.image;
-                 document.getElementById("countingHandCard2").src = p1Hand.card3.image;
-                 document.getElementById("countingHandCard3").src = p1Hand.card4.image;
-
-                 displayCountingHand();
              }
              else {
                  player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
                  console.log(player2Count);
-                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[1] + "'s Hand";
-                 document.getElementById("gameInfo").innerHTML = player2Break;
-
-                 document.getElementById("countingHandCard0").src = p2Hand.card1.image;
-                 document.getElementById("countingHandCard1").src = p2Hand.card2.image;
-                 document.getElementById("countingHandCard2").src = p2Hand.card3.image;
-                 document.getElementById("countingHandCard3").src = p2Hand.card4.image;
-
-                 displayCountingHand();
-
              }
              numCountScores++;
 
@@ -490,12 +471,33 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
                      console.log("p2 " + p2Score);
+
+                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[1] + "'s Hand";
+                     document.getElementById("gameInfo").innerHTML = player2Break;
+
+                     document.getElementById("countingHandCard0").src = p2Hand.card1.image;
+                     document.getElementById("countingHandCard1").src = p2Hand.card2.image;
+                     document.getElementById("countingHandCard2").src = p2Hand.card3.image;
+                     document.getElementById("countingHandCard3").src = p2Hand.card4.image;
+
+                     displayCountingHand();
+
                  }
                  else {
                      gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
                      console.log("p1 " + p1Score);
+
+                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[0] + "'s Hand";
+                     document.getElementById("gameInfo").innerHTML = player1Break;
+
+                     document.getElementById("countingHandCard0").src = p1Hand.card1.image;
+                     document.getElementById("countingHandCard1").src = p1Hand.card2.image;
+                     document.getElementById("countingHandCard2").src = p1Hand.card3.image;
+                     document.getElementById("countingHandCard3").src = p1Hand.card4.image;
+
+                     displayCountingHand();
                  }
              }
 
