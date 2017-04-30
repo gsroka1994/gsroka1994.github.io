@@ -459,10 +459,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player1Break;
 
-                 document.getElementById(peggingCardSlotIds[1]).src = p1Hand.card1.image;
-                 document.getElementById(peggingCardSlotIds[2]).src = p1Hand.card2.image;
-                 document.getElementById(peggingCardSlotIds[3]).src = p1Hand.card3.image;
-                 document.getElementById(peggingCardSlotIds[4]).src = p1Hand.card4.image;
+                 document.getElementById("countingHandCard0").src = p1Hand.card1.image;
+                 document.getElementById("countingHandCard1").src = p1Hand.card2.image;
+                 document.getElementById("countingHandCard2").src = p1Hand.card3.image;
+                 document.getElementById("countingHandCard3").src = p1Hand.card4.image;
 
                  displayCountingHand();
              }
@@ -473,10 +473,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[1] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player2Break;
 
-                 document.getElementById(peggingCardSlotIds[1]).src = p2Hand.card1.image;
-                 document.getElementById(peggingCardSlotIds[2]).src = p2Hand.card2.image;
-                 document.getElementById(peggingCardSlotIds[3]).src = p2Hand.card3.image;
-                 document.getElementById(peggingCardSlotIds[4]).src = p2Hand.card4.image;
+                 document.getElementById("countingHandCard0").src = p2Hand.card1.image;
+                 document.getElementById("countingHandCard1").src = p2Hand.card2.image;
+                 document.getElementById("countingHandCard2").src = p2Hand.card3.image;
+                 document.getElementById("countingHandCard3").src = p2Hand.card4.image;
 
                  displayCountingHand();
 
