@@ -304,6 +304,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              }
              else{
                  p2h = handAfterCrib;
+                 console.log("got Here");
              }
 
              // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
