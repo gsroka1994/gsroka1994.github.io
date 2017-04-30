@@ -351,15 +351,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 			// If the current player cannot play, they "go" and the other player earns a point
 			if(event.requestExtraMessageData.go == "yes"){
-				peg(notP, 1 + notScore);
                 go++;
-				if(currentPlayer == readyPlayers[0]){
-				    p1Score++;
+                if(go != 2) {
+                    peg(notP, 1 + notScore);
+                    if (currentPlayer == readyPlayers[0]) {
+                        p1Score++;
+                    }
+                    else {
+                        p2Score++;
+                    }
                 }
                 else {
-				    p2Score++;
-                }
-                if(go == 2){
 				    pileCount = 0;
 				    go = 0;
 				    pile = [];
@@ -446,15 +448,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 
 		// Reshuffle the deck
-		shuffle();
-		if(winner > 0){
-			gameData.phase = gameOver;
-			console.log("Moving into Game Over")
-		}
-		else {
-			gameData.phase = dealState;
-			console.log("Moving back to Deal");
-		}
+         shuffle();
 	  gameManager.updateGameData(gameData, false);
 	  gameData = gameManager.getGameData();
 	}
