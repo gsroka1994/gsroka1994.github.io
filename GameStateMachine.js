@@ -300,10 +300,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              // Reassemble the hand
              if(event.playerInfo.playerId == playerIDs[0]){
-                 p1h = playerHand;
+                 p1h = handAfterCrib;
              }
              else{
-                 p2h = playerHand;
+                 p2h = handAfterCrib;
              }
 
              // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
