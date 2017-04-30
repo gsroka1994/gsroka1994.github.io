@@ -266,6 +266,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Crib State
 	else if(gamePhase == cribState) {
          hideTurnUpCard();
+         hideCountingHand();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
 
 
