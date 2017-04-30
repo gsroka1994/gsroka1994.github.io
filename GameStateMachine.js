@@ -561,6 +561,15 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 p1Score += cribCount;
                  console.log("p1 " + p1Score);
 
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
+                 document.getElementById("gameInfo").innerHTML = cribBreak;
+
+                 document.getElementById("countingHandCard0").src = crib[0].image;
+                 document.getElementById("countingHandCard1").src = crib[1].image;
+                 document.getElementById("countingHandCard2").src = crib[2].image;
+                 document.getElementById("countingHandCard3").src = crib[3].image;
+
+                 displayCountingHand();
 
             }
             else {
@@ -568,6 +577,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  peg('p2', p2Score + cribCount);
                 p2Score += cribCount;
                  console.log("p2 " + p2Score);
+
+                 document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
+                 document.getElementById("gameInfo").innerHTML = cribBreak;
+
+                 document.getElementById("countingHandCard0").src = crib[0].image;
+                 document.getElementById("countingHandCard1").src = crib[1].image;
+                 document.getElementById("countingHandCard2").src = crib[2].image;
+                 document.getElementById("countingHandCard3").src = crib[3].image;
             }
             cribCounted = 1;
 
