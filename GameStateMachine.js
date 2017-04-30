@@ -474,13 +474,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      p2Score += player2Count;
                      console.log("p2 " + p2Score);
 
-                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[1] + "'s Hand";
+                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player2Break;
 
-                     document.getElementById("countingHandCard0").src = p2Hand.card1.image;
-                     document.getElementById("countingHandCard1").src = p2Hand.card2.image;
-                     document.getElementById("countingHandCard2").src = p2Hand.card3.image;
-                     document.getElementById("countingHandCard3").src = p2Hand.card4.image;
+                     document.getElementById("countingHandCard0").src = p2h[0].image;
+                     document.getElementById("countingHandCard1").src = p2h[1].image;
+                     document.getElementById("countingHandCard2").src = p2h[2].image;
+                     document.getElementById("countingHandCard3").src = p2h[3].image;
 
                      displayCountingHand();
 
@@ -491,13 +491,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      p1Score += player1Count;
                      console.log("p1 " + p1Score);
 
-                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + readyPlayers[0] + "'s Hand";
+                     document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player1Break;
 
-                     document.getElementById("countingHandCard0").src = p1Hand.card1.image;
-                     document.getElementById("countingHandCard1").src = p1Hand.card2.image;
-                     document.getElementById("countingHandCard2").src = p1Hand.card3.image;
-                     document.getElementById("countingHandCard3").src = p1Hand.card4.image;
+                     document.getElementById("countingHandCard0").src = p1h[0].image;
+                     document.getElementById("countingHandCard1").src = p1h[1].image;
+                     document.getElementById("countingHandCard2").src = p1h[2].image;
+                     document.getElementById("countingHandCard3").src = p1h[3].image;
 
                      displayCountingHand();
                  }
