@@ -34,7 +34,7 @@ var code = {code: ""};
 var gameData;
 var p1Score = 0;
 var p2Score = 0;
-var dealer = 0;
+var dealer;
 var go;
 var score;
 var notScore;
@@ -142,10 +142,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              getDealer();
              if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
+                 dealer = readyPlayers[0];
                  currentPlayer = readyPlayers[1];
                  gameData.card1 = dealerCards[0].value;
 			 }
 			 else{
+                 dealer = readyPlayers[0];
                  gameData.dealer = playerNames[1];
                  currentPlayer = readyPlayers[0];
                  gameData.card2 = dealerCards[1].value;
@@ -515,10 +517,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             // Switch the dealer for the next round
             if (dealer == readyPlayers[0]) {
                 dealer = readyPlayers[1];
+                gameData.dealer = readyPlayers[1].playerInfo.name;
                 currentPlayer = readyPlayers[0];
             }
             else {
                 dealer = readyPlayers[0];
+                gameData.dealer = readyPlayers[0].playerInfo.name;
                 currentPlayer = readyPlayers[1];
             }
             // Reshuffle the deck
