@@ -369,6 +369,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				    pileCount = 0;
 				    go = 0;
 				    pile = [];
+				    dimPeggingCards();
                 }
 			}
 
@@ -397,6 +398,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(pileCount == 31){
                     pileCount = 0;
                     pile = [];
+                    dimPeggingCards();
                 }
             }
 
