@@ -35,7 +35,8 @@ var gameData;
 var p1Score = 0;
 var p2Score = 0;
 var dealer;
-var go;
+var go1;
+var go2
 var score;
 var notScore;
 var crib = [];
@@ -66,6 +67,9 @@ var cribCounted;
 var goToCrib;
 var handAfterCrib = [];
 var numNewHand;
+var newH1 = [];
+var newH2 = [];
+var sameCard = 0;
 
 
  // Event Listener for when player (senders) become available
@@ -145,19 +149,21 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              gameData = gameManager.getGameData();
              init();
              getDealer();
-             if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
+             if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
                  dealer = readyPlayers[0];
                  currentPlayer = readyPlayers[1];
                  gameData.card1 = dealerCards[0].value;
-			 }
-			 else{
+             }
+             else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
                  dealer = readyPlayers[1];
                  gameData.dealer = playerNames[1];
                  currentPlayer = readyPlayers[0];
                  gameData.card2 = dealerCards[1].value;
-			 }
-
+             }
+             else{
+                 sameCard = 1;
+             }
              gameData.deck_id = deckID;
              gameData.phase = setupState;
              gameManager.updateGameData(gameData, false);
@@ -167,8 +173,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          }
 
      }
-
-     // Setup State
 
 
 	// Setup State
@@ -194,20 +198,49 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 	    if(bothReady >= 2){
                 shuffle();
                 setTimeout(function(){
-                    gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
-                    gameData.phase = dealState;
-                    gameManager.updateGameData(gameData, false);
-                    console.log("Moving into Deal State");
-                    gameData = gameManager.getGameData();
-                }, 10000);
+                    if(sameCard == 1){
+                        gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
+                        k = 0;
+                        sameCard = 0;
+                        getDealer();
+                        if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
+                            gameData.dealer = playerNames[0];
+                            dealer = readyPlayers[0];
+                            currentPlayer = readyPlayers[1];
+                            gameData.card1 = dealerCards[0].value;
+                        }
+                        else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
+                            dealer = readyPlayers[1];
+                            gameData.dealer = playerNames[1];
+                            currentPlayer = readyPlayers[0];
+                            gameData.card2 = dealerCards[1].value;
+                        }
+                        else{
+                            sameCard = 1;
+                        }
+                    }
+                    else {
+                        gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
+                        gameData.phase = dealState;
+                        //p1Score = 90;
+                        //p2Score = 90;
+                        peg('p1', p1Score);
+                        peg('p2', p2Score);
+                        gameManager.updateGameData(gameData, false);
+                        console.log("Moving into Deal State");
+                        gameData = gameManager.getGameData();
+                    }
+                }, 5000);
             }
         }
 	}
 	// Deal State
 
 	else if (gamePhase == dealState){
+         hideCountingHand();
+         document.getElementById("countInfo").innerHTML = ""; // Clear the game info
 
-	    // Alert the players who the dealer is
+         // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
@@ -274,9 +307,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         // Search for the cribs cards in the players hands, then add them to the crib
          if (event.requestExtraMessageData.cribSet == "Yes") {
              var playerHand = [];
+             var player = 0;
+             var id = event.playerInfo.playerId;
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
-             if(event.playerInfo.playerId == playerIDs[0]){
-             	playerHand = p1h;
+             if(id == playerIDs[0]){
+                 playerHand = p1h;
+                 player = 1
 			 }
 			 else{
              	playerHand = p2h;
@@ -291,6 +327,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				}
 			 }
             numNewHand = 0;
+             handAfterCrib = [];
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
@@ -300,12 +337,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			 }
 
              // Reassemble the hand
-             if(event.playerInfo.playerId == playerIDs[0]){
-                 p1h = handAfterCrib;
+             if(player == 1){
+                 newH1 = handAfterCrib;
+
              }
              else{
-                 p2h = handAfterCrib;
-                 console.log("got Here");
+                 newH2 = handAfterCrib;
+
              }
 
              // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
@@ -315,10 +353,24 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
                  getTurnUpCard(); // Get and show turnup Card
+                 if(cutCard.value == "JACK"){
+                     document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
+                     if(dealer == readyPlayers[0]){
+                         p1Score++;
+                         peg('p1', p1Score);
+                         checkWinner(p1Score, readyPlayers[0].playerData.name);
+                     }
+                     else{
+                         p2Score++;
+                         peg('p2', p2Score);
+                         checkWinner(p2Score, readyPlayers[1].playerData.name);
+                     }
+                 }
                  score = 0;
                  notScore = 0;
                  pileCount = 0;
-                 go = 0;
+                 go1 = 0;
+                 go2 = 0;
                  cardsPegged = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
@@ -332,7 +384,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
          // Send out message on the curretn turn once pegging begins
          if(event.requestExtraMessageData.getTurn == "turn"){
-             console.log(pileCount);
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
                     player: playerNames[0],
@@ -359,79 +410,121 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 			// If the current player cannot play, they "go" and the other player earns a point
 			if(event.requestExtraMessageData.go == "yes"){
-                go++;
-                if(go != 2) {
-                    peg(notP, 1 + notScore);
+
+                document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " said go";
+
+			    if(currentPlayer == readyPlayers[0]){
+			        go1++;
+                }
+                else {
+			        go2++;
+                }
+                if(go1 == 2){
+                    go1 = 1;
+                }
+                if(go2 == 2){
+                    go2 = 1;
+                }
+                if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
+                        peg("p1", p1Score);
+                        checkWinner(p1Score, currentPlayer.playerData.name);
                     }
                     else {
                         p2Score++;
+                        peg("p2", p2Score);
+                        checkWinner(p2Score, currentPlayer.playerData.name);
                     }
+                    document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
+                    pileCount = 0;
+                    document.getElementById("countInfo").innerHTML = "Current Sum: " + pileCount;
+                    go1 = 0;
+                    go2 = 0;
+                    pile = [];
+                    pileCount = 0;
+                    dimPeggingCards();
+
                 }
-                else {
-				    pileCount = 0;
-				    go = 0;
-				    pile = [];
-				    dimPeggingCards();
-                }
+
 			}
 
 			// Score the card sent as normal and adjust the players scores
 			else {
-			    go = 0;
-				pile[pile.length] = event.requestExtraMessageData.pegCard;
-                playPeggingCard(event.requestExtraMessageData.pegCode);
-                cardsPegged++;
-                score = scorePegging(pile, currentPlayer.playerData.name);
-                if(score > 0 && currentPlayer == readyPlayers[0]) {
-                    peg(p, score + p1Score);
-                    p1Score += score;
-                }
-                else if(score > 0 && currentPlayer == readyPlayers[1]){
-                    peg(p, score + p2Score);
-                    p2Score += score;
-                }
-                else {}
+				pile[pile.length] = parseInt(event.requestExtraMessageData.pegCard);
                 if(pile[pile.length-1] > 10){
                     pileCount+=10;
                 }
                 else {
                     pileCount += pile[pile.length - 1];
                 }
+                playPeggingCard(event.requestExtraMessageData.pegCode);
+                cardsPegged++;
+                score = scorePegging(pile, currentPlayer.playerData.name, pileCount);
+                if(score > 0 && currentPlayer == readyPlayers[0]) {
+                    peg(p, score + p1Score);
+                    p1Score += score;
+                    checkWinner(p1Score, playerNames[0]);
+                }
+                else if(score > 0 && currentPlayer == readyPlayers[1]){
+                    peg(p, score + p2Score);
+                    p2Score += score;
+                    checkWinner(p2Score, playerNames[1]);
+                }
+                else {}
                 if(pileCount == 31){
-                    pileCount = 0;
-                    pile = [];
-                    dimPeggingCards();
+                        pileCount = 0;
+                        pile = [];
+                        go1 = 0;
+                        go2 = 0;
+                        dimPeggingCards();
+
                 }
             }
 
-            // Swap current player
-            if(currentPlayer.playerId == playerIDs[0]){
-                currentPlayer = readyPlayers[1];
-            }
-            else {
-                currentPlayer = readyPlayers[0];
-            }
+
 
             // Once pegging is complete, move onto the update board state
             if (cardsPegged == 8){
-                gameData.phase = updateBoardState;
-                console.log("Moving into Update Board State");
-                gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
-                numCountScores = 0;
-                player1Count = 0;
-                player2Count = 0;
-                cribCount = 0;
-                cribCounted = 0;
-                goToCrib = 0;
-                console.log("p1 " + p1Score);
-                console.log("p2 " + p2Score);
+                if (currentPlayer == readyPlayers[0]) {
+                    p1Score++;
+                    peg("p1", p1Score);
+                    checkWinner(p1Score, playerNames[0]);
+                }
+                else {
+                    p2Score++;
+                    peg("p2", p2Score);
+                    checkWinner(p2Score, playerNames[1]);
+                }
+                document.getElementById("gameInfo").append(currentPlayer.playerData.name + " had last card for 1");
+                setTimeout(function(){
+                    gameData.phase = updateBoardState;
+                    console.log("Moving into Update Board State");
+                    gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
+                    numCountScores = 0;
+                    player1Count = 0;
+                    player2Count = 0;
+                    cribCount = 0;
+                    cribCounted = 0;
+                    goToCrib = 0;
+                }, 5000);
+
+
             }
 
             // Otherwise alert the players of the new turn
             else {
+
+                // Swap current player
+                if(currentPlayer.playerId == playerIDs[0]){
+                    currentPlayer = readyPlayers[1];
+                }
+                else {
+                    currentPlayer = readyPlayers[0];
+                }
+
                 console.log(pileCount);
+                document.getElementById("countInfo").innerHTML = "Current Sum: " + pileCount;
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0],
@@ -443,9 +536,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     pileCount: pileCount
                 });
             }
+
 		}
 	 	 gameManager.updateGameData(gameData, false);
 	  	 gameData = gameManager.getGameData();
+
 
 	}
 
@@ -458,53 +553,61 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
                  //player1Break = player1Break.value.split(/\r\n|\r|\n/g);
-                 console.log(player1Count);
+
              }
              else {
                  player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
                  //player2Break = player2Break.value.split(/\r\n|\r|\n/g);
-                 console.log(player2Count);
+
              }
              numCountScores++;
 
              // Count Non Dealer Cards First
              if (numCountScores == 2) {
                  if (dealer == readyPlayers[0]) {
+                     clearCountingHand();
                      gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
                          p2Score += player2Count;
-                         console.log("p2 " + p2Score);
+                         checkWinner(p2Score, playerNames[1]);
+
                      }
 
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player2Break;
+                     document.getElementById("countInfo").innerHTML = "Hand Total: " + player2Count;
 
-                     document.getElementById("countingHandCard0").src = p2h[0].image;
-                     document.getElementById("countingHandCard1").src = p2h[1].image;
-                     document.getElementById("countingHandCard2").src = p2h[2].image;
-                     document.getElementById("countingHandCard3").src = p2h[3].image;
+                     document.getElementById("countingHandCard0").src = newH2[0].image;
+                     document.getElementById("countingHandCard1").src = newH2[1].image;
+                     document.getElementById("countingHandCard2").src = newH2[2].image;
+                     document.getElementById("countingHandCard3").src = newH2[3].image;
 
                      displayCountingHand();
 
                  }
                  else {
+                     clearCountingHand();
                      gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
                         p1Score += player1Count;
-                        console.log("p1 " + p1Score);
+                        checkWinner(p1Score, playerNames[0]);
+
                     }
+
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player1Break;
+                     document.getElementById("countInfo").innerHTML = "Hand Total: " + player1Count;
 
-                     document.getElementById("countingHandCard0").src = p1h[0].image;
-                     document.getElementById("countingHandCard1").src = p1h[1].image;
-                     document.getElementById("countingHandCard2").src = p1h[2].image;
-                     document.getElementById("countingHandCard3").src = p1h[3].image;
+
+                     document.getElementById("countingHandCard0").src = newH1[0].image;
+                     document.getElementById("countingHandCard1").src = newH1[1].image;
+                     document.getElementById("countingHandCard2").src = newH1[2].image;
+                     document.getElementById("countingHandCard3").src = newH1[3].image;
 
                      displayCountingHand();
                  }
@@ -515,38 +618,45 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          // Count the Dealers hands
          if(event.requestExtraMessageData.move == "Next" && event.playerInfo != dealer){
              if (dealer == readyPlayers[0]) {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
-                     console.log("p1 " + p1Score);
+                     checkWinner(p1Score, playerNames[0]);
+
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player1Break;
+                 document.getElementById("countInfo").innerHTML = "Hand Total: " + player1Count;
 
-                 document.getElementById("countingHandCard0").src = p1h[0].image;
-                 document.getElementById("countingHandCard1").src = p1h[1].image;
-                 document.getElementById("countingHandCard2").src = p1h[2].image;
-                 document.getElementById("countingHandCard3").src = p1h[3].image;
+
+                 document.getElementById("countingHandCard0").src = newH1[0].image;
+                 document.getElementById("countingHandCard1").src = newH1[1].image;
+                 document.getElementById("countingHandCard2").src = newH1[2].image;
+                 document.getElementById("countingHandCard3").src = newH1[3].image;
 
                  displayCountingHand();
              }
              else {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
-                     console.log("p2 " + p2Score);
+                     checkWinner(p2Score, playerNames[1]);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player2Break;
+                 document.getElementById("countInfo").innerHTML = "Hand Total: " + player2Count;
 
-                 document.getElementById("countingHandCard0").src = p2h[0].image;
-                 document.getElementById("countingHandCard1").src = p2h[1].image;
-                 document.getElementById("countingHandCard2").src = p2h[2].image;
-                 document.getElementById("countingHandCard3").src = p2h[3].image;
+
+                 document.getElementById("countingHandCard0").src = newH2[0].image;
+                 document.getElementById("countingHandCard1").src = newH2[1].image;
+                 document.getElementById("countingHandCard2").src = newH2[2].image;
+                 document.getElementById("countingHandCard3").src = newH2[3].image;
 
                  displayCountingHand();
              }
@@ -566,17 +676,19 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
            cribCount = parseInt(event.requestExtraMessageData.handCount);
            cribBreak = event.requestExtraMessageData.handCountString;
             //cribBreak = cribBreak.value.split(/\r\n|\r|\n/g);
-            console.log(cribCount);
              if (dealer == readyPlayers[0]) {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
                      p1Score += cribCount;
-                     console.log("p1 " + p1Score);
+                     checkWinner(p1Score, playerNames[0]);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
+                 document.getElementById("countInfo").innerHTML = "Crib Total: " + cribCount;
+
 
                  document.getElementById("countingHandCard0").src = crib[0].image;
                  document.getElementById("countingHandCard1").src = crib[1].image;
@@ -587,15 +699,18 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
             }
             else {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
                      p2Score += cribCount;
-                     console.log("p2 " + p2Score);
+                     checkWinner(p2Score, playerNames[1]);
                  }
                  
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
+                 document.getElementById("countInfo").innerHTML = "Crib Total: " + cribCount;
+
 
                  document.getElementById("countingHandCard0").src = crib[0].image;
                  document.getElementById("countingHandCard1").src = crib[1].image;
