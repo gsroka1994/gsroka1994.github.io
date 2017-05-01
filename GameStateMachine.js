@@ -414,7 +414,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     }
                     document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
                     pileCount = 0;
-                    document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
+                    document.getElementById("countInfo").innerHTML = "Current Sum: " + pileCount;
                     go1 = 0;
                     go2 = 0;
                     pile = [];
@@ -501,7 +501,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 }
 
                 console.log(pileCount);
-                document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
+                document.getElementById("countInfo").innerHTML = "Current Sum: " + pileCount;
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0],
@@ -555,6 +555,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player2Break;
+                     document.getElementById("countInfo").innerHTML = "Hand Total: " + player2Count;
 
                      document.getElementById("countingHandCard0").src = newH2[0].image;
                      document.getElementById("countingHandCard1").src = newH2[1].image;
@@ -577,6 +578,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player1Break;
+                     document.getElementById("countInfo").innerHTML = "Hand Total: " + player1Count;
+
 
                      document.getElementById("countingHandCard0").src = newH1[0].image;
                      document.getElementById("countingHandCard1").src = newH1[1].image;
@@ -603,6 +606,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player1Break;
+                 document.getElementById("countInfo").innerHTML = "Hand Total: " + player1Count;
+
 
                  document.getElementById("countingHandCard0").src = newH1[0].image;
                  document.getElementById("countingHandCard1").src = newH1[1].image;
@@ -622,6 +627,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player2Break;
+                 document.getElementById("countInfo").innerHTML = "Hand Total: " + player2Count;
+
 
                  document.getElementById("countingHandCard0").src = newH2[0].image;
                  document.getElementById("countingHandCard1").src = newH2[1].image;
@@ -657,6 +664,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
+                 document.getElementById("countInfo").innerHTML = "Crib Total: " + cribCount;
+
 
                  document.getElementById("countingHandCard0").src = crib[0].image;
                  document.getElementById("countingHandCard1").src = crib[1].image;
@@ -677,6 +686,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
                  document.getElementById("gameInfo").innerHTML = cribBreak;
+                 document.getElementById("countInfo").innerHTML = "Crib Total: " + cribCount;
+
 
                  document.getElementById("countingHandCard0").src = crib[0].image;
                  document.getElementById("countingHandCard1").src = crib[1].image;
