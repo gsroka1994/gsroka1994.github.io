@@ -208,8 +208,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Deal State
 
 	else if (gamePhase == dealState){
+         hideCountingHand();
 
-	    // Alert the players who the dealer is
+         // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {dealer: gameData.dealer,
