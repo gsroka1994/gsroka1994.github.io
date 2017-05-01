@@ -392,6 +392,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     }
                     document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
                     pileCount = 0;
+                    document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
                     go1 = 0;
                     go2 = 0;
                     pile = [];
@@ -410,6 +411,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
+                document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
                 cardsPegged++;
                 score = scorePegging(pile, currentPlayer.playerData.name);
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
