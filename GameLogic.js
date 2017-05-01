@@ -81,8 +81,9 @@ function clearPeggingCards() {
 }
 
 //Displays the users hand for counting
-function displayCountingHand() {
+function displayCountingHand(player) {
     for (var slot in countingHandSlotIds) {
+        document.getElementById(countingHandSlotIds[slot]).src = player[slot].image;
         document.getElementById(countingHandSlotIds[slot]).style.visibility = "visible";
     }
 }
