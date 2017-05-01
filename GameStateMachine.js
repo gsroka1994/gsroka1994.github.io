@@ -715,6 +715,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             gameData.phase = dealState;
             gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
             console.log("Moving to Deal State");
+            document.getElementById("countInfo").innerHTML = "";
             gameManager.updateGameData(gameData, false);
             gameData = gameManager.getGameData();
         }
