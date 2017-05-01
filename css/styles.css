@@ -35,6 +35,19 @@
     height: 3.3vh;
 }
 
+.turnUpCardContainer {
+    display: inline-block;
+    postion: relative;
+    left: 3.5vw;
+    height: 32vh;
+    width: 10vw;
+    text-align: center
+}
+.caption {
+    display: block;
+    color: white;
+}
+
 .turnUpCard {
     display: inline-block;
     postion: relative;
