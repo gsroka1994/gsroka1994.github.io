@@ -35,7 +35,8 @@ var gameData;
 var p1Score = 0;
 var p2Score = 0;
 var dealer;
-var go;
+var go1;
+var go2
 var score;
 var notScore;
 var crib = [];
@@ -328,7 +329,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  score = 0;
                  notScore = 0;
                  pileCount = 0;
-                 go = 0;
+                 go1 = 0;
+                 go2 = 0;
                  cardsPegged = 0;
                  gameManager.updateGameData(gameData, false);
                  gameData = gameManager.getGameData();
@@ -369,27 +371,42 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 			// If the current player cannot play, they "go" and the other player earns a point
 			if(event.requestExtraMessageData.go == "yes"){
-                go++;
-                if(go != 2) {
-                    peg(notP, 1 + notScore);
+
+                document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " said go";
+
+			    if(currentPlayer == readyPlayers[0]){
+			        go1++;
+                }
+                else {
+			        go2++;
+                }
+                if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
+                        peg("p1", p1Score);
                     }
                     else {
                         p2Score++;
+                        peg("p2", p2Score);
                     }
+                    document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
+                    pileCount = 0;
+                    go1 = 0;
+                    go2 = 0;
+                    pile = [];
+                    dimPeggingCards();
+
                 }
-                else {
-				    pileCount = 0;
-				    go = 0;
-				    pile = [];
-				    dimPeggingCards();
+                if(go1 == 2){
+			        go1 = 1;
+                }
+                if(go2 == 2){
+                    go2 = 1;
                 }
 			}
 
 			// Score the card sent as normal and adjust the players scores
 			else {
-			    go = 0;
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 cardsPegged++;
@@ -426,6 +443,15 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
             // Once pegging is complete, move onto the update board state
             if (cardsPegged == 8){
+                if (currentPlayer == readyPlayers[0]) {
+                    p1Score++;
+                    peg("p1", p1Score);
+                }
+                else {
+                    p2Score++;
+                    peg("p2", p2Score);
+                }
+                document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " had last card for 1";
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
