@@ -114,6 +114,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             }
             if (i == 1){
                 ready.player2 = readyPlayers[i].playerData.name;
+                document.getElementById("player2Info").innerHTML = readyPlayers[i].playerData.name;
             }
         }
         gameManager.sendGameMessageToAllConnectedPlayers(ready);
