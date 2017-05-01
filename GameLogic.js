@@ -391,12 +391,12 @@ function scorePegging(pile, playerName, pileCount){
     // 15 logic
     if(pileCount == 15){
 	    score += 2;
-        displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
+        displayInfo.append(playerName + " sums to fifteen, pegs for 2. ");
     }
     // 31 logic
     if(pileCount == 31){
         score += 2;
-        displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
+        displayInfo.append(playerName + " sums to 31, pegs for 2. ");
     }
     /*var sumFifteenResult = sumFifteen(pile);
 	if (sumFifteenResult != 0) {
