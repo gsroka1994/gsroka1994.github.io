@@ -66,9 +66,13 @@ function playPeggingCard(cardCode) {
 }
 
 function dimPeggingCards() {
-	var i;
-    for (i = 0; i < numPeggingCardsPlayed; i++) {
-		document.getElementById(peggingCardSlotIds[i]).style.opactiy = ".75";
+    for (var slot in peggingCardSlotIds) {
+    	if (slot < numPeggingCardsPlayed) {
+            document.getElementById(peggingCardSlotIds[slot]).style.opactiy = ".5";
+		}
+		else {
+    		break;
+		}
 	}
 }
 

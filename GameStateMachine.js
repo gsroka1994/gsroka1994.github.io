@@ -110,6 +110,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         for (i = 0; i < readyPlayers.length; i++){
             if ( i == 0){
                 ready.player1 = readyPlayers[i].playerData.name;
+                document.getElementById("player1Info").innerHTML = readyPlayers[i].playerData.name;
             }
             if (i == 1){
                 ready.player2 = readyPlayers[i].playerData.name;

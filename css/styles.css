@@ -1,6 +1,6 @@
 .container {
     position: relative;
-    left: 6.5vw;
+    /*left: 6.5vw;*/
     height: 50vh;
     width: 85vw;
     padding: .5vh 1vw;
@@ -9,6 +9,23 @@
 .board {
     width: 85vw;
     height: 50vh;
+}
+
+.playerContainer {
+    position: relative;
+    /*border: solid;*/
+    width: 10vw;
+    height: 20vh;
+    left: 86vw;
+    top: -50vh;
+}
+
+.player1Info {
+
+}
+
+.player2Info {
+
 }
 
 .cardsContainer {
