@@ -464,20 +464,20 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
-                    checkWinner(p1Score, currentPlayer.playerData.name);
+                    checkWinner(p1Score, playerNames[0]);
                 }
                 else if(score > 0 && currentPlayer == readyPlayers[1]){
                     peg(p, score + p2Score);
                     p2Score += score;
-                    checkWinner(p2Score, currentPlayer.playerData.name);
+                    checkWinner(p2Score, playerNames[1]);
                 }
                 else {}
                 if(pileCount == 31){
-                    setTimeout(function(){
                         pileCount = 0;
                         pile = [];
+                        go1 = 0;
+                        go2 = 0;
                         dimPeggingCards();
-                    }, 2000);
 
                 }
             }
@@ -489,14 +489,14 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if (currentPlayer == readyPlayers[0]) {
                     p1Score++;
                     peg("p1", p1Score);
-                    checkWinner(p1Score, currentPlayer.playerData.name);
+                    checkWinner(p1Score, playerNames[0]);
                 }
                 else {
                     p2Score++;
                     peg("p2", p2Score);
-                    checkWinner(p2Score, currentPlayer.playerData.name);
+                    checkWinner(p2Score, playerNames[1]);
                 }
-                document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " had last card for 1";
+                document.getElementById("gameInfo").append(currentPlayer.playerData.name + " had last card for 1");
                 setTimeout(function(){
                     gameData.phase = updateBoardState;
                     console.log("Moving into Update Board State");
@@ -571,7 +571,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
                          p2Score += player2Count;
-                         checkWinner(p2Score, currentPlayer.playerData.name);
+                         checkWinner(p2Score, playerNames[1]);
 
                      }
 
@@ -594,7 +594,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
                         p1Score += player1Count;
-                        checkWinner(p1Score, currentPlayer.playerData.name);
+                        checkWinner(p1Score, playerNames[0]);
 
                     }
 
@@ -623,7 +623,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
-                     checkWinner(p1Score, currentPlayer.playerData.name);
+                     checkWinner(p1Score, playerNames[0]);
 
                  }
 
@@ -645,7 +645,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
-                     checkWinner(p2Score, currentPlayer.playerData.name);
+                     checkWinner(p2Score, playerNames[1]);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
@@ -682,7 +682,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
                      p1Score += cribCount;
-                     checkWinner(p1Score, currentPlayer.playerData.name);
+                     checkWinner(p1Score, playerNames[0]);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
@@ -704,7 +704,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
                      p2Score += cribCount;
-                     checkWinner(p2Score, currentPlayer.playerData.name);
+                     checkWinner(p2Score, playerNames[1]);
                  }
                  
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
