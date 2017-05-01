@@ -418,6 +418,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 else {
 			        go2++;
                 }
+                if(go1 == 2){
+                    go1 = 1;
+                }
+                if(go2 == 2){
+                    go2 = 1;
+                }
                 if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
@@ -439,12 +445,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     dimPeggingCards();
 
                 }
-                if(go1 == 2){
-			        go1 = 1;
-                }
-                if(go2 == 2){
-                    go2 = 1;
-                }
+
 			}
 
 			// Score the card sent as normal and adjust the players scores
