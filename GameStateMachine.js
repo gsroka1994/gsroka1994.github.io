@@ -451,6 +451,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			// Score the card sent as normal and adjust the players scores
 			else {
 				pile[pile.length] = parseInt(event.requestExtraMessageData.pegCard);
+                if(pile[pile.length-1] > 10){
+                    pileCount+=10;
+                }
+                else {
+                    pileCount += pile[pile.length - 1];
+                }
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 cardsPegged++;
                 score = scorePegging(pile, currentPlayer.playerData.name, pileCount);
@@ -465,16 +471,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     checkWinner(p2Score, currentPlayer.playerData.name);
                 }
                 else {}
-                if(pile[pile.length-1] > 10){
-                    pileCount+=10;
-                }
-                else {
-                    pileCount += pile[pile.length - 1];
-                }
                 if(pileCount == 31){
-                    pileCount = 0;
-                    pile = [];
-                    dimPeggingCards();
+                    setTimeout(function(){
+                        pileCount = 0;
+                        pile = [];
+                        dimPeggingCards();
+                    }, 2000);
+
                 }
             }
 
