@@ -395,7 +395,6 @@ function scorePegging(cards, playerName){
         score += sumThirtyOneResult;
         displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
     }
-	console.log("score");
 	return score;  
 }
 

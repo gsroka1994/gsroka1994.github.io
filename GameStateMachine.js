@@ -222,6 +222,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     else {
                         gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
                         gameData.phase = dealState;
+                        p1Score = 90;
+                        p2Score = 90;
+                        peg('p1', p1Score);
+                        peg('p2', p2Score);
                         gameManager.updateGameData(gameData, false);
                         console.log("Moving into Deal State");
                         gameData = gameManager.getGameData();
@@ -348,6 +352,19 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
                  getTurnUpCard(); // Get and show turnup Card
+                 if(cutCard.value == "JACK"){
+                     document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
+                     if(dealer == readyPlayers[0]){
+                         p1Score++;
+                         peg('p1', p1Score);
+                         checkWinner(p1Score, readyPlayers[0].playerData.name);
+                     }
+                     else{
+                         p2Score++;
+                         peg('p2', p2Score);
+                         checkWinner(p2Score, readyPlayers[1].playerData.name);
+                     }
+                 }
                  score = 0;
                  notScore = 0;
                  pileCount = 0;
@@ -430,7 +447,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 			// Score the card sent as normal and adjust the players scores
 			else {
-				pile[pile.length] = event.requestExtraMessageData.pegCard;
+				pile[pile.length] = parseInt(event.requestExtraMessageData.pegCard);
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 cardsPegged++;
                 score = scorePegging(pile, currentPlayer.playerData.name);
