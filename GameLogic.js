@@ -94,6 +94,12 @@ function hideCountingHand() {
     }
 }
 
+function clearCountingHand() {
+    for (var slot in countingHandSlotIds) {
+        document.getElementById(countingHandSlotIds[slot]).src = "";
+    }
+}
+
 //Displays the turn-up card
 function getTurnUpCard() {
 	turnUpCard(); // Actually graps the turnup card from the deck

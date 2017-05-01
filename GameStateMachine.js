@@ -478,6 +478,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // Count Non Dealer Cards First
              if (numCountScores == 2) {
                  if (dealer == readyPlayers[0]) {
+                     clearCountingHand();
                      gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
@@ -498,6 +499,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
                  }
                  else {
+                     clearCountingHand();
                      gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
@@ -522,6 +524,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          // Count the Dealers hands
          if(event.requestExtraMessageData.move == "Next" && event.playerInfo != dealer){
              if (dealer == readyPlayers[0]) {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Yes"});
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
@@ -540,6 +543,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  displayCountingHand();
              }
              else {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Yes"});
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
@@ -575,6 +579,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             //cribBreak = cribBreak.value.split(/\r\n|\r|\n/g);
             console.log(cribCount);
              if (dealer == readyPlayers[0]) {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
@@ -594,6 +599,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
             }
             else {
+                 clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[1], {yourTurn : "Crib"});
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
