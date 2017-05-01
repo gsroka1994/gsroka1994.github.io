@@ -239,6 +239,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == dealState){
          hideCountingHand();
+         document.getElementById("countInfo").innerHTML = ""; // Clear the game info
 
          // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
