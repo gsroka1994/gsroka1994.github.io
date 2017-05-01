@@ -222,8 +222,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     else {
                         gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
                         gameData.phase = dealState;
-                        p1Score = 90;
-                        p2Score = 90;
+                        //p1Score = 90;
+                        //p2Score = 90;
                         peg('p1', p1Score);
                         peg('p2', p2Score);
                         gameManager.updateGameData(gameData, false);
