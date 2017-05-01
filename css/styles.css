@@ -20,12 +20,9 @@
     top: -50vh;
 }
 
-.player1Info {
-
-}
-
-.player2Info {
-
+.playerInfo {
+    font-family: sans-serif;
+    font-size:22px;
 }
 
 .cardsContainer {

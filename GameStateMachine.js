@@ -359,11 +359,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
                      if(dealer == readyPlayers[0]){
                          p1Score++;
+                         document.getElementById("player1Score").innerHTML = p1Score;
                          peg('p1', p1Score);
                          checkWinner(p1Score, readyPlayers[0].playerData.name);
                      }
                      else{
                          p2Score++;
+                         document.getElementById("player2Score").innerHTML = p2Score;
                          peg('p2', p2Score);
                          checkWinner(p2Score, readyPlayers[1].playerData.name);
                      }
@@ -430,11 +432,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
+                        document.getElementById("player1Score").innerHTML = p1Score;
                         peg("p1", p1Score);
                         checkWinner(p1Score, currentPlayer.playerData.name);
                     }
                     else {
                         p2Score++;
+                        document.getElementById("player2Score").innerHTML = p2Score;
                         peg("p2", p2Score);
                         checkWinner(p2Score, currentPlayer.playerData.name);
                     }
@@ -466,11 +470,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
+                    document.getElementById("player1Score").innerHTML = p1Score;
                     checkWinner(p1Score, playerNames[0]);
                 }
                 else if(score > 0 && currentPlayer == readyPlayers[1]){
                     peg(p, score + p2Score);
                     p2Score += score;
+                    document.getElementById("player2Score").innerHTML = p2Score;
                     checkWinner(p2Score, playerNames[1]);
                 }
                 else {}
@@ -490,11 +496,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             if (cardsPegged == 8){
                 if (currentPlayer == readyPlayers[0]) {
                     p1Score++;
+                    document.getElementById("player1Score").innerHTML = p1Score;
                     peg("p1", p1Score);
                     checkWinner(p1Score, playerNames[0]);
                 }
                 else {
                     p2Score++;
+                    document.getElementById("player2Score").innerHTML = p2Score;
                     peg("p2", p2Score);
                     checkWinner(p2Score, playerNames[1]);
                 }
@@ -573,6 +581,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
                          p2Score += player2Count;
+                         document.getElementById("player2Score").innerHTML = p2Score;
                          checkWinner(p2Score, playerNames[1]);
 
                      }
@@ -596,6 +605,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
                         p1Score += player1Count;
+                        document.getElementById("player1Score").innerHTML = p1Score;
                         checkWinner(p1Score, playerNames[0]);
 
                     }
@@ -625,6 +635,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
+                     document.getElementById("player1Score").innerHTML = p1Score;
                      checkWinner(p1Score, playerNames[0]);
 
                  }
@@ -647,6 +658,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
+                     document.getElementById("player2Score").innerHTML = p2Score;
                      checkWinner(p2Score, playerNames[1]);
                  }
 
@@ -684,6 +696,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
                      p1Score += cribCount;
+                     document.getElementById("player1Score").innerHTML = p1Score;
                      checkWinner(p1Score, playerNames[0]);
                  }
 
@@ -706,6 +719,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
                      p2Score += cribCount;
+                     document.getElementById("player2Score").innerHTML = p2Score;
                      checkWinner(p2Score, playerNames[1]);
                  }
                  
