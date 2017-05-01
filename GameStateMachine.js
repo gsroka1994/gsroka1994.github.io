@@ -66,6 +66,8 @@ var cribCounted;
 var goToCrib;
 var handAfterCrib = [];
 var numNewHand;
+var newH1 = [];
+var newH2 = [];
 
 
  // Event Listener for when player (senders) become available
@@ -296,6 +298,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				}
 			 }
             numNewHand = 0;
+             handAfterCrib = [];
 			 // Remove the crib cards from the players hands
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
@@ -307,11 +310,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
              // Reassemble the hand
              if(player == 1){
-                 p1h = handAfterCrib;
+                 newH1 = handAfterCrib;
                  console.log("got Here");
              }
              else{
-                 p2h = handAfterCrib;
+                 newH2 = handAfterCrib;
                  console.log("got Here 2");
              }
 
@@ -485,12 +488,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                          p2Score += player2Count;
                          console.log("p2 " + p2Score);
                      }
-                     console.log("display p1 hand");
+
 
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player2Break;
 
-                     displayCountingHand(p1h);
+                     document.getElementById("countingHandCard0").src = newH2[0].image;
+                     document.getElementById("countingHandCard1").src = newH2[1].image;
+                     document.getElementById("countingHandCard2").src = newH2[2].image;
+                     document.getElementById("countingHandCard3").src = newH2[3].image;
+
+                     displayCountingHand();
 
                  }
                  else {
@@ -502,12 +510,16 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                         console.log("p1 " + p1Score);
                     }
 
-                     console.log("display p2 hand");
+
                      document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                      document.getElementById("gameInfo").innerHTML = player1Break;
 
+                     document.getElementById("countingHandCard0").src = newH1[0].image;
+                     document.getElementById("countingHandCard1").src = newH1[1].image;
+                     document.getElementById("countingHandCard2").src = newH1[2].image;
+                     document.getElementById("countingHandCard3").src = newH1[3].image;
 
-                     displayCountingHand(p2h);
+                     displayCountingHand();
                  }
              }
 
@@ -527,10 +539,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player1Break;
 
-                 document.getElementById("countingHandCard0").src = p1h[0].image;
-                 document.getElementById("countingHandCard1").src = p1h[1].image;
-                 document.getElementById("countingHandCard2").src = p1h[2].image;
-                 document.getElementById("countingHandCard3").src = p1h[3].image;
+                 document.getElementById("countingHandCard0").src = newH1[0].image;
+                 document.getElementById("countingHandCard1").src = newH1[1].image;
+                 document.getElementById("countingHandCard2").src = newH1[2].image;
+                 document.getElementById("countingHandCard3").src = newH1[3].image;
 
                  displayCountingHand();
              }
@@ -546,10 +558,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
                  document.getElementById("gameInfo").innerHTML = player2Break;
 
-                 document.getElementById("countingHandCard0").src = p2h[0].image;
-                 document.getElementById("countingHandCard1").src = p2h[1].image;
-                 document.getElementById("countingHandCard2").src = p2h[2].image;
-                 document.getElementById("countingHandCard3").src = p2h[3].image;
+                 document.getElementById("countingHandCard0").src = newH2[0].image;
+                 document.getElementById("countingHandCard1").src = newH2[1].image;
+                 document.getElementById("countingHandCard2").src = newH2[2].image;
+                 document.getElementById("countingHandCard3").src = newH2[3].image;
 
                  displayCountingHand();
              }
