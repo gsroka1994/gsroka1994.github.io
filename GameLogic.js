@@ -291,6 +291,7 @@ function sumFifteen(pile){
 	 var sum = 0;
 	 var size = pile.length;
 	 for (var i = 0; i < size; i++){
+         console.log(pile[i]);
 		 if (pile[i] > 10){
 			 sum += 10;
 		 }
@@ -311,6 +312,7 @@ function sumThirtyOne(pile){
 	 var sum = 0;
 	 var size = pile.length;
 	 for (var i = 0; i < size; i++){
+	     console.log(pile[i]);
 		 if (pile[i] > 10){
 			 sum += 10;
 		 }
@@ -329,8 +331,8 @@ function sumThirtyOne(pile){
 
 
 // Scores the daunting pegging round
-function scorePegging(cards, playerName){
-	var size = cards.length;
+function scorePegging(pile, playerName){
+	var size = pile.length;
 	var score = 0;
 	var displayInfo = document.getElementById("gameInfo");
 	displayInfo.innerHTML = ""; // Clear the game info every turn

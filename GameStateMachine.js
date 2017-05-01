@@ -435,6 +435,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     go1 = 0;
                     go2 = 0;
                     pile = [];
+                    pileCount = 0;
                     dimPeggingCards();
 
                 }
