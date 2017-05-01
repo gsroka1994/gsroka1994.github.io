@@ -222,6 +222,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     else {
                         gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
                         gameData.phase = dealState;
+                        //p1Score = 90;
+                        //p2Score = 90;
+                        peg('p1', p1Score);
+                        peg('p2', p2Score);
                         gameManager.updateGameData(gameData, false);
                         console.log("Moving into Deal State");
                         gameData = gameManager.getGameData();
@@ -348,6 +352,19 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  gameManager.sendGameMessageToAllConnectedPlayers({ toPeggingScreen: "toPeggingScreen"});
                  console.log("Moving into Pegging State");
                  getTurnUpCard(); // Get and show turnup Card
+                 if(cutCard.value == "JACK"){
+                     document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
+                     if(dealer == readyPlayers[0]){
+                         p1Score++;
+                         peg('p1', p1Score);
+                         checkWinner(p1Score, readyPlayers[0].playerData.name);
+                     }
+                     else{
+                         p2Score++;
+                         peg('p2', p2Score);
+                         checkWinner(p2Score, readyPlayers[1].playerData.name);
+                     }
+                 }
                  score = 0;
                  notScore = 0;
                  pileCount = 0;
@@ -401,6 +418,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 else {
 			        go2++;
                 }
+                if(go1 == 2){
+                    go1 = 1;
+                }
+                if(go2 == 2){
+                    go2 = 1;
+                }
                 if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
@@ -418,23 +441,25 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     go1 = 0;
                     go2 = 0;
                     pile = [];
+                    pileCount = 0;
                     dimPeggingCards();
 
                 }
-                if(go1 == 2){
-			        go1 = 1;
-                }
-                if(go2 == 2){
-                    go2 = 1;
-                }
+
 			}
 
 			// Score the card sent as normal and adjust the players scores
 			else {
-				pile[pile.length] = event.requestExtraMessageData.pegCard;
+				pile[pile.length] = parseInt(event.requestExtraMessageData.pegCard);
+                if(pile[pile.length-1] > 10){
+                    pileCount+=10;
+                }
+                else {
+                    pileCount += pile[pile.length - 1];
+                }
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 cardsPegged++;
-                score = scorePegging(pile, currentPlayer.playerData.name);
+                score = scorePegging(pile, currentPlayer.playerData.name, pileCount);
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
@@ -446,16 +471,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     checkWinner(p2Score, currentPlayer.playerData.name);
                 }
                 else {}
-                if(pile[pile.length-1] > 10){
-                    pileCount+=10;
-                }
-                else {
-                    pileCount += pile[pile.length - 1];
-                }
                 if(pileCount == 31){
-                    pileCount = 0;
-                    pile = [];
-                    dimPeggingCards();
+                    setTimeout(function(){
+                        pileCount = 0;
+                        pile = [];
+                        dimPeggingCards();
+                    }, 2000);
+
                 }
             }
 
