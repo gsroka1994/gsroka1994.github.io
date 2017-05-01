@@ -475,6 +475,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     setTimeout(function(){
                         pileCount = 0;
                         pile = [];
+                        go1 = 0;
+                        go2 = 0;
                         dimPeggingCards();
                     }, 2000);
 
