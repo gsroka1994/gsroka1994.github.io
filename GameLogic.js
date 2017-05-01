@@ -400,12 +400,12 @@ function scorePegging(cards, playerName){
 }
 
 
-function checkWinner(points){
+function checkWinner(points, currentPlayerName){
 	if (points >= 121){
-		return 1;
-	}
-	else {
-		return 0;
+        gameManager.sendGameMessageToAllConnectedPlayers({winner: currentPlayerName});
+        gameData.phase = gameOver;
+        gameManager.updateGameData(gameData, false);
+        gameData = gameManager.getGameData();
 	}
 }
 

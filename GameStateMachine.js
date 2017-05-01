@@ -69,6 +69,7 @@ var handAfterCrib = [];
 var numNewHand;
 var newH1 = [];
 var newH2 = [];
+var sameCard = 0;
 
 
  // Event Listener for when player (senders) become available
@@ -148,19 +149,21 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              gameData = gameManager.getGameData();
              init();
              getDealer();
-             if(checkValue(dealerCards[0]) <= checkValue(dealerCards[1])){
+             if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
                  gameData.dealer = playerNames[0];
                  dealer = readyPlayers[0];
                  currentPlayer = readyPlayers[1];
                  gameData.card1 = dealerCards[0].value;
-			 }
-			 else{
+             }
+             else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
                  dealer = readyPlayers[1];
                  gameData.dealer = playerNames[1];
                  currentPlayer = readyPlayers[0];
                  gameData.card2 = dealerCards[1].value;
-			 }
-
+             }
+             else{
+                 sameCard = 1;
+             }
              gameData.deck_id = deckID;
              gameData.phase = setupState;
              gameManager.updateGameData(gameData, false);
@@ -170,8 +173,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
          }
 
      }
-
-     // Setup State
 
 
 	// Setup State
@@ -197,11 +198,34 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	 	    if(bothReady >= 2){
                 shuffle();
                 setTimeout(function(){
-                    gameManager.sendGameMessageToAllConnectedPlayers({ toDealScreen: "toDealState" });
-                    gameData.phase = dealState;
-                    gameManager.updateGameData(gameData, false);
-                    console.log("Moving into Deal State");
-                    gameData = gameManager.getGameData();
+                    if(sameCard == 1){
+                        gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
+                        k = 0;
+                        sameCard = 0;
+                        getDealer();
+                        if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
+                            gameData.dealer = playerNames[0];
+                            dealer = readyPlayers[0];
+                            currentPlayer = readyPlayers[1];
+                            gameData.card1 = dealerCards[0].value;
+                        }
+                        else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
+                            dealer = readyPlayers[1];
+                            gameData.dealer = playerNames[1];
+                            currentPlayer = readyPlayers[0];
+                            gameData.card2 = dealerCards[1].value;
+                        }
+                        else{
+                            sameCard = 1;
+                        }
+                    }
+                    else {
+                        gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
+                        gameData.phase = dealState;
+                        gameManager.updateGameData(gameData, false);
+                        console.log("Moving into Deal State");
+                        gameData = gameManager.getGameData();
+                    }
                 }, 5000);
             }
         }
@@ -283,12 +307,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              var receivedCrib = [event.requestExtraMessageData.crib1, event.requestExtraMessageData.crib2];
              if(id == playerIDs[0]){
                  playerHand = p1h;
-                 console.log("getting here");
                  player = 1
 			 }
 			 else{
              	playerHand = p2h;
-                 console.log("getting Here 2");
 			 }
              for (i = 0; i < 2; i++){
              	for(var j = 0; j < playerHand.length; j++){
@@ -305,7 +327,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			 for(i = 0; i < playerHand.length; i++){
              	if(playerHand[i].code != crib[cardsInCrib - 2].code && playerHand[i].code != crib[cardsInCrib -1].code){
              		handAfterCrib[numNewHand] = playerHand[i];
-             		console.log(handAfterCrib[numNewHand].code);
              		numNewHand++;
 				}
 			 }
@@ -313,11 +334,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
              // Reassemble the hand
              if(player == 1){
                  newH1 = handAfterCrib;
-                 console.log("got Here");
+
              }
              else{
                  newH2 = handAfterCrib;
-                 console.log("got Here 2");
+
              }
 
              // Once the crib has been collected, move onto the pegging state.  Also get the Cut card, and reset the
@@ -345,7 +366,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
          // Send out message on the curretn turn once pegging begins
          if(event.requestExtraMessageData.getTurn == "turn"){
-             console.log(pileCount);
             if(event.playerInfo.playerId == playerIDs[0]){
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {turn: currentPlayer.playerData.name,
                     player: playerNames[0],
@@ -385,10 +405,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
                         peg("p1", p1Score);
+                        checkWinner(p1Score, currentPlayer.playerData.name);
                     }
                     else {
                         p2Score++;
                         peg("p2", p2Score);
+                        checkWinner(p2Score, currentPlayer.playerData.name);
                     }
                     document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
                     pileCount = 0;
@@ -415,10 +437,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
+                    checkWinner(p1Score, currentPlayer.playerData.name);
                 }
                 else if(score > 0 && currentPlayer == readyPlayers[1]){
                     peg(p, score + p2Score);
                     p2Score += score;
+                    checkWinner(p2Score, currentPlayer.playerData.name);
                 }
                 else {}
                 if(pile[pile.length-1] > 10){
@@ -441,26 +465,27 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if (currentPlayer == readyPlayers[0]) {
                     p1Score++;
                     peg("p1", p1Score);
+                    checkWinner(p1Score, currentPlayer.playerData.name);
                 }
                 else {
                     p2Score++;
                     peg("p2", p2Score);
+                    checkWinner(p2Score, currentPlayer.playerData.name);
                 }
                 document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " had last card for 1";
                 setTimeout(function(){
+                    gameData.phase = updateBoardState;
+                    console.log("Moving into Update Board State");
+                    gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
+                    numCountScores = 0;
+                    player1Count = 0;
+                    player2Count = 0;
+                    cribCount = 0;
+                    cribCounted = 0;
+                    goToCrib = 0;
                 }, 5000);
 
-                gameData.phase = updateBoardState;
-                console.log("Moving into Update Board State");
-                gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
-                numCountScores = 0;
-                player1Count = 0;
-                player2Count = 0;
-                cribCount = 0;
-                cribCounted = 0;
-                goToCrib = 0;
-                console.log("p1 " + p1Score);
-                console.log("p2 " + p2Score);
+
             }
 
             // Otherwise alert the players of the new turn
@@ -473,7 +498,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 else {
                     currentPlayer = readyPlayers[0];
                 }
-                
+
                 console.log(pileCount);
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
@@ -486,9 +511,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     pileCount: pileCount
                 });
             }
+
 		}
 	 	 gameManager.updateGameData(gameData, false);
 	  	 gameData = gameManager.getGameData();
+
 
 	}
 
@@ -501,13 +528,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  player1Count = parseInt(event.requestExtraMessageData.handCount);
                  player1Break = event.requestExtraMessageData.handCountString;
                  //player1Break = player1Break.value.split(/\r\n|\r|\n/g);
-                 console.log(player1Count);
+
              }
              else {
                  player2Count = parseInt(event.requestExtraMessageData.handCount);
                  player2Break = event.requestExtraMessageData.handCountString;
                  //player2Break = player2Break.value.split(/\r\n|\r|\n/g);
-                 console.log(player2Count);
+
              }
              numCountScores++;
 
@@ -519,7 +546,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
                          p2Score += player2Count;
-                         console.log("p2 " + p2Score);
+                         checkWinner(p2Score, currentPlayer.playerData.name);
+
                      }
 
 
@@ -540,7 +568,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
                         p1Score += player1Count;
-                        console.log("p1 " + p1Score);
+                        checkWinner(p1Score, currentPlayer.playerData.name);
+
                     }
 
 
@@ -566,7 +595,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
-                     console.log("p1 " + p1Score);
+                     checkWinner(p1Score, currentPlayer.playerData.name);
+
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Hand";
@@ -585,7 +615,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
-                     console.log("p2 " + p2Score);
+                     checkWinner(p2Score, currentPlayer.playerData.name);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Hand";
@@ -614,14 +644,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
            cribCount = parseInt(event.requestExtraMessageData.handCount);
            cribBreak = event.requestExtraMessageData.handCountString;
             //cribBreak = cribBreak.value.split(/\r\n|\r|\n/g);
-            console.log(cribCount);
              if (dealer == readyPlayers[0]) {
                  clearCountingHand();
                  gameManager.sendGameMessageToPlayer(playerIDs[0], {yourTurn : "Crib"});
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
                      p1Score += cribCount;
-                     console.log("p1 " + p1Score);
+                     checkWinner(p1Score, currentPlayer.playerData.name);
                  }
 
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[0] + "'s Crib";
@@ -641,7 +670,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
                      p2Score += cribCount;
-                     console.log("p2 " + p2Score);
+                     checkWinner(p2Score, currentPlayer.playerData.name);
                  }
                  
                  document.getElementById("gameStateDisplayHeader").innerHTML = "Counting " + playerNames[1] + "'s Crib";
