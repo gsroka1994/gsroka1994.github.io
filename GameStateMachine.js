@@ -202,7 +202,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     gameManager.updateGameData(gameData, false);
                     console.log("Moving into Deal State");
                     gameData = gameManager.getGameData();
-                }, 10000);
+                }, 5000);
             }
         }
 	}
@@ -434,13 +434,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 }
             }
 
-            // Swap current player
-            if(currentPlayer.playerId == playerIDs[0]){
-                currentPlayer = readyPlayers[1];
-            }
-            else {
-                currentPlayer = readyPlayers[0];
-            }
+
 
             // Once pegging is complete, move onto the update board state
             if (cardsPegged == 8){
@@ -453,6 +447,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     peg("p2", p2Score);
                 }
                 document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " had last card for 1";
+                setTimeout(function(){
+                }, 5000);
+
                 gameData.phase = updateBoardState;
                 console.log("Moving into Update Board State");
                 gameManager.sendGameMessageToAllConnectedPlayers({toCountScreen: cutCard.code});
@@ -468,6 +465,15 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
             // Otherwise alert the players of the new turn
             else {
+
+                // Swap current player
+                if(currentPlayer.playerId == playerIDs[0]){
+                    currentPlayer = readyPlayers[1];
+                }
+                else {
+                    currentPlayer = readyPlayers[0];
+                }
+                
                 console.log(pileCount);
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
