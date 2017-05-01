@@ -331,7 +331,7 @@ function sumThirtyOne(pile){
 
 
 // Scores the daunting pegging round
-function scorePegging(pile, playerName){
+function scorePegging(pile, playerName, pileCount){
 	var size = pile.length;
 	var score = 0;
 	var displayInfo = document.getElementById("gameInfo");
@@ -388,17 +388,27 @@ function scorePegging(pile, playerName){
         displayInfo.append(playerName + " makes a run for " + runResult + ", pegs for " + runResult + ". ");
     }
 
-    var sumFifteenResult = sumFifteen(pile);
+    // 15 logic
+    if(pileCount == 15){
+	    score += 2;
+        displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
+    }
+    // 31 logic
+    if(pileCount == 31){
+        score += 2;
+        displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
+    }
+    /*var sumFifteenResult = sumFifteen(pile);
 	if (sumFifteenResult != 0) {
         score += sumFifteenResult;
         displayInfo.append(playerName + " sums to fifteen, pegs for " + sumFifteenResult + ". ");
-    }
+    }*/
 
-    var sumThirtyOneResult = sumThirtyOne(pile);
+    /*var sumThirtyOneResult = sumThirtyOne(pile);
 	if (sumThirtyOneResult != 0) {
         score += sumThirtyOneResult;
         displayInfo.append(playerName + " sums to 31, pegs for " + sumThirtyOneResult + ". ");
-    }
+    }*/
 	return score;  
 }
 

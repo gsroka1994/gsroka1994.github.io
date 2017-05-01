@@ -453,7 +453,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 				pile[pile.length] = parseInt(event.requestExtraMessageData.pegCard);
                 playPeggingCard(event.requestExtraMessageData.pegCode);
                 cardsPegged++;
-                score = scorePegging(pile, currentPlayer.playerData.name);
+                score = scorePegging(pile, currentPlayer.playerData.name, pileCount);
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
