@@ -433,7 +433,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 			else {
 				pile[pile.length] = event.requestExtraMessageData.pegCard;
                 playPeggingCard(event.requestExtraMessageData.pegCode);
-                document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
                 cardsPegged++;
                 score = scorePegging(pile, currentPlayer.playerData.name);
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
@@ -502,6 +501,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 }
 
                 console.log(pileCount);
+                document.getElementById("peggingCount").innerHTML = "Current Sum: " + pileCount;
                 gameManager.sendGameMessageToPlayer(playerIDs[0], {
                     turn: currentPlayer.playerData.name,
                     player: playerNames[0],

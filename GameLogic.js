@@ -104,11 +104,13 @@ function clearCountingHand() {
 function getTurnUpCard() {
 	turnUpCard(); // Actually graps the turnup card from the deck
     document.getElementById('turnUpCard').src = cutCard.image; //Shows the card
+    document.getElementById("turnCardAndDeck").innerHTML = "Turn Up Card";
 }
 
 //Hides the turn-up card
 function hideTurnUpCard() {
     document.getElementById('turnUpCard').src = "img/back.jpg";
+    document.getElementById("turnCardAndDeck").innerHTML = "Deck";
 }
 
 /*
