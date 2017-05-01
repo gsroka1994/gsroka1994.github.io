@@ -497,7 +497,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     peg("p2", p2Score);
                     checkWinner(p2Score, currentPlayer.playerData.name);
                 }
-                document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " had last card for 1";
+                document.getElementById("gameInfo").innerHTML.append(currentPlayer.playerData.name + " had last card for 1");
                 setTimeout(function(){
                     gameData.phase = updateBoardState;
                     console.log("Moving into Update Board State");
