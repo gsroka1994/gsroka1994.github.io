@@ -185,9 +185,17 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         if (event.requestExtraMessageData.getDealerCard == "card"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 code.code = dealerCards[0].code;
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[1]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
             }
             else {
                 code.code = dealerCards[1].code;
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[6]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
             }
 
             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, code);
