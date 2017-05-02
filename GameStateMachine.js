@@ -185,17 +185,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         if (event.requestExtraMessageData.getDealerCard == "card"){
             if(event.playerInfo.playerId == playerIDs[0]){
                 code.code = dealerCards[0].code;
-                var pegCardPlayed = document.getElementById(peggingCardSlotIds[1]);
-                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
-                pegCardPlayed.style.opacity = "1";
-                pegCardPlayed.style.visibility = "visible";
             }
             else {
                 code.code = dealerCards[1].code;
-                var pegCardPlayed = document.getElementById(peggingCardSlotIds[6]);
-                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
-                pegCardPlayed.style.opacity = "1";
-                pegCardPlayed.style.visibility = "visible";
             }
 
             gameManager.sendGameMessageToPlayer(event.playerInfo.playerId, code);
@@ -206,6 +198,20 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
 	 	    bothReady++;
 	 	    if(bothReady >= 2){
+
+                if(event.playerInfo.playerId == playerIDs[0]){
+                    var pegCardPlayed = document.getElementById(peggingCardSlotIds[0]);
+                    pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
+                    pegCardPlayed.style.opacity = "1";
+                    pegCardPlayed.style.visibility = "visible";
+                }
+                else {
+                    var pegCardPlayed = document.getElementById(peggingCardSlotIds[7]);
+                    pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
+                    pegCardPlayed.style.opacity = "1";
+                    pegCardPlayed.style.visibility = "visible";
+                }
+
                 shuffle();
                 setTimeout(function(){
                     if(sameCard == 1){
