@@ -197,23 +197,26 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		// Once setup is complete and both players have chosen a card, suffle the deck then move to the dealing phase
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
 	 	    bothReady++;
+            if(event.playerInfo.playerId == playerIDs[0]){
+                document.getElementById("gameInfo").append(playerNames[0]+ " drew a " + dealerCards[0].value);
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[0]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
+            }
+            else {
+                document.getElementById("gameInfo").append(playerNames[1]+ " drew a " + dealerCards[1].value);
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[7]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
+            }
 	 	    if(bothReady >= 2){
-
-                if(event.playerInfo.playerId == playerIDs[0]){
-                    var pegCardPlayed = document.getElementById(peggingCardSlotIds[0]);
-                    pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
-                    pegCardPlayed.style.opacity = "1";
-                    pegCardPlayed.style.visibility = "visible";
-                }
-                else {
-                    var pegCardPlayed = document.getElementById(peggingCardSlotIds[7]);
-                    pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
-                    pegCardPlayed.style.opacity = "1";
-                    pegCardPlayed.style.visibility = "visible";
-                }
-
+                document.getElementById("gameInfo").append(dealer + " won the deal");
                 shuffle();
                 setTimeout(function(){
+                    clearPeggingCards();
+                    document.getElementById("gameInfo").innerHTML = "";
                     if(sameCard == 1){
                         gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
                         k = 0;
