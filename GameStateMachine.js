@@ -198,21 +198,21 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
 	 	    bothReady++;
             if(event.playerInfo.playerId == playerIDs[0]){
-                document.getElementById("gameInfo").append(playerNames[0]+ " drew a " + dealerCards[0].value);
+                document.getElementById("gameInfo").append("\r\n"+playerNames[0]+ " drew a " + dealerCards[0].value);
                 var pegCardPlayed = document.getElementById(peggingCardSlotIds[0]);
                 pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
                 pegCardPlayed.style.opacity = "1";
                 pegCardPlayed.style.visibility = "visible";
             }
             else {
-                document.getElementById("gameInfo").append(playerNames[1]+ " drew a " + dealerCards[1].value);
+                document.getElementById("gameInfo").append("\r\n"+playerNames[1]+ " drew a " + dealerCards[1].value);
                 var pegCardPlayed = document.getElementById(peggingCardSlotIds[7]);
                 pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
                 pegCardPlayed.style.opacity = "1";
                 pegCardPlayed.style.visibility = "visible";
             }
 	 	    if(bothReady >= 2){
-                document.getElementById("gameInfo").append(dealer + " won the deal");
+                document.getElementById("gameInfo").append("\r\n"+dealer.name + " won the deal");
                 shuffle();
                 setTimeout(function(){
                     clearPeggingCards();
