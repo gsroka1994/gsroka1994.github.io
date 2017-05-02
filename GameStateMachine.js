@@ -215,8 +215,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 document.getElementById("gameInfo").append("\r\n"+dealer.name + " won the deal");
                 shuffle();
                 setTimeout(function(){
-                    clearPeggingCards();
-                    document.getElementById("gameInfo").innerHTML = "";
+
                     if(sameCard == 1){
                         gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
                         k = 0;
@@ -272,7 +271,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
-
+            clearPeggingCards();
+            document.getElementById("gameInfo").innerHTML = "";
+            
            // API call for each player to draw 6 cards
             deal();
             gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
