@@ -36,7 +36,7 @@ var p1Score = 0;
 var p2Score = 0;
 var dealer;
 var go1;
-var go2
+var go2;
 var score;
 var notScore;
 var crib = [];
@@ -784,7 +784,33 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 
          // Write a function that displays something for winning
-
+        if (event.requestExtraMessageData.newGame == "newGame"){
+            gameData.phase = setupState;
+            p1Score = 0;
+            peg('p1', p1Score);
+            p2Score = 0;
+            peg('p2', p2Score);
+            k = 0;
+            getDealer();
+            if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
+                gameData.dealer = playerNames[0];
+                dealer = readyPlayers[0];
+                currentPlayer = readyPlayers[1];
+                gameData.card1 = dealerCards[0].value;
+            }
+            else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
+                dealer = readyPlayers[1];
+                gameData.dealer = playerNames[1];
+                currentPlayer = readyPlayers[0];
+                gameData.card2 = dealerCards[1].value;
+            }
+            else{
+                sameCard = 1;
+            }
+            console.log("Moving to Setup State");
+            gameManager.updateGameData(gameData, false);
+            gameData = gameManager.getGameData();
+        }
 	}
 
 	// Ignore any events not pertaining to a specific state of the game
