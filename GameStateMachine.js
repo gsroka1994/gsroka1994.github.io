@@ -255,8 +255,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Deal State
 
 	else if (gamePhase == dealState){
-         hideCountingHand();
-         document.getElementById("countInfo").innerHTML = ""; // Clear the game info
+         clearCountingHand();
+         clearGameInfo(); // Clear the game info
 
          // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
@@ -272,8 +272,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
             clearPeggingCards();
-            document.getElementById("gameInfo").innerHTML = "";
-            
+            clearGameInfo();
            // API call for each player to draw 6 cards
             deal();
             gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
@@ -319,10 +318,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Crib State
 	else if(gamePhase == cribState) {
          hideTurnUpCard();
-         hideCountingHand();
+         clearCountingHand();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
-         document.getElementById("gameInfo").innerHTML = "";
-
+         clearGameInfo();
 
         // Search for the cribs cards in the players hands, then add them to the crib
          if (event.requestExtraMessageData.cribSet == "Yes") {
