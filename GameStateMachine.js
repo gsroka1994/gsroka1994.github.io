@@ -212,7 +212,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 pegCardPlayed.style.visibility = "visible";
             }
 	 	    if(bothReady >= 2){
-                document.getElementById("gameInfo").append("\r\n"+dealer.name + " won the deal");
+                document.getElementById("gameInfo").append("\r\n"+gameData.dealer + " won the deal");
                 shuffle();
                 setTimeout(function(){
 
