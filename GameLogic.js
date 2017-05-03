@@ -81,6 +81,7 @@ function dimPeggingCards() {
 //Clears all pegging cards
 function clearPeggingCards() {
     for (var slot in peggingCardSlotIds) {
+        document.getElementById(peggingCardSlotIds[slot]).src = "";
         document.getElementById(peggingCardSlotIds[slot]).style.visibility = "hidden";
     }
     numPeggingCardsPlayed = 0;
@@ -94,16 +95,16 @@ function displayCountingHand() {
 }
 
 //Hides the users hand for counting
-function hideCountingHand() {
+function clearCountingHand() {
     for (var slot in countingHandSlotIds) {
+        document.getElementById(countingHandSlotIds[slot]).src = "";
         document.getElementById(countingHandSlotIds[slot]).style.visibility = "hidden";
     }
 }
 
-function clearCountingHand() {
-    for (var slot in countingHandSlotIds) {
-        document.getElementById(countingHandSlotIds[slot]).src = "";
-    }
+function clearGameInfo() {
+    document.getElementById("gameInfo").innerHTML = "";
+    document.getElementById("countInfo").innerHTML = "";
 }
 
 //Displays the turn-up card
