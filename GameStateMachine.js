@@ -212,7 +212,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 pegCardPlayed.style.visibility = "visible";
             }
 	 	    if(bothReady >= 2){
-                document.getElementById("gameInfo").append("\r\n"+gameData.dealer + " won the deal");
+                document.getElementById("gameInfo").append("\r\n\r\n"+gameData.dealer + " won the deal");
                 shuffle();
                 setTimeout(function(){
 
@@ -256,7 +256,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	else if (gamePhase == dealState){
          clearCountingHand();
-         clearGameInfo(); // Clear the game info
 
          // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
@@ -782,7 +781,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	else if (gamePhase == gameOver){
 
 	    if(event.requestExtraMessageData.displayChange == "displayChange") {
-            document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over\r\n" + winner + " is the Winner!";
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over\r\n" + winner + " Won!";
         }
          // Write a function that displays something for winning
         if (event.requestExtraMessageData.newGame == "newGame"){
@@ -817,6 +816,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             clearCountingHand();
             document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
             document.getElementById("gameInfo").innerHTML = "";
+            document.getElementById("countInfo").innerHTML = "";
             gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
         }
 	}
