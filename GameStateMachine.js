@@ -180,6 +180,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Setup State
 
 	else if (gamePhase == setupState){
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
 
         // Sends a random card from the deck API to the players to decide who the dealer is when they ask
         if (event.requestExtraMessageData.getDealerCard == "card"){
@@ -374,13 +375,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cutCard.value == "JACK"){
                      document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
                      if(dealer == readyPlayers[0]){
-                         p1Score++;
+                         p1Score+=2;
                          document.getElementById("player1Score").innerHTML = p1Score;
                          peg('p1', p1Score);
                          checkWinner(p1Score, readyPlayers[0].playerData.name);
                      }
                      else{
-                         p2Score++;
+                         p2Score+=2;
                          document.getElementById("player2Score").innerHTML = p2Score;
                          peg('p2', p2Score);
                          checkWinner(p2Score, readyPlayers[1].playerData.name);
@@ -450,13 +451,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                         p1Score++;
                         document.getElementById("player1Score").innerHTML = p1Score;
                         peg("p1", p1Score);
-                        checkWinner(p1Score, currentPlayer.playerData.name);
+                        checkWinner(p1Score, playerNames[0]);
                     }
                     else {
                         p2Score++;
                         document.getElementById("player2Score").innerHTML = p2Score;
                         peg("p2", p2Score);
-                        checkWinner(p2Score, currentPlayer.playerData.name);
+                        checkWinner(p2Score, playerNames[1]);
                     }
                     document.getElementById("gameInfo").innerHTML = currentPlayer.playerData.name + " pegged for 1 on a go";
                     pileCount = 0;
