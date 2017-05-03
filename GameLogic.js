@@ -180,6 +180,7 @@ function checkValue(card){
 // Sorting and comparison functions for straights
 function st3(pile){
 	var sortedPile = pile.sort();
+    console.log("sortedPile" + sortedPile);
 	for(var i = 0; i < straightCombos3.length; i++){
 			if(sortedPile.toString() == straightCombos3[i].toString()){
 				return 3;
