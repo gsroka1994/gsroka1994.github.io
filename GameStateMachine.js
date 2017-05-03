@@ -36,7 +36,7 @@ var p1Score = 0;
 var p2Score = 0;
 var dealer;
 var go1;
-var go2
+var go2;
 var score;
 var notScore;
 var crib = [];
@@ -110,9 +110,11 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
         for (i = 0; i < readyPlayers.length; i++){
             if ( i == 0){
                 ready.player1 = readyPlayers[i].playerData.name;
+                document.getElementById("player1Info").innerHTML = readyPlayers[i].playerData.name;
             }
             if (i == 1){
                 ready.player2 = readyPlayers[i].playerData.name;
+                document.getElementById("player2Info").innerHTML = readyPlayers[i].playerData.name;
             }
         }
         gameManager.sendGameMessageToAllConnectedPlayers(ready);
@@ -195,9 +197,25 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 		// Once setup is complete and both players have chosen a card, suffle the deck then move to the dealing phase
 		if (k >= 2 && event.requestExtraMessageData.toDealScreen == "toDealScreen") {
 	 	    bothReady++;
+            if(event.playerInfo.playerId == playerIDs[0]){
+                document.getElementById("gameInfo").append("\r\n"+playerNames[0]+ " drew a " + dealerCards[0].value);
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[0]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[0].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
+            }
+            else {
+                document.getElementById("gameInfo").append("\r\n"+playerNames[1]+ " drew a " + dealerCards[1].value);
+                var pegCardPlayed = document.getElementById(peggingCardSlotIds[7]);
+                pegCardPlayed.src = CARD_IMAGE_URL + dealerCards[1].code + ".png";
+                pegCardPlayed.style.opacity = "1";
+                pegCardPlayed.style.visibility = "visible";
+            }
 	 	    if(bothReady >= 2){
+                document.getElementById("gameInfo").append("\r\n"+gameData.dealer + " won the deal");
                 shuffle();
                 setTimeout(function(){
+
                     if(sameCard == 1){
                         gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
                         k = 0;
@@ -222,8 +240,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     else {
                         gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
                         gameData.phase = dealState;
-                        //p1Score = 90;
-                        //p2Score = 90;
+                        p1Score = 110;
+                        p2Score = 110;
                         peg('p1', p1Score);
                         peg('p2', p2Score);
                         gameManager.updateGameData(gameData, false);
@@ -237,8 +255,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Deal State
 
 	else if (gamePhase == dealState){
-         hideCountingHand();
-         document.getElementById("countInfo").innerHTML = ""; // Clear the game info
+         clearCountingHand();
+         clearGameInfo(); // Clear the game info
 
          // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
@@ -253,7 +271,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 		if (event.requestExtraMessageData.deal == "deal") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Dealing..";
-
+            clearPeggingCards();
+            clearGameInfo();
            // API call for each player to draw 6 cards
             deal();
             gameManager.sendGameMessageToAllConnectedPlayers({toDiscardScreen: "toDiscardState"});
@@ -299,10 +318,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Crib State
 	else if(gamePhase == cribState) {
          hideTurnUpCard();
-         hideCountingHand();
+         clearCountingHand();
          document.getElementById("gameStateDisplayHeader").innerHTML = "Discard Two Cards To The Crib";
-         document.getElementById("gameInfo").innerHTML = "";
-
+         clearGameInfo();
 
         // Search for the cribs cards in the players hands, then add them to the crib
          if (event.requestExtraMessageData.cribSet == "Yes") {
@@ -357,11 +375,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      document.getElementById("gameInfo").innerHTML = dealer.playerData.name + " knobs for 2";
                      if(dealer == readyPlayers[0]){
                          p1Score++;
+                         document.getElementById("player1Score").innerHTML = p1Score;
                          peg('p1', p1Score);
                          checkWinner(p1Score, readyPlayers[0].playerData.name);
                      }
                      else{
                          p2Score++;
+                         document.getElementById("player2Score").innerHTML = p2Score;
                          peg('p2', p2Score);
                          checkWinner(p2Score, readyPlayers[1].playerData.name);
                      }
@@ -428,11 +448,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if((go1 + go2) == 2) {
                     if (currentPlayer == readyPlayers[0]) {
                         p1Score++;
+                        document.getElementById("player1Score").innerHTML = p1Score;
                         peg("p1", p1Score);
                         checkWinner(p1Score, currentPlayer.playerData.name);
                     }
                     else {
                         p2Score++;
+                        document.getElementById("player2Score").innerHTML = p2Score;
                         peg("p2", p2Score);
                         checkWinner(p2Score, currentPlayer.playerData.name);
                     }
@@ -464,11 +486,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                 if(score > 0 && currentPlayer == readyPlayers[0]) {
                     peg(p, score + p1Score);
                     p1Score += score;
+                    document.getElementById("player1Score").innerHTML = p1Score;
                     checkWinner(p1Score, playerNames[0]);
                 }
                 else if(score > 0 && currentPlayer == readyPlayers[1]){
                     peg(p, score + p2Score);
                     p2Score += score;
+                    document.getElementById("player2Score").innerHTML = p2Score;
                     checkWinner(p2Score, playerNames[1]);
                 }
                 else {}
@@ -488,11 +512,13 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             if (cardsPegged == 8){
                 if (currentPlayer == readyPlayers[0]) {
                     p1Score++;
+                    document.getElementById("player1Score").innerHTML = p1Score;
                     peg("p1", p1Score);
                     checkWinner(p1Score, playerNames[0]);
                 }
                 else {
                     p2Score++;
+                    document.getElementById("player2Score").innerHTML = p2Score;
                     peg("p2", p2Score);
                     checkWinner(p2Score, playerNames[1]);
                 }
@@ -507,6 +533,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     cribCount = 0;
                     cribCounted = 0;
                     goToCrib = 0;
+                    pile = [];
                 }, 5000);
 
 
@@ -571,6 +598,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                      if(player2Count != 0) {
                          peg('p2', p2Score + player2Count);
                          p2Score += player2Count;
+                         document.getElementById("player2Score").innerHTML = p2Score;
                          checkWinner(p2Score, playerNames[1]);
 
                      }
@@ -594,6 +622,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if(player1Count != 0) {
                         peg('p1', p1Score + player1Count);
                         p1Score += player1Count;
+                        document.getElementById("player1Score").innerHTML = p1Score;
                         checkWinner(p1Score, playerNames[0]);
 
                     }
@@ -623,6 +652,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player1Count != 0) {
                      peg('p1', p1Score + player1Count);
                      p1Score += player1Count;
+                     document.getElementById("player1Score").innerHTML = p1Score;
                      checkWinner(p1Score, playerNames[0]);
 
                  }
@@ -645,6 +675,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(player2Count != 0) {
                      peg('p2', p2Score + player2Count);
                      p2Score += player2Count;
+                     document.getElementById("player2Score").innerHTML = p2Score;
                      checkWinner(p2Score, playerNames[1]);
                  }
 
@@ -682,6 +713,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p1', p1Score + cribCount);
                      p1Score += cribCount;
+                     document.getElementById("player1Score").innerHTML = p1Score;
                      checkWinner(p1Score, playerNames[0]);
                  }
 
@@ -704,6 +736,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  if(cribCount != 0) {
                      peg('p2', p2Score + cribCount);
                      p2Score += cribCount;
+                     document.getElementById("player2Score").innerHTML = p2Score;
                      checkWinner(p2Score, playerNames[1]);
                  }
                  
@@ -723,6 +756,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
         if(cribCounted == 1 && event.requestExtraMessageData.move == "Next") {
             // Switch the dealer for the next round
+
             if (dealer == readyPlayers[0]) {
                 dealer = readyPlayers[1];
                 gameData.dealer = readyPlayers[1].playerData.name;
@@ -746,12 +780,42 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Game Over State
 	else if (gamePhase == gameOver){
-
-		document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
-
-
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
+         document.getElementById("gameInfo").innerHTML = winner + " is the Winner!";
          // Write a function that displays something for winning
-
+        if (event.requestExtraMessageData.newGame == "newGame"){
+            gameData.phase = setupState;
+            p1Score = 0;
+            peg('p1', p1Score);
+            p2Score = 0;
+            peg('p2', p2Score);
+            k = 0;
+            bothReady = 0;
+            getDealer();
+            if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
+                gameData.dealer = playerNames[0];
+                dealer = readyPlayers[0];
+                currentPlayer = readyPlayers[1];
+                gameData.card1 = dealerCards[0].value;
+            }
+            else if (checkValue(dealerCards[0]) > checkValue(dealerCards[1])) {
+                dealer = readyPlayers[1];
+                gameData.dealer = playerNames[1];
+                currentPlayer = readyPlayers[0];
+                gameData.card2 = dealerCards[1].value;
+            }
+            else{
+                sameCard = 1;
+            }
+            console.log("Moving to Setup State");
+            gameManager.updateGameData(gameData, false);
+            gameData = gameManager.getGameData();
+            clearCountingHand();
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
+            document.getElementById("gameInfo").innerHTML = "";
+            document.getElementById("countInfo").innerHTML = "";
+            gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
+        }
 	}
 
 	// Ignore any events not pertaining to a specific state of the game

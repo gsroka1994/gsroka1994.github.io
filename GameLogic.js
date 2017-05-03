@@ -35,6 +35,7 @@ var straightCombos6 = [
 						
 var straightCombos7 = [1,2,3,4,5,6,7];
 
+var winner = "";
 //Pegging
 var numPeggingCardsPlayed = 0;
 const MAX_NUM_PEGGING_CARDS = 8;
@@ -66,15 +67,22 @@ function playPeggingCard(cardCode) {
 }
 
 function dimPeggingCards() {
-	var i;
-    for (i = 0; i < numPeggingCardsPlayed; i++) {
-		document.getElementById(peggingCardSlotIds[i]).style.opactiy = ".75";
+	var i = 0;
+    for (var slot in peggingCardSlotIds) {
+    	if (i < numPeggingCardsPlayed) {
+            document.getElementById(peggingCardSlotIds[slot]).style.opactiy = ".5";
+		}
+		else {
+    		break;
+		}
+		i++;
 	}
 }
 
 //Clears all pegging cards
 function clearPeggingCards() {
     for (var slot in peggingCardSlotIds) {
+        document.getElementById(peggingCardSlotIds[slot]).src = "";
         document.getElementById(peggingCardSlotIds[slot]).style.visibility = "hidden";
     }
     numPeggingCardsPlayed = 0;
@@ -88,16 +96,16 @@ function displayCountingHand() {
 }
 
 //Hides the users hand for counting
-function hideCountingHand() {
+function clearCountingHand() {
     for (var slot in countingHandSlotIds) {
+        document.getElementById(countingHandSlotIds[slot]).src = "";
         document.getElementById(countingHandSlotIds[slot]).style.visibility = "hidden";
     }
 }
 
-function clearCountingHand() {
-    for (var slot in countingHandSlotIds) {
-        document.getElementById(countingHandSlotIds[slot]).src = "";
-    }
+function clearGameInfo() {
+    document.getElementById("gameInfo").innerHTML = "";
+    document.getElementById("countInfo").innerHTML = "";
 }
 
 //Displays the turn-up card
@@ -415,6 +423,7 @@ function scorePegging(pile, playerName, pileCount){
 
 function checkWinner(points, currentPlayerName){
 	if (points >= 121){
+	    winner = currentPlayerName;
         gameManager.sendGameMessageToAllConnectedPlayers({winner: currentPlayerName});
         gameData.phase = gameOver;
         gameManager.updateGameData(gameData, false);
