@@ -177,9 +177,13 @@ function checkValue(card){
 	}
 }
 
+function compareNumber(a,b) {
+    return a - b;
+}
+
 // Sorting and comparison functions for straights
 function st3(pile){
-	var sortedPile = pile.sort();
+	var sortedPile = pile.sort(compareNumber);
     console.log("sortedPile" + sortedPile);
 	for(var i = 0; i < straightCombos3.length; i++){
 			if(sortedPile.toString() == straightCombos3[i].toString()){
@@ -201,6 +205,7 @@ function st4(pile){
 
 function st5(pile){
 	var sortedPile = pile.sort();
+	pile.sor
 	for(var i = 0; i < straightCombos5.length; i++){
 			if(sortedPile.toString() == straightCombos5[i].toString()){
 				return 5;
