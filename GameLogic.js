@@ -177,9 +177,13 @@ function checkValue(card){
 	}
 }
 
+function compareNumber(a,b) {
+    return a - b;
+}
+
 // Sorting and comparison functions for straights
 function st3(pile){
-	var sortedPile = pile.sort();
+	var sortedPile = pile.sort(compareNumber);
     console.log("sortedPile" + sortedPile);
 	for(var i = 0; i < straightCombos3.length; i++){
 			if(sortedPile.toString() == straightCombos3[i].toString()){
@@ -190,8 +194,9 @@ function st3(pile){
 }
 
 function st4(pile){
-	var sortedPile = pile.sort();
-	for(var i = 0; i < straightCombos4.length; i++){
+	var sortedPile = pile.sort(compareNumber);
+    console.log("sortedPile" + sortedPile);
+    for(var i = 0; i < straightCombos4.length; i++){
 			if(sortedPile.toString() == straightCombos4[i].toString()){
 				return 4;
 			}
@@ -200,8 +205,9 @@ function st4(pile){
 }
 
 function st5(pile){
-	var sortedPile = pile.sort();
-	for(var i = 0; i < straightCombos5.length; i++){
+	var sortedPile = pile.sort(compareNumber);
+    console.log("sortedPile" + sortedPile);
+    for(var i = 0; i < straightCombos5.length; i++){
 			if(sortedPile.toString() == straightCombos5[i].toString()){
 				return 5;
 			}
@@ -210,8 +216,9 @@ function st5(pile){
 }
 
 function st6(pile){
-	var sortedPile = pile.sort();
-	for(var i = 0; i < straightCombos6.length; i++){
+	var sortedPile = pile.sort(compareNumber);
+    console.log("sortedPile" + sortedPile);
+    for(var i = 0; i < straightCombos6.length; i++){
 			if(sortedPile.toString() == straightCombos6[i].toString()){
 				return 6;
 			}
@@ -220,8 +227,9 @@ function st6(pile){
 }
 
 function st7(pile){
-	var sortedPile = pile.sort();
-	for(var i = 0; i < straightCombos7.length; i++){
+	var sortedPile = pile.sort(compareNumber);
+    console.log("sortedPile" + sortedPile);
+    for(var i = 0; i < straightCombos7.length; i++){
 			if(sortedPile.toString() == straightCombos7[i].toString()){
 				return 7;
 			}
