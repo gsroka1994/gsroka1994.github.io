@@ -780,8 +780,12 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Game Over State
 	else if (gamePhase == gameOver){
-         document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
-         document.getElementById("gameInfo").innerHTML = winner + " is the Winner!";
+
+	    if(event.requestExtraMessageData.displayChange == "displayChange"){
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
+            document.getElementById("gameInfo").innerHTML = winner + " is the Winner!";
+        }
+
          // Write a function that displays something for winning
         if (event.requestExtraMessageData.newGame == "newGame"){
             gameData.phase = setupState;
@@ -789,6 +793,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             peg('p1', p1Score);
             p2Score = 0;
             peg('p2', p2Score);
+            document.getElementById("player1Score").innerHTML = "0";
+            document.getElementById("player2Score").innerHTML = "0";
             k = 0;
             bothReady = 0;
             getDealer();
