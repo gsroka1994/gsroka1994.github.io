@@ -533,6 +533,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     cribCount = 0;
                     cribCounted = 0;
                     goToCrib = 0;
+                    pile = [];
                 }, 5000);
 
 
@@ -755,6 +756,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
         if(cribCounted == 1 && event.requestExtraMessageData.move == "Next") {
             // Switch the dealer for the next round
+
             if (dealer == readyPlayers[0]) {
                 dealer = readyPlayers[1];
                 gameData.dealer = readyPlayers[1].playerData.name;
@@ -778,7 +780,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 
 	// Game Over State
 	else if (gamePhase == gameOver){
-
+         document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
+         document.getElementById("gameInfo").innerHTML = winner + " is the Winner!";
          // Write a function that displays something for winning
         if (event.requestExtraMessageData.newGame == "newGame"){
             gameData.phase = setupState;
@@ -787,6 +790,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             p2Score = 0;
             peg('p2', p2Score);
             k = 0;
+            bothReady = 0;
             getDealer();
             if(checkValue(dealerCards[0]) < checkValue(dealerCards[1])){
                 gameData.dealer = playerNames[0];
@@ -809,6 +813,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             clearCountingHand();
             document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
             document.getElementById("gameInfo").innerHTML = "";
+            document.getElementById("countInfo").innerHTML = "";
             gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
         }
 	}

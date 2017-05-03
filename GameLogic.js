@@ -35,6 +35,7 @@ var straightCombos6 = [
 						
 var straightCombos7 = [1,2,3,4,5,6,7];
 
+var winner = "";
 //Pegging
 var numPeggingCardsPlayed = 0;
 const MAX_NUM_PEGGING_CARDS = 8;
@@ -422,8 +423,7 @@ function scorePegging(pile, playerName, pileCount){
 
 function checkWinner(points, currentPlayerName){
 	if (points >= 121){
-        document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
-        document.getElementById("gameInfo").innerHTML = currentPlayerName + " is the Winner!";
+	    winner = currentPlayerName;
         gameManager.sendGameMessageToAllConnectedPlayers({winner: currentPlayerName});
         gameData.phase = gameOver;
         gameManager.updateGameData(gameData, false);
