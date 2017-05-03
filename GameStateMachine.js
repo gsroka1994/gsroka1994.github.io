@@ -255,7 +255,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Deal State
 
 	else if (gamePhase == dealState){
-         clearCountingHand();
+         //clearCountingHand();
+         //clearGameInfo(); // Clear the game info
 
          // Alert the players who the dealer is
 	    if(event.requestExtraMessageData.getDealer == "dealer"){
