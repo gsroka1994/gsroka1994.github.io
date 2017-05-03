@@ -781,6 +781,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Game Over State
 	else if (gamePhase == gameOver){
 
+	    //Get Message from sender to display winner screen
 	    if(event.requestExtraMessageData.displayChange == "displayChange") {
             document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over\r\n" + winner + " Won!";
         }
