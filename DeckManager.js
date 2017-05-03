@@ -26,8 +26,8 @@ function getDealer(){
         dataType:'json',
         async:false,
         success:function(data){
-            dealerCards[0] = data.cards[0];
-            dealerCards[1] = data.cards[1];
+            dealerCards[0] = "10"//data.cards[0];
+            dealerCards[1] = "10"//data.cards[1];
             numCards = data.remaining;
         }
     });
