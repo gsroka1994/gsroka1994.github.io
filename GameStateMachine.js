@@ -781,11 +781,9 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Game Over State
 	else if (gamePhase == gameOver){
 
-	    if(event.requestExtraMessageData.displayChange == "displayChange"){
-            document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
-            document.getElementById("gameInfo").innerHTML = winner + " is the Winner!";
+	    if(event.requestExtraMessageData.displayChange == "displayChange") {
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over\r\n" + winner + " is the Winner!";
         }
-
          // Write a function that displays something for winning
         if (event.requestExtraMessageData.newGame == "newGame"){
             gameData.phase = setupState;
@@ -819,7 +817,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             clearCountingHand();
             document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
             document.getElementById("gameInfo").innerHTML = "";
-            document.getElementById("countInfo").innerHTML = "";
             gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
         }
 	}
