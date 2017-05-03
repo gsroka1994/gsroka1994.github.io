@@ -819,6 +819,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
             document.getElementById("gameInfo").innerHTML = "";
             document.getElementById("countInfo").innerHTML = "";
+            // Send message to all players to move to select dealer screen
             gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
         }
 	}
