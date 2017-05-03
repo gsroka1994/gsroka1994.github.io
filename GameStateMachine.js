@@ -758,6 +758,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                  document.getElementById("countingHandCard1").src = crib[1].image;
                  document.getElementById("countingHandCard2").src = crib[2].image;
                  document.getElementById("countingHandCard3").src = crib[3].image;
+
+                 displayCountingHand();
             }
             cribCounted = 1;
 
