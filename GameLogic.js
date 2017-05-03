@@ -194,7 +194,7 @@ function st3(pile){
 }
 
 function st4(pile){
-	var sortedPile = pile.sort();
+	var sortedPile = pile.sort(compareNumber);
 	for(var i = 0; i < straightCombos4.length; i++){
 			if(sortedPile.toString() == straightCombos4[i].toString()){
 				return 4;
@@ -204,8 +204,7 @@ function st4(pile){
 }
 
 function st5(pile){
-	var sortedPile = pile.sort();
-	pile.sor
+	var sortedPile = pile.sort(compareNumber);
 	for(var i = 0; i < straightCombos5.length; i++){
 			if(sortedPile.toString() == straightCombos5[i].toString()){
 				return 5;
@@ -215,7 +214,7 @@ function st5(pile){
 }
 
 function st6(pile){
-	var sortedPile = pile.sort();
+	var sortedPile = pile.sort(compareNumber);
 	for(var i = 0; i < straightCombos6.length; i++){
 			if(sortedPile.toString() == straightCombos6[i].toString()){
 				return 6;
@@ -225,7 +224,7 @@ function st6(pile){
 }
 
 function st7(pile){
-	var sortedPile = pile.sort();
+	var sortedPile = pile.sort(compareNumber);
 	for(var i = 0; i < straightCombos7.length; i++){
 			if(sortedPile.toString() == straightCombos7[i].toString()){
 				return 7;
