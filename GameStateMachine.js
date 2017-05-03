@@ -240,8 +240,8 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     else {
                         gameManager.sendGameMessageToAllConnectedPlayers({toDealScreen: "toDealState"});
                         gameData.phase = dealState;
-                        //p1Score = 90;
-                        //p2Score = 90;
+                        p1Score = 110;
+                        p2Score = 110;
                         peg('p1', p1Score);
                         peg('p2', p2Score);
                         gameManager.updateGameData(gameData, false);
@@ -781,9 +781,6 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
 	// Game Over State
 	else if (gamePhase == gameOver){
 
-		document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
-
-
          // Write a function that displays something for winning
         if (event.requestExtraMessageData.newGame == "newGame"){
             gameData.phase = setupState;
@@ -811,6 +808,10 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
             console.log("Moving to Setup State");
             gameManager.updateGameData(gameData, false);
             gameData = gameManager.getGameData();
+            clearCountingHand();
+            document.getElementById("gameStateDisplayHeader").innerHTML = "Select a Card";
+            document.getElementById("gameInfo").innerHTML = "";
+            gameManager.sendGameMessageToAllConnectedPlayers({ startAgain: "startAgain" });
         }
 	}
 

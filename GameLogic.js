@@ -421,6 +421,8 @@ function scorePegging(pile, playerName, pileCount){
 
 function checkWinner(points, currentPlayerName){
 	if (points >= 121){
+        document.getElementById("gameStateDisplayHeader").innerHTML = "Game Over";
+        document.getElementById("gameInfo").innerHTML = currentPlayerName + " is the Winner!";
         gameManager.sendGameMessageToAllConnectedPlayers({winner: currentPlayerName});
         gameData.phase = gameOver;
         gameManager.updateGameData(gameData, false);
