@@ -225,6 +225,7 @@ gameManager.addEventListener(cast.receiver.games.EventType.GAME_MESSAGE_RECEIVED
                     if(sameCard == 1){
                         gameManager.sendGameMessageToAllConnectedPlayers({sameHand: "sameHand"});
                         k = 0;
+                        bothReady = 0;
                         sameCard = 0;
                         clearPeggingCards();
                         clearGameInfo();
